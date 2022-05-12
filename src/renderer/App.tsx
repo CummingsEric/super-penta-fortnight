@@ -5,32 +5,32 @@ import Header from './Components/Header';
 import SpotifyAuth from './Components/SpotifyAuth';
 
 const Hello = () => {
-  return (
-    <div>
-      <Header />
-      <h1>League Main Page</h1>
-    </div>
-  );
+	return (
+		<div>
+			<Header />
+			<h1>League Main Page</h1>
+		</div>
+	);
 };
 
 const Test = () => {
-  return (
-    <div>
-      <Header />
-      <h1>League TEST Debugger</h1>
-      <LeagueDataDisplay />
-      <SpotifyAuth />
-    </div>
-  );
+	return (
+		<div>
+			<Header />
+			<h1>League TEST Debugger</h1>
+			<LeagueDataDisplay />
+			<SpotifyAuth />
+		</div>
+	);
 };
 
 export default function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Hello />} />
-        <Route path="/debug" element={<Test />} />
-      </Routes>
-    </Router>
-  );
+	return (
+		<Router>
+			<Routes>
+				<Route path="/" element={<Hello />} />
+				<Route path="/debug" element={<Test />} />
+			</Routes>
+		</Router>
+	);
 }
