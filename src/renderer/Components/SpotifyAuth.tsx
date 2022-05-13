@@ -1,13 +1,25 @@
-import { useState } from 'react';
-import { setFlagsFromString } from 'v8';
 import axios from 'axios';
 import { stringify } from 'qs';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSpotifyCode, clearSpotifyCode } from 'renderer/Store/spotifyCode';
+import { setSpotifyToken } from '../Store/spotifyToken';
 
 const SpotifyAuth = () => {
-	const [token, setToken] = useState('token-not-set');
-	const [accessToken, setAccessToken] = useState('token-not-set');
+	const dispatch = useDispatch();
+	const spotifyToken = useSelector((state: any) => state.spotifyToken.value);
+	const spotifyCode = useSelector((state: any) => state.spotifyCode.value);
+
+	const clearCode = () => {
+		localStorage.clear();
+		dispatch(clearSpotifyCode());
+	};
 
 	const getToken = () => {
+		const tok = localStorage.getItem('spotify-access-code');
+		if (tok !== undefined && tok != null) {
+			dispatch(setSpotifyCode(String(tok)));
+			return;
+		}
 		console.log('making spotify token request');
 		window.electron.ipcRenderer.sendMessage('get-spotify-token', [
 			'request',
@@ -21,7 +33,7 @@ const SpotifyAuth = () => {
 		const tokenUrl = 'https://accounts.spotify.com/api/token';
 		const body = stringify({
 			grant_type: 'authorization_code',
-			code: token,
+			code: spotifyCode,
 			redirect_uri: encodeURI('https://google.com'),
 		});
 		axios
@@ -34,7 +46,7 @@ const SpotifyAuth = () => {
 			.then((response) => {
 				console.log(response);
 				console.log(response.data.access_token);
-				setAccessToken(response.data.access_token);
+				dispatch(setSpotifyToken(response.data.access_token));
 				return null;
 			})
 			.catch((error) => {
@@ -43,10 +55,9 @@ const SpotifyAuth = () => {
 	};
 
 	window.electron.ipcRenderer.once('get-spotify-token', (arg) => {
-		// eslint-disable-next-line no-console
-		console.log(arg);
 		if (arg != null) {
-			setToken(String(arg));
+			localStorage.setItem('spotify-access-code', String(arg));
+			dispatch(setSpotifyCode(String(arg)));
 		}
 	});
 
@@ -55,13 +66,18 @@ const SpotifyAuth = () => {
 			<button type="button" onClick={getToken}>
 				Get Access Code
 			</button>
-			<div>{token}</div>
+			<div>{spotifyCode === null ? 'Token not set' : spotifyCode}</div>
 			<div>
 				<button type="button" onClick={getAccessRefreshTokens}>
 					get Access Token
 				</button>
 			</div>
-			<div>{accessToken}</div>
+			<div>{spotifyToken === null ? 'Token not set' : spotifyToken}</div>
+			<div>
+				<button type="button" onClick={clearCode}>
+					Clear Access Code
+				</button>
+			</div>
 		</div>
 	);
 };

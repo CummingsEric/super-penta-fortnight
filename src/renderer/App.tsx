@@ -1,8 +1,10 @@
 import { MemoryRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
+import { Provider } from 'react-redux';
 import LeagueDataDisplay from './Components/LeagueDataDisplay';
 import Header from './Components/Header';
 import SpotifyAuth from './Components/SpotifyAuth';
+import store from './Store/store';
 
 const Home = () => {
 	return (
@@ -35,13 +37,15 @@ const Spotify = () => {
 
 export default function App() {
 	return (
-		<Router>
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/home" element={<Home />} />
-				<Route path="/league" element={<League />} />
-				<Route path="/spotify" element={<Spotify />} />
-			</Routes>
-		</Router>
+		<Provider store={store}>
+			<Router>
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/home" element={<Home />} />
+					<Route path="/league" element={<League />} />
+					<Route path="/spotify" element={<Spotify />} />
+				</Routes>
+			</Router>
+		</Provider>
 	);
 }
