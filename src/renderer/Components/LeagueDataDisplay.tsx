@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const LeagueDataDisplay = () => {
-	const [money, setMoney] = useState(400);
+	const [money, setMoney] = useState(8008);
 
 	const getData = () => {
 		console.log('making data request');
@@ -20,7 +20,7 @@ const LeagueDataDisplay = () => {
 	return (
 		<div>
 			<button type="button" onClick={getData}>
-				this button should do something
+				Display Gold
 			</button>
 			<h1>{money}</h1>
 		</div>
