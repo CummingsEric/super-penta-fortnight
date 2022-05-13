@@ -26,7 +26,7 @@ const SpotifyAuth = () => {
 		]);
 	};
 
-	const getAccessRefreshTokens = () => {
+	const getAccessRefreshTokens = async () => {
 		const authToken = btoa(
 			`0c51a110dea445f49fbbed2d29d387c9:95b5363808b34b15ae831e3e0cc5f146`
 		);
@@ -36,22 +36,24 @@ const SpotifyAuth = () => {
 			code: spotifyCode,
 			redirect_uri: encodeURI('https://google.com'),
 		});
-		axios
-			.post(tokenUrl, body, {
+		try {
+			const response = await axios.post(tokenUrl, body, {
 				headers: {
 					Authorization: `Basic ${authToken}`,
 					'Content-Type': 'application/x-www-form-urlencoded',
 				},
-			})
-			.then((response) => {
-				console.log(response);
-				console.log(response.data.access_token);
-				dispatch(setSpotifyToken(response.data.access_token));
-				return null;
-			})
-			.catch((error) => {
-				console.log(error);
 			});
+			if (response.status === 200) {
+				dispatch(setSpotifyToken(response.data.access_token));
+				return;
+			}
+		} catch (err) {
+			// eslint-disable-next-line no-console
+			console.log(err);
+			dispatch(clearSpotifyCode());
+			localStorage.clear();
+			getToken();
+		}
 	};
 
 	window.electron.ipcRenderer.once('get-spotify-token', (arg) => {
