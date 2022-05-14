@@ -1,9 +1,10 @@
 import { useSelector } from 'react-redux';
-import LeagueResData from 'renderer/Services/LeagueResData';
+import LeagueResData from 'renderer/Interfaces/LeagueResData';
+import MainState from 'renderer/Interfaces/MainState';
 
 const LeagueDataDisplay = () => {
 	const leagueData: LeagueResData = useSelector(
-		(state: any) => state.leagueData.value
+		(state: MainState) => state.leagueData.value
 	);
 	if (leagueData === undefined) {
 		return <div>No data!!</div>;

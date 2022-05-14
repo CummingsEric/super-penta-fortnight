@@ -8,8 +8,8 @@ import {
 import {
 	setSpotifyRefreshToken,
 	clearSpotifyRefreshToken,
-} from '../Store/spotifyRefreshToken';
-import { setSpotifyAccessToken } from '../Store/spotifyAccessToken';
+} from '../../Store/spotifyRefreshToken';
+import { setSpotifyAccessToken } from '../../Store/spotifyAccessToken';
 
 const SpotifyAuth = () => {
 	const dispatch = useDispatch();

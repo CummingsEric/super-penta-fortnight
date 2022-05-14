@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import LeagueResData from 'renderer/Services/LeagueResData';
+import LeagueResData from 'renderer/Interfaces/LeagueResData';
 
 export interface LData {
 	value?: LeagueResData;

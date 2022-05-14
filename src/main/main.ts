@@ -89,7 +89,6 @@ ipcMain.on('get-spotify-token', async (event, arg) => {
 });
 
 ipcMain.on('get-league-data', async (event, arg) => {
-	console.log('main  process has recieved request for league data');
 	try {
 		const data = await lcd.getData();
 		event.reply('get-league-data', data);

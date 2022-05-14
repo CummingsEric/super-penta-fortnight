@@ -1,9 +1,9 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setLeagueData } from 'renderer/Store/leagueData';
-import LeagueDataDisplay from './LeagueDataDisplay';
+import LeagueDataDisplay from '../league/LeagueDataDisplay';
 import Header from './Header';
-import SpotifyAuth from './SpotifyAuth';
+import SpotifyAuth from '../spotify/SpotifyAuth';
 
 const Home = () => {
 	return (
