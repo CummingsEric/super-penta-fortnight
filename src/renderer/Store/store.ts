@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import spotifyCodeReducer from './spotifyCode';
-import tokenReducer from './spotifyToken';
+import accessCodeReducer from './spotifyAccessCode';
+import spotifyAccessCodeReducer from './spotifyAccessToken';
+import spotifyRefreshTokenReducer from './spotifyRefreshToken';
 
 export default configureStore({
 	reducer: {
-		spotifyCode: spotifyCodeReducer,
-		spotifyToken: tokenReducer,
+		spotifyAccessCode: accessCodeReducer,
+		spotifyAccessToken: spotifyAccessCodeReducer,
+		spotifyRefreshToken: spotifyRefreshTokenReducer,
 	},
 });
