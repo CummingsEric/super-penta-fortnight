@@ -12,6 +12,7 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import { isCompositeComponent } from 'react-dom/test-utils';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import { LeagueClientData } from './main_services/league_requests';
@@ -89,12 +90,12 @@ ipcMain.on('get-spotify-token', async (event, arg) => {
 
 ipcMain.on('get-league-data', async (event, arg) => {
 	console.log('main  process has recieved request for league data');
-	lcd.getData()
-		.then((data) => {
-			// console.log('data:', data);
-			event.reply('get-league-data', data);
-		})
-		.catch((error) => console.log(error));
+	try {
+		const data = await lcd.getData();
+		event.reply('get-league-data', data);
+	} catch (err) {
+		console.log(err);
+	}
 });
 
 if (process.env.NODE_ENV === 'production') {

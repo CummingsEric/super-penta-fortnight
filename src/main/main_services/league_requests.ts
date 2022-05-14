@@ -1,5 +1,6 @@
 const https = require('https');
 const axios = require('axios');
+const staticData = require('./static.json');
 
 // eslint-disable-next-line import/prefer-default-export
 export class LeagueClientData {
@@ -20,7 +21,7 @@ export class LeagueClientData {
 			}
 			return null;
 		} catch (err) {
-			return null;
+			return staticData;
 		}
 	}
 }

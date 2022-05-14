@@ -1,4 +1,6 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setLeagueData } from 'renderer/Store/leagueData';
 import LeagueDataDisplay from './LeagueDataDisplay';
 import Header from './Header';
 import SpotifyAuth from './SpotifyAuth';
@@ -32,7 +34,18 @@ const Spotify = () => {
 	);
 };
 
-export default function App() {
+const Pages = () => {
+	const dispatch = useDispatch();
+	const update = () => {
+		window.electron.ipcRenderer.sendMessage('get-league-data', ['request']);
+		window.electron.ipcRenderer.once('get-league-data', (arg) => {
+			if (arg !== null) {
+				dispatch(setLeagueData(arg));
+			}
+		});
+	};
+	setInterval(update, 10000);
+
 	return (
 		<Router>
 			<Routes>
@@ -43,4 +56,6 @@ export default function App() {
 			</Routes>
 		</Router>
 	);
-}
+};
+
+export default Pages;
