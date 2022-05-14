@@ -1,0 +1,828 @@
+{
+    "activePlayer": {
+        "abilities": {
+            "E": {
+                "abilityLevel": 5,
+                "displayName": "Reap",
+                "id": "FiddleSticksE",
+                "rawDescription": "GeneratedTip_Spell_FiddleSticksE_Description",
+                "rawDisplayName": "GeneratedTip_Spell_FiddleSticksE_DisplayName"
+            },
+            "Passive": {
+                "displayName": "A Harmless Scarecrow",
+                "id": "FiddleSticksPassive",
+                "rawDescription": "GeneratedTip_Passive_FiddleSticksPassive_Description",
+                "rawDisplayName": "GeneratedTip_Passive_FiddleSticksPassive_DisplayName"
+            },
+            "Q": {
+                "abilityLevel": 5,
+                "displayName": "Terrify",
+                "id": "FiddleSticksQ",
+                "rawDescription": "GeneratedTip_Spell_FiddleSticksQ_Description",
+                "rawDisplayName": "GeneratedTip_Spell_FiddleSticksQ_DisplayName"
+            },
+            "R": {
+                "abilityLevel": 3,
+                "displayName": "Crowstorm",
+                "id": "FiddleSticksR",
+                "rawDescription": "GeneratedTip_Spell_FiddleSticksR_Description",
+                "rawDisplayName": "GeneratedTip_Spell_FiddleSticksR_DisplayName"
+            },
+            "W": {
+                "abilityLevel": 5,
+                "displayName": "Bountiful Harvest",
+                "id": "FiddleSticksW",
+                "rawDescription": "GeneratedTip_Spell_FiddleSticksW_Description",
+                "rawDisplayName": "GeneratedTip_Spell_FiddleSticksW_DisplayName"
+            }
+        },
+        "championStats": {
+            "abilityHaste": 25.0,
+            "abilityPower": 652.0499877929688,
+            "armor": 144.5,
+            "armorPenetrationFlat": 0.0,
+            "armorPenetrationPercent": 1.0,
+            "attackDamage": 100.07000732421875,
+            "attackRange": 480.0,
+            "attackSpeed": 0.8491874933242798,
+            "bonusArmorPenetrationPercent": 1.0,
+            "bonusMagicPenetrationPercent": 1.0,
+            "critChance": 0.0,
+            "critDamage": 175.0,
+            "currentHealth": 2620.71142578125,
+            "healShieldPower": 0.0,
+            "healthRegenRate": 3.140000343322754,
+            "lifeSteal": 0.0,
+            "magicLethality": 0.0,
+            "magicPenetrationFlat": 26.0,
+            "magicPenetrationPercent": 1.0,
+            "magicResist": 38.5,
+            "maxHealth": 3044.400146484375,
+            "moveSpeed": 395.0,
+            "omnivamp": 0.0,
+            "physicalLethality": 0.0,
+            "physicalVamp": 0.0,
+            "resourceMax": 976.0000610351563,
+            "resourceRegenRate": 4.320000171661377,
+            "resourceType": "MANA",
+            "resourceValue": 976.0000610351563,
+            "spellVamp": 0.0,
+            "tenacity": 0.0
+        },
+        "currentGold": 37155.328125,
+        "fullRunes": {
+            "generalRunes": [
+                {
+                    "displayName": "Electrocute",
+                    "id": 8112,
+                    "rawDescription": "perk_tooltip_Electrocute",
+                    "rawDisplayName": "perk_displayname_Electrocute"
+                },
+                {
+                    "displayName": "Cheap Shot",
+                    "id": 8126,
+                    "rawDescription": "perk_tooltip_CheapShot",
+                    "rawDisplayName": "perk_displayname_CheapShot"
+                },
+                {
+                    "displayName": "Eyeball Collection",
+                    "id": 8138,
+                    "rawDescription": "perk_tooltip_EyeballCollection",
+                    "rawDisplayName": "perk_displayname_EyeballCollection"
+                },
+                {
+                    "displayName": "Ultimate Hunter",
+                    "id": 8106,
+                    "rawDescription": "perk_tooltip_UltimateHunter",
+                    "rawDisplayName": "perk_displayname_UltimateHunter"
+                },
+                {
+                    "displayName": "Cosmic Insight",
+                    "id": 8347,
+                    "rawDescription": "perk_tooltip_CosmicInsight",
+                    "rawDisplayName": "perk_displayname_CosmicInsight"
+                },
+                {
+                    "displayName": "Perfect Timing",
+                    "id": 8313,
+                    "rawDescription": "perk_tooltip_PerfectTiming",
+                    "rawDisplayName": "perk_displayname_PerfectTiming"
+                }
+            ],
+            "keystone": {
+                "displayName": "Electrocute",
+                "id": 8112,
+                "rawDescription": "perk_tooltip_Electrocute",
+                "rawDisplayName": "perk_displayname_Electrocute"
+            },
+            "primaryRuneTree": {
+                "displayName": "Domination",
+                "id": 8100,
+                "rawDescription": "perkstyle_tooltip_7200",
+                "rawDisplayName": "perkstyle_displayname_7200"
+            },
+            "secondaryRuneTree": {
+                "displayName": "Inspiration",
+                "id": 8300,
+                "rawDescription": "perkstyle_tooltip_7203",
+                "rawDisplayName": "perkstyle_displayname_7203"
+            },
+            "statRunes": [
+                {
+                    "id": 5008,
+                    "rawDescription": "perk_tooltip_StatModAdaptive"
+                },
+                {
+                    "id": 5008,
+                    "rawDescription": "perk_tooltip_StatModAdaptive"
+                },
+                {
+                    "id": 5002,
+                    "rawDescription": "perk_tooltip_StatModArmor"
+                }
+            ]
+        },
+        "level": 18,
+        "summonerName": "Aplank14",
+        "teamRelativeColors": true
+    },
+    "allPlayers": [
+        {
+            "championName": "Fiddlesticks",
+            "isBot": false,
+            "isDead": false,
+            "items": [
+                {
+                    "canUse": true,
+                    "consumable": false,
+                    "count": 1,
+                    "displayName": "Zhonya's Hourglass",
+                    "itemID": 3157,
+                    "price": 50,
+                    "rawDescription": "GeneratedTip_Item_3157_Description",
+                    "rawDisplayName": "Item_3157_Name",
+                    "slot": 0
+                },
+                {
+                    "canUse": true,
+                    "consumable": false,
+                    "count": 1,
+                    "displayName": "Hextech Rocketbelt",
+                    "itemID": 3152,
+                    "price": 865,
+                    "rawDescription": "GeneratedTip_Item_3152_Description",
+                    "rawDisplayName": "Item_3152_Name",
+                    "slot": 1
+                },
+                {
+                    "canUse": false,
+                    "consumable": false,
+                    "count": 1,
+                    "displayName": "Boots of Swiftness",
+                    "itemID": 3009,
+                    "price": 600,
+                    "rawDescription": "GeneratedTip_Item_3009_Description",
+                    "rawDisplayName": "Item_3009_Name",
+                    "slot": 2
+                },
+                {
+                    "canUse": false,
+                    "consumable": false,
+                    "count": 1,
+                    "displayName": "Rabadon's Deathcap",
+                    "itemID": 3089,
+                    "price": 1100,
+                    "rawDescription": "GeneratedTip_Item_3089_Description",
+                    "rawDisplayName": "Item_3089_Name",
+                    "slot": 3
+                },
+                {
+                    "canUse": false,
+                    "consumable": false,
+                    "count": 1,
+                    "displayName": "Demonic Embrace",
+                    "itemID": 4637,
+                    "price": 815,
+                    "rawDescription": "GeneratedTip_Item_4637_Description",
+                    "rawDisplayName": "Item_4637_Name",
+                    "slot": 4
+                },
+                {
+                    "canUse": false,
+                    "consumable": false,
+                    "count": 1,
+                    "displayName": "Shadowflame",
+                    "itemID": 4645,
+                    "price": 700,
+                    "rawDescription": "GeneratedTip_Item_4645_Description",
+                    "rawDisplayName": "Item_4645_Name",
+                    "slot": 5
+                },
+                {
+                    "canUse": true,
+                    "consumable": false,
+                    "count": 1,
+                    "displayName": "Scarecrow Effigy",
+                    "itemID": 3330,
+                    "price": 0,
+                    "rawDescription": "GeneratedTip_Item_3330_Description",
+                    "rawDisplayName": "Item_3330_Name",
+                    "slot": 6
+                }
+            ],
+            "level": 18,
+            "position": "WAS_BLANK_ANDY_ADDED_THIS",
+            "rawChampionName": "game_character_displayname_FiddleSticks",
+            "rawSkinName": "game_character_skin_displayname_FiddleSticks_7",
+            "respawnTimer": 0.0,
+            "runes": {
+                "keystone": {
+                    "displayName": "Electrocute",
+                    "id": 8112,
+                    "rawDescription": "perk_tooltip_Electrocute",
+                    "rawDisplayName": "perk_displayname_Electrocute"
+                },
+                "primaryRuneTree": {
+                    "displayName": "Domination",
+                    "id": 8100,
+                    "rawDescription": "perkstyle_tooltip_7200",
+                    "rawDisplayName": "perkstyle_displayname_7200"
+                },
+                "secondaryRuneTree": {
+                    "displayName": "Inspiration",
+                    "id": 8300,
+                    "rawDescription": "perkstyle_tooltip_7203",
+                    "rawDisplayName": "perkstyle_displayname_7203"
+                }
+            },
+            "scores": {
+                "assists": 0,
+                "creepScore": 280,
+                "deaths": 2,
+                "kills": 6,
+                "wardScore": 1.125
+            },
+            "skinID": 7,
+            "skinName": "Dark Candy Fiddlesticks",
+            "summonerName": "Aplank14",
+            "summonerSpells": {
+                "summonerSpellOne": {
+                    "displayName": "Smite",
+                    "rawDescription": "GeneratedTip_SummonerSpell_SummonerSmite_Description",
+                    "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerSmite_DisplayName"
+                },
+                "summonerSpellTwo": {
+                    "displayName": "Flash",
+                    "rawDescription": "GeneratedTip_SummonerSpell_SummonerFlash_Description",
+                    "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerFlash_DisplayName"
+                }
+            },
+            "team": "ORDER"
+        },
+        {
+            "championName": "Kayle",
+            "isBot": true,
+            "isDead": false,
+            "items": [
+                {
+                    "canUse": false,
+                    "consumable": false,
+                    "count": 1,
+                    "displayName": "Long Sword",
+                    "itemID": 1036,
+                    "price": 350,
+                    "rawDescription": "GeneratedTip_Item_1036_Description",
+                    "rawDisplayName": "Item_1036_Name",
+                    "slot": 0
+                },
+                {
+                    "canUse": false,
+                    "consumable": false,
+                    "count": 1,
+                    "displayName": "Hearthbound Axe",
+                    "itemID": 3051,
+                    "price": 350,
+                    "rawDescription": "GeneratedTip_Item_3051_Description",
+                    "rawDisplayName": "Item_3051_Name",
+                    "slot": 1
+                },
+                {
+                    "canUse": false,
+                    "consumable": false,
+                    "count": 1,
+                    "displayName": "Berserker's Greaves",
+                    "itemID": 3006,
+                    "price": 500,
+                    "rawDescription": "GeneratedTip_Item_3006_Description",
+                    "rawDisplayName": "Item_3006_Name",
+                    "slot": 2
+                },
+                {
+                    "canUse": false,
+                    "consumable": false,
+                    "count": 1,
+                    "displayName": "Kraken Slayer",
+                    "itemID": 6672,
+                    "price": 625,
+                    "rawDescription": "GeneratedTip_Item_6672_Description",
+                    "rawDisplayName": "Item_6672_Name",
+                    "slot": 3
+                },
+                {
+                    "canUse": false,
+                    "consumable": false,
+                    "count": 1,
+                    "displayName": "Vampiric Scepter",
+                    "itemID": 1053,
+                    "price": 550,
+                    "rawDescription": "GeneratedTip_Item_1053_Description",
+                    "rawDisplayName": "Item_1053_Name",
+                    "slot": 4
+                },
+                {
+                    "canUse": false,
+                    "consumable": false,
+                    "count": 1,
+                    "displayName": "Recurve Bow",
+                    "itemID": 1043,
+                    "price": 400,
+                    "rawDescription": "GeneratedTip_Item_1043_Description",
+                    "rawDisplayName": "Item_1043_Name",
+                    "slot": 5
+                },
+                {
+                    "canUse": true,
+                    "consumable": false,
+                    "count": 1,
+                    "displayName": "Stealth Ward",
+                    "itemID": 3340,
+                    "price": 0,
+                    "rawDescription": "GeneratedTip_Item_3340_Description",
+                    "rawDisplayName": "Item_3340_Name",
+                    "slot": 6
+                }
+            ],
+            "level": 13,
+            "position": "WAS_BLANK_ANDY_ADDED_THIS",
+            "rawChampionName": "game_character_displayname_Kayle",
+            "respawnTimer": 0.0,
+            "runes": {
+                "keystone": {
+                    "displayName": "Press the Attack",
+                    "id": 8005,
+                    "rawDescription": "perk_tooltip_PressTheAttack",
+                    "rawDisplayName": "perk_displayname_PressTheAttack"
+                },
+                "primaryRuneTree": {
+                    "displayName": "Precision",
+                    "id": 8000,
+                    "rawDescription": "perkstyle_tooltip_7201",
+                    "rawDisplayName": "perkstyle_displayname_7201"
+                },
+                "secondaryRuneTree": {
+                    "displayName": "Sorcery",
+                    "id": 8200,
+                    "rawDescription": "perkstyle_tooltip_7202",
+                    "rawDisplayName": "perkstyle_displayname_7202"
+                }
+            },
+            "scores": {
+                "assists": 0,
+                "creepScore": 110,
+                "deaths": 6,
+                "kills": 1,
+                "wardScore": 0.0
+            },
+            "skinID": 0,
+            "summonerName": "Kayle Bot",
+            "summonerSpells": {
+                "summonerSpellOne": {
+                    "displayName": "Ignite",
+                    "rawDescription": "GeneratedTip_SummonerSpell_SummonerDot_Description",
+                    "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerDot_DisplayName"
+                },
+                "summonerSpellTwo": {
+                    "displayName": "Exhaust",
+                    "rawDescription": "GeneratedTip_SummonerSpell_SummonerExhaust_Description",
+                    "rawDisplayName": "GeneratedTip_SummonerSpell_SummonerExhaust_DisplayName"
+                }
+            },
+            "team": "CHAOS"
+        },
+        {
+            "championName": "Target Dummy",
+            "isBot": true,
+            "isDead": false,
+            "items": [],
+            "level": 10,
+            "position": "",
+            "rawChampionName": "game_character_displayname_PracticeTool_TargetDummy",
+            "respawnTimer": 0.0,
+            "runes": null,
+            "scores": {
+                "assists": 0,
+                "creepScore": 0,
+                "deaths": 0,
+                "kills": 0,
+                "wardScore": 0.0
+            },
+            "skinID": 0,
+            "summonerName": "Target Dummy",
+            "summonerSpells": {},
+            "team": "ORDER"
+        },
+        {
+            "championName": "Target Dummy",
+            "isBot": true,
+            "isDead": false,
+            "items": [],
+            "level": 10,
+            "position": "",
+            "rawChampionName": "game_character_displayname_PracticeTool_TargetDummy",
+            "respawnTimer": 0.0,
+            "runes": null,
+            "scores": {
+                "assists": 0,
+                "creepScore": 0,
+                "deaths": 0,
+                "kills": 0,
+                "wardScore": 0.0
+            },
+            "skinID": 0,
+            "summonerName": "Target Dummy",
+            "summonerSpells": {},
+            "team": "ORDER"
+        },
+        {
+            "championName": "Target Dummy",
+            "isBot": true,
+            "isDead": false,
+            "items": [],
+            "level": 11,
+            "position": "",
+            "rawChampionName": "game_character_displayname_PracticeTool_TargetDummy",
+            "respawnTimer": 0.0,
+            "runes": null,
+            "scores": {
+                "assists": 0,
+                "creepScore": 0,
+                "deaths": 0,
+                "kills": 0,
+                "wardScore": 0.0
+            },
+            "skinID": 0,
+            "summonerName": "Target Dummy",
+            "summonerSpells": {},
+            "team": "ORDER"
+        },
+        {
+            "championName": "Target Dummy",
+            "isBot": true,
+            "isDead": false,
+            "items": [],
+            "level": 11,
+            "position": "",
+            "rawChampionName": "game_character_displayname_PracticeTool_TargetDummy",
+            "respawnTimer": 0.0,
+            "runes": null,
+            "scores": {
+                "assists": 0,
+                "creepScore": 0,
+                "deaths": 0,
+                "kills": 0,
+                "wardScore": 0.0
+            },
+            "skinID": 0,
+            "summonerName": "Target Dummy",
+            "summonerSpells": {},
+            "team": "ORDER"
+        }
+    ],
+    "events": {
+        "Events": [
+            {
+                "EventID": 0,
+                "EventName": "GameStart",
+                "EventTime": 0.01287120021879673
+            },
+            {
+                "EventID": 1,
+                "EventName": "MinionsSpawning",
+                "EventTime": 65.03489685058594
+            },
+            {
+                "Assisters": [],
+                "EventID": 2,
+                "EventName": "ChampionKill",
+                "EventTime": 420.4832458496094,
+                "KillerName": "Aplank14",
+                "VictimName": "Kayle Bot"
+            },
+            {
+                "EventID": 3,
+                "EventName": "FirstBlood",
+                "EventTime": 420.4832458496094,
+                "Recipient": "Aplank14"
+            },
+            {
+                "Acer": "Aplank14",
+                "AcingTeam": "ORDER",
+                "EventID": 4,
+                "EventName": "Ace",
+                "EventTime": 420.4832458496094
+            },
+            {
+                "Assisters": [],
+                "DragonType": "Water",
+                "EventID": 5,
+                "EventName": "DragonKill",
+                "EventTime": 455.0252685546875,
+                "KillerName": "Aplank14",
+                "Stolen": "False"
+            },
+            {
+                "Assisters": [],
+                "EventID": 6,
+                "EventName": "ChampionKill",
+                "EventTime": 684.4293212890625,
+                "KillerName": "Aplank14",
+                "VictimName": "Kayle Bot"
+            },
+            {
+                "Acer": "Aplank14",
+                "AcingTeam": "ORDER",
+                "EventID": 7,
+                "EventName": "Ace",
+                "EventTime": 684.4293212890625
+            },
+            {
+                "Assisters": [],
+                "EventID": 8,
+                "EventName": "ChampionKill",
+                "EventTime": 691.4605102539063,
+                "KillerName": "Kayle Bot",
+                "VictimName": "Aplank14"
+            },
+            {
+                "Acer": "Kayle Bot",
+                "AcingTeam": "CHAOS",
+                "EventID": 9,
+                "EventName": "Ace",
+                "EventTime": 691.4605102539063
+            },
+            {
+                "Assisters": [],
+                "EventID": 10,
+                "EventName": "ChampionKill",
+                "EventTime": 840.767578125,
+                "KillerName": "Turret_ChaosTurretShrine_A",
+                "VictimName": "Aplank14"
+            },
+            {
+                "Assisters": [],
+                "EventID": 11,
+                "EventName": "TurretKilled",
+                "EventTime": 929.5997314453125,
+                "KillerName": "Kayle Bot",
+                "TurretKilled": "Turret_T1_R_03_A"
+            },
+            {
+                "EventID": 12,
+                "EventName": "FirstBrick",
+                "EventTime": 929.5997314453125,
+                "KillerName": "Kayle Bot"
+            },
+            {
+                "Assisters": [],
+                "EventID": 13,
+                "EventName": "TurretKilled",
+                "EventTime": 1038.6947021484376,
+                "KillerName": "Minion_T200L0S31N0194",
+                "TurretKilled": "Turret_T1_R_02_A"
+            },
+            {
+                "Assisters": [],
+                "EventID": 14,
+                "EventName": "ChampionKill",
+                "EventTime": 1061.3773193359376,
+                "KillerName": "Aplank14",
+                "VictimName": "Kayle Bot"
+            },
+            {
+                "Acer": "Aplank14",
+                "AcingTeam": "ORDER",
+                "EventID": 15,
+                "EventName": "Ace",
+                "EventTime": 1061.3773193359376
+            },
+            {
+                "Assisters": [],
+                "EventID": 16,
+                "EventName": "ChampionKill",
+                "EventTime": 1112.01318359375,
+                "KillerName": "Aplank14",
+                "VictimName": "Kayle Bot"
+            },
+            {
+                "Acer": "Aplank14",
+                "AcingTeam": "ORDER",
+                "EventID": 17,
+                "EventName": "Ace",
+                "EventTime": 1112.01318359375
+            },
+            {
+                "Assisters": [],
+                "EventID": 18,
+                "EventName": "TurretKilled",
+                "EventTime": 1186.1529541015626,
+                "KillerName": "Minion_T100L1S37N0232",
+                "TurretKilled": "Turret_T2_C_05_A"
+            },
+            {
+                "Assisters": [],
+                "EventID": 19,
+                "EventName": "TurretKilled",
+                "EventTime": 1234.149169921875,
+                "KillerName": "Minion_T100L0S37N0234",
+                "TurretKilled": "Turret_T2_R_03_A"
+            },
+            {
+                "Assisters": [],
+                "EventID": 20,
+                "EventName": "TurretKilled",
+                "EventTime": 1303.2813720703126,
+                "KillerName": "Minion_T200L2S39N0246",
+                "TurretKilled": "Turret_T1_L_03_A"
+            },
+            {
+                "Assisters": [],
+                "EventID": 21,
+                "EventName": "TurretKilled",
+                "EventTime": 1311.82763671875,
+                "KillerName": "Minion_T200L0S39N0245",
+                "TurretKilled": "Turret_T1_C_07_A"
+            },
+            {
+                "Assisters": [],
+                "EventID": 22,
+                "EventName": "InhibKilled",
+                "EventTime": 1324.2159423828126,
+                "InhibKilled": "Barracks_T1_R1",
+                "KillerName": "Minion_T200L0S36N0219"
+            },
+            {
+                "Assisters": [],
+                "EventID": 23,
+                "EventName": "TurretKilled",
+                "EventTime": 1333.8243408203126,
+                "KillerName": "Minion_T100L1S42N0266",
+                "TurretKilled": "Turret_T2_C_04_A"
+            },
+            {
+                "Assisters": [],
+                "EventID": 24,
+                "EventName": "TurretKilled",
+                "EventTime": 1337.1107177734376,
+                "KillerName": "Minion_T200L2S38N0240",
+                "TurretKilled": "Turret_T1_L_02_A"
+            },
+            {
+                "Assisters": [],
+                "EventID": 25,
+                "EventName": "TurretKilled",
+                "EventTime": 1372.1236572265626,
+                "KillerName": "Minion_T200L2S41N0261",
+                "TurretKilled": "Turret_T1_C_06_A"
+            },
+            {
+                "Assisters": [],
+                "EventID": 26,
+                "EventName": "TurretKilled",
+                "EventTime": 1373.5511474609376,
+                "KillerName": "Minion_T100L1S43N0272",
+                "TurretKilled": "Turret_T2_C_03_A"
+            },
+            {
+                "Assisters": [],
+                "EventID": 27,
+                "EventName": "InhibKilled",
+                "EventTime": 1385.2010498046876,
+                "InhibKilled": "Barracks_T1_L1",
+                "KillerName": "Minion_T200L2S42N0262"
+            },
+            {
+                "Assisters": [],
+                "EventID": 28,
+                "EventName": "InhibKilled",
+                "EventTime": 1391.674560546875,
+                "InhibKilled": "Barracks_T2_C1",
+                "KillerName": "Minion_T100L1S43N0272"
+            },
+            {
+                "Assisters": [],
+                "EventID": 29,
+                "EventName": "TurretKilled",
+                "EventTime": 1410.8724365234376,
+                "KillerName": "Minion_T200L2S41N0258",
+                "TurretKilled": "Turret_T1_C_01_A"
+            },
+            {
+                "Assisters": [],
+                "EventID": 30,
+                "EventName": "TurretKilled",
+                "EventTime": 1421.0020751953126,
+                "KillerName": "Minion_T100L0S43N0271",
+                "TurretKilled": "Turret_T2_R_02_A"
+            },
+            {
+                "Assisters": [],
+                "EventID": 31,
+                "EventName": "ChampionKill",
+                "EventTime": 1443.204345703125,
+                "KillerName": "Aplank14",
+                "VictimName": "Kayle Bot"
+            },
+            {
+                "Acer": "Aplank14",
+                "AcingTeam": "ORDER",
+                "EventID": 32,
+                "EventName": "Ace",
+                "EventTime": 1443.204345703125
+            },
+            {
+                "Assisters": [],
+                "EventID": 33,
+                "EventName": "TurretKilled",
+                "EventTime": 1481.914794921875,
+                "KillerName": "Minion_T100L2S46N0293",
+                "TurretKilled": "Turret_T2_L_03_A"
+            },
+            {
+                "Assisters": [],
+                "EventID": 34,
+                "EventName": "ChampionKill",
+                "EventTime": 1503.42138671875,
+                "KillerName": "Aplank14",
+                "VictimName": "Kayle Bot"
+            },
+            {
+                "Acer": "Aplank14",
+                "AcingTeam": "ORDER",
+                "EventID": 35,
+                "EventName": "Ace",
+                "EventTime": 1503.42138671875
+            },
+            {
+                "EventID": 36,
+                "EventName": "InhibRespawningSoon",
+                "EventTime": 1609.216796875,
+                "InhibRespawningSoon": "Barracks_T1_R1"
+            },
+            {
+                "EventID": 37,
+                "EventName": "InhibRespawned",
+                "EventTime": 1624.2626953125,
+                "InhibRespawned": "Barracks_T1_R1"
+            },
+            {
+                "EventID": 38,
+                "EventName": "InhibRespawningSoon",
+                "EventTime": 1670.1995849609376,
+                "InhibRespawningSoon": "Barracks_T1_L1"
+            },
+            {
+                "Assisters": [],
+                "EventID": 39,
+                "EventName": "InhibKilled",
+                "EventTime": 1670.3759765625,
+                "InhibKilled": "Barracks_T1_R1",
+                "KillerName": "Minion_T200L0S45N0282"
+            },
+            {
+                "EventID": 40,
+                "EventName": "InhibRespawningSoon",
+                "EventTime": 1676.672607421875,
+                "InhibRespawningSoon": "Barracks_T2_C1"
+            },
+            {
+                "EventID": 41,
+                "EventName": "InhibRespawned",
+                "EventTime": 1685.2640380859376,
+                "InhibRespawned": "Barracks_T1_L1"
+            },
+            {
+                "EventID": 42,
+                "EventName": "InhibRespawned",
+                "EventTime": 1691.7474365234376,
+                "InhibRespawned": "Barracks_T2_C1"
+            }
+        ]
+    },
+    "gameData": {
+        "gameMode": "PRACTICETOOL",
+        "gameTime": 1935.7576904296876,
+        "mapName": "Map11",
+        "mapNumber": 11,
+        "mapTerrain": "Default"
+    }
+}
