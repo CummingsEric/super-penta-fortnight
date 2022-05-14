@@ -1,41 +1,73 @@
 import axios from 'axios';
 import { stringify } from 'qs';
 import { useSelector, useDispatch } from 'react-redux';
-import { setSpotifyCode, clearSpotifyCode } from 'renderer/Store/spotifyCode';
-import { setSpotifyToken } from '../Store/spotifyToken';
+import {
+	setSpotifyAccessCode,
+	clearSpotifyAccessCode,
+} from 'renderer/Store/spotifyAccessCode';
+import {
+	setSpotifyRefreshToken,
+	clearSpotifyRefreshToken,
+} from '../Store/spotifyRefreshToken';
+import { setSpotifyAccessToken } from '../Store/spotifyAccessToken';
 
 const SpotifyAuth = () => {
 	const dispatch = useDispatch();
-	const spotifyToken = useSelector((state: any) => state.spotifyToken.value);
-	const spotifyCode = useSelector((state: any) => state.spotifyCode.value);
+	const spotifyAccessToken = useSelector(
+		(state: any) => state.spotifyAccessToken.value
+	);
+	const spotifyAccessCode = useSelector(
+		(state: any) => state.spotifyAccessCode.value
+	);
+	const spotifyRefreshToken = useSelector(
+		(state: any) => state.spotifyRefreshToken.value
+	);
+	// const spotifyCode = useSelector((state: any) => state.spotifyCode.value);
 
 	const clearCode = () => {
 		localStorage.clear();
-		dispatch(clearSpotifyCode());
+		dispatch(clearSpotifyAccessCode());
 	};
 
-	const getToken = () => {
-		const tok = localStorage.getItem('spotify-access-code');
-		if (tok !== undefined && tok != null) {
-			dispatch(setSpotifyCode(String(tok)));
-			return;
-		}
+	const getCode = () => {
+		// const tok = localStorage.getItem('spotify-access-code');
+		// if (tok !== undefined && tok != null) {
+		//	dispatch(setSpotifyAccessCode(String(tok)));
+		//	return;
+		// }
 		console.log('making spotify token request');
 		window.electron.ipcRenderer.sendMessage('get-spotify-token', [
 			'request',
 		]);
 	};
 
+	window.electron.ipcRenderer.once('get-spotify-token', (arg) => {
+		if (arg != null) {
+			localStorage.setItem('spotify-access-code', String(arg));
+			dispatch(setSpotifyAccessCode(String(arg)));
+		}
+	});
+
 	const getAccessRefreshTokens = async () => {
 		const authToken = btoa(
 			`0c51a110dea445f49fbbed2d29d387c9:95b5363808b34b15ae831e3e0cc5f146`
 		);
 		const tokenUrl = 'https://accounts.spotify.com/api/token';
-		const body = stringify({
-			grant_type: 'authorization_code',
-			code: spotifyCode,
-			redirect_uri: encodeURI('https://google.com'),
-		});
+		let body = {};
+		if (spotifyRefreshToken === null) {
+			console.log('requesting from new access code');
+			body = stringify({
+				grant_type: 'authorization_code',
+				code: spotifyAccessCode,
+				redirect_uri: encodeURI('https://google.com'),
+			});
+		} else {
+			console.log('requesting from refresh token');
+			body = stringify({
+				grant_type: 'refresh_token',
+				refresh_token: spotifyRefreshToken,
+			});
+		}
 		try {
 			const response = await axios.post(tokenUrl, body, {
 				headers: {
@@ -44,37 +76,53 @@ const SpotifyAuth = () => {
 				},
 			});
 			if (response.status === 200) {
-				dispatch(setSpotifyToken(response.data.access_token));
+				console.log(response.data);
+				dispatch(setSpotifyAccessToken(response.data.access_token));
+				if (response.data.refresh_token) {
+					dispatch(
+						setSpotifyRefreshToken(response.data.refresh_token)
+					);
+				}
 				return;
 			}
 		} catch (err) {
 			// eslint-disable-next-line no-console
 			console.log(err);
-			dispatch(clearSpotifyCode());
+			dispatch(clearSpotifyAccessCode());
+			dispatch(clearSpotifyRefreshToken());
 			localStorage.clear();
-			getToken();
+			getCode();
 		}
 	};
 
-	window.electron.ipcRenderer.once('get-spotify-token', (arg) => {
-		if (arg != null) {
-			localStorage.setItem('spotify-access-code', String(arg));
-			dispatch(setSpotifyCode(String(arg)));
-		}
-	});
-
 	return (
 		<div>
-			<button type="button" onClick={getToken}>
+			<button type="button" onClick={getCode}>
 				Get Access Code
 			</button>
-			<div>{spotifyCode === null ? 'Token not set' : spotifyCode}</div>
+			<div>
+				{spotifyAccessCode === null
+					? 'Token not set'
+					: spotifyAccessCode}
+			</div>
 			<div>
 				<button type="button" onClick={getAccessRefreshTokens}>
 					get Access Token
 				</button>
 			</div>
-			<div>{spotifyToken === null ? 'Token not set' : spotifyToken}</div>
+			<div>
+				{spotifyAccessToken === null
+					? 'Token not set'
+					: spotifyAccessToken}
+			</div>
+			<div>
+				<h3>Refresh Token</h3>
+			</div>
+			<div>
+				{spotifyRefreshToken === null
+					? 'Token not set'
+					: spotifyRefreshToken}
+			</div>
 			<div>
 				<button type="button" onClick={clearCode}>
 					Clear Access Code
