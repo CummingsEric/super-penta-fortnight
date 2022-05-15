@@ -1,5 +1,13 @@
 import LeaguePlayerStats from './LeagueStats';
 
+export interface LeagueEvent {
+	EventID: number;
+	EventName: string;
+	EventTime: number;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	[x: string]: any;
+}
+
 export default interface LeagueResData {
 	activePlayer: {
 		abilities: Record<string, unknown>[];
@@ -12,6 +20,13 @@ export default interface LeagueResData {
 	};
 	allPlayers: LeaguePlayerStats[];
 	events: {
-		Events: Record<string, unknown>[];
+		Events: LeagueEvent[];
+	};
+	gameData: {
+		gameMode: string;
+		gameTime: number;
+		mapName: string;
+		mapNumber: number;
+		mapTerrain: string;
 	};
 }
