@@ -13,10 +13,11 @@ import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { isCompositeComponent } from 'react-dom/test-utils';
+import SpotifyAccessCode from 'renderer/Interfaces/SpotifyAccessCode';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import { LeagueClientData } from './main_services/league_requests';
-import SpotifyAccessCode from 'renderer/Interfaces/SpotifyAccessCode';
+import { PlaylistManager } from './main_services/playlistManager';
 
 export default class AppUpdater {
 	constructor() {
@@ -28,6 +29,7 @@ export default class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 const lcd: LeagueClientData = new LeagueClientData();
+const pm = new PlaylistManager('./test.json');
 
 // ICP Handlers
 ipcMain.on('ipc-example', async (event, arg) => {
@@ -89,6 +91,10 @@ ipcMain.on('get-spotify-token', async (event, arg) => {
 		`IPC spotify request: ${pingPong}`;
 	console.log(msgTemplate(arg));
 	event.reply('ipc-example', msgTemplate('request recieved from render'));
+});
+
+ipcMain.on('update-playlist', async (event, arg) => {
+	pm.updatePlaylist(arg);
 });
 
 ipcMain.on('get-league-data', async (event, arg) => {
@@ -159,6 +165,7 @@ const createWindow = async () => {
 		if (process.env.START_MINIMIZED) {
 			mainWindow.minimize();
 		} else {
+			mainWindow.maximize();
 			mainWindow.show();
 		}
 	});
