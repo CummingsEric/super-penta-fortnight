@@ -12,12 +12,11 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import { isCompositeComponent } from 'react-dom/test-utils';
-import SpotifyAccessCode from 'renderer/Interfaces/SpotifyAccessCode';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import { LeagueClientData } from './main_services/league_requests';
 import { PlaylistManager } from './main_services/playlistManager';
+import getTokens from './main_services/spotifyHandler';
 
 export default class AppUpdater {
 	constructor() {
@@ -38,72 +37,20 @@ ipcMain.on('ipc-example', async (event, arg) => {
 	event.reply('ipc-example', msgTemplate('request sent from main process'));
 });
 
+// Authenticate the user with spotify
 ipcMain.on('get-spotify-token', async (event, arg) => {
-	let authWindow: BrowserWindow | null = new BrowserWindow({
-		show: false,
-		width: 1024,
-		height: 728,
-		webPreferences: {
-			preload: app.isPackaged
-				? path.join(__dirname, 'preload.js')
-				: path.join(__dirname, '../../.erb/dll/preload.js'),
-		},
-	});
-
-	const clientId = '0c51a110dea445f49fbbed2d29d387c9';
-	const uri = encodeURI('https://google.com');
-
-	let authUrl = 'https://accounts.spotify.com/authorize';
-	authUrl += `?client_id=${clientId}`;
-	authUrl += '&response_type=code';
-	authUrl += `&redirect_uri=${uri}`;
-	authUrl += '&show_dialog=true';
-	authUrl += '&scope=user-read-playback-state user-modify-playback-state';
-
-	authWindow.loadURL(authUrl);
-	authWindow.show();
-	// 'will-navigate' is an event emitted when the window.location changes
-	// newUrl should contain the tokens you need
-	authWindow.webContents.on('will-navigate', function (event_, newUrl) {
-		console.log(newUrl);
-		if (newUrl.includes('code')) {
-			const token = newUrl.substring(
-				newUrl.indexOf('=') + 1,
-				newUrl.length
-			);
-			authWindow?.close();
-			// let authUrl = 'https://accounts.spotify.com/authorize';
-			// authUrl += `?client_id=${clientId}`;
-			// authUrl += '&response_type=code';
-			// authUrl += `&redirect_uri=${uri}`;
-			const data: SpotifyAccessCode = { authCode: token, used: false };
-
-			event.reply('get-spotify-token', data);
-		}
-		// More complex code to handle tokens goes here
-	});
-
-	authWindow.on('closed', function () {
-		authWindow = null;
-	});
-
-	const msgTemplate = (pingPong: string) =>
-		`IPC spotify request: ${pingPong}`;
-	console.log(msgTemplate(arg));
-	event.reply('ipc-example', msgTemplate('request recieved from render'));
+	getTokens(event, arg);
 });
 
+// Save the users song choices to a file
 ipcMain.on('update-playlist', async (event, arg) => {
 	pm.updatePlaylist(arg);
 });
 
+// Send client updated league data
 ipcMain.on('get-league-data', async (event, arg) => {
-	try {
-		const data = await lcd.getData();
-		event.reply('get-league-data', data);
-	} catch (err) {
-		console.log(err);
-	}
+	const data = await lcd.getData();
+	event.reply('get-league-data', data);
 });
 
 if (process.env.NODE_ENV === 'production') {
@@ -185,12 +132,8 @@ const createWindow = async () => {
 
 	// Remove this if your app does not use auto updates
 	// eslint-disable-next-line
-  new AppUpdater();
+  	new AppUpdater();
 };
-
-/**
- * Add event listeners...
- */
 
 app.on('window-all-closed', () => {
 	// Respect the OSX convention of having the application in memory even
