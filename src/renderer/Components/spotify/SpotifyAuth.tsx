@@ -145,7 +145,7 @@ const SpotifyAuth = () => {
 
 		const body = {
 			headers: {
-				Authorization: `Bearer ${spotifyAccessToken}`,
+				Authorization: `Bearer ${localSpotifyAccessToken.authToken}`,
 				'Content-Type': 'application/json',
 			},
 			params: {
@@ -162,7 +162,7 @@ const SpotifyAuth = () => {
 
 		const bodyTwo = {
 			headers: {
-				Authorization: `Bearer ${spotifyAccessToken}`,
+				Authorization: `Bearer ${localSpotifyAccessToken.authToken}`,
 				'Content-Type': 'application/json',
 			},
 		};
@@ -172,31 +172,43 @@ const SpotifyAuth = () => {
 	};
 
 	const playSong = async () => {
-		const tokenUrl = 'https://api.spotify.com/v1/me/player/play';
-
 		const body = {
+			uris: ['spotify:track:57bgtoPSgt236HzfBOd8kj'],
+			position_ms: 0,
+		};
+		const tokenUrl = 'https://api.spotify.com/v1/me/player/play';
+		await axios({
+			url: tokenUrl,
+			method: 'put',
 			headers: {
-				Authorization: `Bearer ${spotifyAccessToken}`,
+				Authorization: `Bearer ${localSpotifyAccessToken.authToken}`,
+				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
-			params: {
-				uris: ['spotify:track:57bgtoPSgt236HzfBOd8kj'],
-			},
-		};
-
-		const response = await axios.put(tokenUrl, body);
-		console.log(response.data.tracks.href);
+			data: body,
+		});
 	};
 
 	const testFunc = () => {
 		authenticateUser();
 	};
 
+	const testFunc2 = () => {
+		playSong();
+	};
+
 	return (
 		<div>
-			<button type="button" onClick={testFunc}>
-				Authenticate User
-			</button>
+			<div>
+				<button type="button" onClick={testFunc}>
+					Authenticate User
+				</button>
+			</div>
+			<div>
+				<button type="button" onClick={testFunc2}>
+					Play Song
+				</button>
+			</div>
 			<div>
 				<h3>Access Code</h3>
 			</div>
