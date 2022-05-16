@@ -7,11 +7,6 @@ const getTokens = (event: any, arg: any) => {
 		show: false,
 		width: 1024,
 		height: 728,
-		webPreferences: {
-			preload: app.isPackaged
-				? path.join(__dirname, 'preload.js')
-				: path.join(__dirname, '../../.erb/dll/preload.js'),
-		},
 	});
 
 	const clientId = '0c51a110dea445f49fbbed2d29d387c9';
