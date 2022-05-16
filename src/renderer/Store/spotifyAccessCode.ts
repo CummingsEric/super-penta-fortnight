@@ -1,16 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
+import SpotifyAccessCode from 'renderer/Interfaces/SpotifyAccessCode';
+
+export interface SAC {
+	value?: SpotifyAccessCode;
+}
+
+const initialState: SAC = {
+	value: undefined,
+};
 
 export const spotifyAccessCode = createSlice({
 	name: 'SpotifyAccessCode',
-	initialState: {
-		value: null,
-	},
+	initialState,
 	reducers: {
 		setSpotifyAccessCode: (state, action) => {
 			state.value = action.payload;
 		},
 		clearSpotifyAccessCode: (state) => {
-			state.value = null;
+			state.value = undefined;
 		},
 	},
 });

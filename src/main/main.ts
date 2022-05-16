@@ -16,6 +16,7 @@ import { isCompositeComponent } from 'react-dom/test-utils';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import { LeagueClientData } from './main_services/league_requests';
+import SpotifyAccessCode from 'renderer/Interfaces/SpotifyAccessCode';
 
 export default class AppUpdater {
 	constructor() {
@@ -55,7 +56,7 @@ ipcMain.on('get-spotify-token', async (event, arg) => {
 	authUrl += '&response_type=code';
 	authUrl += `&redirect_uri=${uri}`;
 	authUrl += '&show_dialog=true';
-	authUrl += '&scope=user-read-playback-state,user-modify-playback-state';
+	authUrl += '&scope=user-read-playback-state user-modify-playback-state';
 
 	authWindow.loadURL(authUrl);
 	authWindow.show();
@@ -69,11 +70,13 @@ ipcMain.on('get-spotify-token', async (event, arg) => {
 				newUrl.length
 			);
 			authWindow?.close();
-			let authUrl = 'https://accounts.spotify.com/authorize';
-			authUrl += `?client_id=${clientId}`;
-			authUrl += '&response_type=code';
-			authUrl += `&redirect_uri=${uri}`;
-			event.reply('get-spotify-token', token);
+			// let authUrl = 'https://accounts.spotify.com/authorize';
+			// authUrl += `?client_id=${clientId}`;
+			// authUrl += '&response_type=code';
+			// authUrl += `&redirect_uri=${uri}`;
+			const data: SpotifyAccessCode = { authCode: token, used: false };
+
+			event.reply('get-spotify-token', data);
 		}
 		// More complex code to handle tokens goes here
 	});

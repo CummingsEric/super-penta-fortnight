@@ -1,10 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
+import SpotifyAccessToken from 'renderer/Interfaces/SpotifyAccessToken';
+
+export interface SAT {
+	value?: SpotifyAccessToken;
+}
+
+const initialState: SAT = {
+	value: undefined,
+};
 
 export const spotifyAccessToken = createSlice({
 	name: 'spotifyAccessToken',
-	initialState: {
-		value: null,
-	},
+	initialState,
 	reducers: {
 		setSpotifyAccessToken: (state, action) => {
 			state.value = action.payload;
