@@ -1,6 +1,6 @@
 {
-  "name": "electron-react-boilerplate",
-  "description": "A foundation for scalable desktop apps",
+  "name": "super-penta-fornight",
+  "description": "A League of Legends music player",
   "scripts": {
     "build": "concurrently \"npm run build:main\" \"npm run build:renderer\"",
     "build:main": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.main.prod.ts",
@@ -13,8 +13,7 @@
     "start:main": "cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only ./src/main/main.ts",
     "start:preload": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.preload.dev.ts",
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
-    "test": "jest",
-    "prepare": "husky install"
+    "test": "jest"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -31,7 +30,7 @@
     ]
   },
   "build": {
-    "productName": "ElectronReact",
+    "productName": "LeagueMusic",
     "appId": "org.erb.ElectronReact",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
@@ -99,20 +98,20 @@
     "url": "git+https://github.com/electron-react-boilerplate/electron-react-boilerplate.git"
   },
   "author": {
-    "name": "Electron React Boilerplate Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
+    "name": "League Music",
+    "email": "fithubtester@gmail.com",
     "url": "https://electron-react-boilerplate.js.org"
   },
   "contributors": [
     {
-      "name": "Amila Welihinda",
-      "email": "amilajack@gmail.com",
-      "url": "https://github.com/amilajack"
+      "name": "Eric Cummings",
+      "email": "ericcummings@quickenloans.com",
+      "url": "https://github.com/CummingsEric"
     },
     {
-      "name": "John Tran",
-      "email": "jptran318@gmail.com",
-      "url": "https://github.com/jooohhn"
+      "name": "Andy Plank",
+      "email": "aplank14@gmail.com",
+      "url": "https://github.com/Aplank14"
     }
   ],
   "license": "MIT",
