@@ -89,8 +89,8 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate"
+      "owner": "super-penta-fortnight",
+      "repo": "super-penta-fortnight"
     }
   },
   "repository": {
