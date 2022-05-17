@@ -1,6 +1,6 @@
 {
   "name": "league-music",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "A Spotify music player for League of Legends",
   "main": "./dist/main/main.js",
   "author": {
