@@ -89,7 +89,7 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "super-penta-fortnight",
+      "owner": "CummingsEric",
       "repo": "super-penta-fortnight"
     }
   },
