@@ -1,11 +1,13 @@
-import LeagueResData, { LeagueEvent } from 'renderer/Interfaces/LeagueResData';
-import LeaguePlayerStats from 'renderer/Interfaces/LeagueStats';
-import LeagueEventDictionary from 'renderer/Interfaces/LeagueEvents';
+import LeagueResData, {
+	LeagueEvent,
+	LeaguePlayerStats,
+} from 'renderer/Interfaces/LeagueResData';
+import CurrentEvents from 'renderer/Interfaces/CurrentEvents';
 
 const processData = (
 	leagueData: LeagueResData,
 	lastUpdate: number
-): LeagueEventDictionary | null => {
+): CurrentEvents | null => {
 	if (leagueData === undefined) return null;
 
 	const { allPlayers, activePlayer, gameData } = leagueData;
@@ -292,7 +294,7 @@ const processData = (
 		return steal !== undefined;
 	};
 
-	const leagueEventDict: LeagueEventDictionary = {
+	const leagueEventDict: CurrentEvents = {
 		lastUpdate,
 		updateTime: gameTime,
 		wereInTheEndGameNow: nexusExposed(),

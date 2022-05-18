@@ -14,8 +14,8 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-import { LeagueClientData } from './main_services/league_requests';
-import { PlaylistManager } from './main_services/playlistManager';
+import LeagueService from './main_services/leagueService';
+import ConfigService from './main_services/configService';
 import getTokens from './main_services/spotifyHandler';
 
 export default class AppUpdater {
@@ -27,8 +27,8 @@ export default class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
-const lcd: LeagueClientData = new LeagueClientData();
-const pm = new PlaylistManager('./test.json');
+const lcd = new LeagueService();
+const cm = new ConfigService();
 
 // ICP Handlers
 ipcMain.on('ipc-example', async (event, arg) => {
@@ -42,9 +42,17 @@ ipcMain.on('get-spotify-token', async (event, arg) => {
 	getTokens(event, arg);
 });
 
-// Save the users song choices to a file
-ipcMain.on('update-playlist', async (event, arg) => {
-	pm.updatePlaylist(arg);
+ipcMain.on('load-config', async (event, arg) => {
+	const data = cm.loadConfig();
+	console.log(data);
+	event.reply('load-config', data);
+});
+
+ipcMain.on('save-config', async (event, arg) => {
+	const config = arg;
+	console.log('saving');
+	console.log(arg);
+	cm.setLibrary(config);
 });
 
 // Send client updated league data

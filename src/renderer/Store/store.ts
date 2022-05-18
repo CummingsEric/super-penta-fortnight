@@ -3,6 +3,7 @@ import accessCodeReducer from './spotifyAccessCode';
 import spotifyAccessCodeReducer from './spotifyAccessToken';
 import spotifyRefreshTokenReducer from './spotifyRefreshToken';
 import leagueDataReducer from './leagueData';
+import playlistDataReducer from './playlistData';
 
 export default configureStore({
 	reducer: {
@@ -10,5 +11,6 @@ export default configureStore({
 		spotifyAccessToken: spotifyAccessCodeReducer,
 		spotifyRefreshToken: spotifyRefreshTokenReducer,
 		leagueData: leagueDataReducer,
+		libraryData: playlistDataReducer,
 	},
 });

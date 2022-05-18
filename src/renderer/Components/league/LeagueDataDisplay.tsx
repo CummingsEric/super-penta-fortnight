@@ -1,7 +1,9 @@
 import { useSelector } from 'react-redux';
-import LeagueEventDictionary from 'renderer/Interfaces/LeagueEvents';
+
+import CurrentEvents from 'renderer/Interfaces/CurrentEvents';
 import LeagueResData from 'renderer/Interfaces/LeagueResData';
 import MainState from 'renderer/Interfaces/MainState';
+
 import processData from './LeagueHelpers';
 
 const LeagueDataDisplay = () => {
@@ -9,6 +11,7 @@ const LeagueDataDisplay = () => {
 		(state: MainState) => state.leagueData.value
 	);
 
+	// TODO: Fix continual rerenders
 	console.log(processData(leagueData, 1444));
 
 	const leagueEventDict = processData(leagueData, 1444);
@@ -19,8 +22,7 @@ const LeagueDataDisplay = () => {
 
 	const eventDebugger = Object.keys(leagueEventDict).map((key: string) => (
 		<li key={key}>
-			{key} :{' '}
-			{String(leagueEventDict[key as keyof LeagueEventDictionary])}
+			{key} : {String(leagueEventDict[key as keyof CurrentEvents])}
 		</li>
 	));
 

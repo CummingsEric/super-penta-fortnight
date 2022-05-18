@@ -1,5 +1,4 @@
-import path from 'path';
-import { app, BrowserWindow } from 'electron';
+import { BrowserWindow } from 'electron';
 import SpotifyAccessCode from 'renderer/Interfaces/SpotifyAccessCode';
 
 const getTokens = (event: any, arg: any) => {

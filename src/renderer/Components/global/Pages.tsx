@@ -1,6 +1,7 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setLeagueData } from 'renderer/Store/leagueData';
+import LibraryManager from '../playlists/LibraryManager';
 import LeagueDataDisplay from '../league/LeagueDataDisplay';
 import Header from './Header';
 import SpotifyAuth from '../spotify/SpotifyAuth';
@@ -8,7 +9,6 @@ import SpotifyAuth from '../spotify/SpotifyAuth';
 const Home = () => {
 	return (
 		<div>
-			<Header />
 			<h1>League Main Page</h1>
 		</div>
 	);
@@ -17,7 +17,6 @@ const Home = () => {
 const League = () => {
 	return (
 		<div>
-			<Header />
 			<h1>League TEST Debugger</h1>
 			<LeagueDataDisplay />
 		</div>
@@ -27,7 +26,6 @@ const League = () => {
 const Spotify = () => {
 	return (
 		<div>
-			<Header />
 			<h1>Spotify TEST Debugger</h1>
 			<SpotifyAuth />
 		</div>
@@ -48,11 +46,13 @@ const Pages = () => {
 
 	return (
 		<Router>
+			<Header />
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/home" element={<Home />} />
 				<Route path="/league" element={<League />} />
 				<Route path="/spotify" element={<Spotify />} />
+				<Route path="/library" element={<LibraryManager />} />
 			</Routes>
 		</Router>
 	);

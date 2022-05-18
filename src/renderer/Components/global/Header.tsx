@@ -26,6 +26,7 @@ const Header = () => {
 						<Link to="/home">Home</Link>
 						<Link to="/league">League</Link>
 						<Link to="/spotify">Spotify</Link>
+						<Link to="/library">Library</Link>
 					</div>
 				</div>
 			</div>
