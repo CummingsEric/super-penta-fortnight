@@ -1,13 +1,3 @@
-import LeaguePlayerStats from './LeagueStats';
-
-export interface LeagueEvent {
-	EventID: number;
-	EventName: string;
-	EventTime: number;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	[x: string]: any;
-}
-
 export default interface LeagueResData {
 	activePlayer: {
 		abilities: Record<string, unknown>[];
@@ -29,4 +19,51 @@ export default interface LeagueResData {
 		mapNumber: number;
 		mapTerrain: string;
 	};
+}
+
+export interface LeaguePlayerStats {
+	championName: string;
+	isBot: boolean;
+	isDead: boolean;
+	items: [
+		{
+			canUse: boolean;
+			consumable: boolean;
+			count: number;
+			displayName: string;
+			itemId: number;
+			price: number;
+			rawDescription: string;
+			rawDisplayName: string;
+			slot: number;
+		}
+	];
+	level: number;
+	position: string;
+	rawChampionName: string;
+	rawSkinName: string;
+	respawnTimer: number;
+	runes: Record<string, unknown>;
+	scores: LeagueScores;
+	skinID: number;
+	skinName: string;
+	summonerName: string;
+	summonerSpells: Record<string, unknown>;
+	team: string;
+}
+
+export interface LeagueScores {
+	assists: number;
+	creepScore: number;
+	deaths: number;
+	kills: number;
+	wardScore: number;
+}
+
+export interface LeagueEvent {
+	EventID: number;
+	EventName: string;
+	EventTime: number;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	[x: string]: any;
 }
