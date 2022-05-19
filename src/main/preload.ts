@@ -1,9 +1,14 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
-const https = require('https');
-const axios = require('axios');
+import https from 'https';
+import axios from 'axios';
 
-export type Channels = 'ipc-example' | 'get-league-data' | 'get-spotify-token';
+export type Channels =
+	| 'ipc-example'
+	| 'get-league-data'
+	| 'get-spotify-token'
+	| 'load-config'
+	| 'save-config';
 
 contextBridge.exposeInMainWorld('electron', {
 	ipcRenderer: {

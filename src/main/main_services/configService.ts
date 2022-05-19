@@ -24,7 +24,9 @@ export default class ConfigService {
 	};
 
 	getLibrary = () => {
-		return this.store.get('library');
+		const library = this.store.get('library');
+		if (library === null || library === undefined) return [];
+		return library;
 	};
 
 	setEventMapping = (mapping: EventInterface<Playlist>) => {
@@ -32,7 +34,10 @@ export default class ConfigService {
 	};
 
 	getEventMapping = () => {
-		return this.store.get('eventPlaylistMapping');
+		const mapping = this.store.get('eventPlaylistMapping');
+		if (mapping === null || mapping === undefined)
+			return this.defaultMapping();
+		return mapping;
 	};
 
 	setPriority = (priorities: EventInterface<number>) => {
@@ -40,10 +45,61 @@ export default class ConfigService {
 	};
 
 	getPriority = () => {
-		return this.store.get('eventPlaylistMapping');
+		const priority = this.store.get('priorities');
+		if (priority === null || priority === undefined)
+			return this.defaultPriority();
+		return priority;
 	};
 
 	deleteProperty = (key: string) => {
 		this.store.delete(key);
+	};
+
+	defaultMapping = (): EventInterface<string> => {
+		return {
+			wereInTheEndGameNow: '0',
+			objStolenByFriendly: '0',
+			objStolenByEnemy: '0',
+			elderKilledByFriendly: '0',
+			elderKilledByEnemy: '0',
+			barronKilledByFriendly: '0',
+			barronKilledByEnemy: '0',
+			elderSpawningSoon: '0',
+			frinedlyAce: '0',
+			enemyAce: '0',
+			summonerKillstreak: '0',
+			summonerDeathstreak: '0',
+			summonerMultikill: '0',
+			enemyKillstreak: '0',
+			alone: '0',
+			heraldKilledByFriendly: '0',
+			heraldKilledByEnemy: '0',
+			summonerDoingGood: '0',
+			summonerDoingBad: '0',
+		};
+	};
+
+	defaultPriority = (): EventInterface<number> => {
+		return {
+			wereInTheEndGameNow: 0,
+			objStolenByFriendly: 0,
+			objStolenByEnemy: 0,
+			elderKilledByFriendly: 0,
+			elderKilledByEnemy: 0,
+			barronKilledByFriendly: 0,
+			barronKilledByEnemy: 0,
+			elderSpawningSoon: 0,
+			frinedlyAce: 0,
+			enemyAce: 0,
+			summonerKillstreak: 0,
+			summonerDeathstreak: 0,
+			summonerMultikill: 0,
+			enemyKillstreak: 0,
+			alone: 0,
+			heraldKilledByFriendly: 0,
+			heraldKilledByEnemy: 0,
+			summonerDoingGood: 0,
+			summonerDoingBad: 0,
+		};
 	};
 }

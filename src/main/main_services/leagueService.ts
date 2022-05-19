@@ -1,6 +1,6 @@
-const https = require('https');
-const axios = require('axios');
-const staticData = require('./static.json');
+import https from 'https';
+import axios from 'axios';
+import staticData from './static.json';
 
 export default class LeagueService {
 	url: string = 'https://127.0.0.1:2999/liveclientdata/allgamedata';

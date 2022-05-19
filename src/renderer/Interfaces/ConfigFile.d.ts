@@ -3,6 +3,6 @@ import Playlist from './Playlist';
 
 export default interface ConfigFile {
 	library: Playlist[];
-	eventPlaylistMappings: EventInterface<Playlist>;
+	eventPlaylistMappings: EventInterface<string>;
 	priorities: EventInterface<number>;
 }
