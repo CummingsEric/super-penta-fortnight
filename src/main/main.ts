@@ -33,7 +33,6 @@ const cm = new ConfigService();
 // ICP Handlers
 ipcMain.on('ipc-example', async (event, arg) => {
 	const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-	console.log(msgTemplate(arg));
 	event.reply('ipc-example', msgTemplate('request sent from main process'));
 });
 
@@ -44,15 +43,20 @@ ipcMain.on('get-spotify-token', async (event, arg) => {
 
 ipcMain.on('load-config', async (event, arg) => {
 	const data = cm.loadConfig();
-	console.log(data);
 	event.reply('load-config', data);
 });
 
 ipcMain.on('save-config', async (event, arg) => {
 	const config = arg;
-	console.log('saving');
-	console.log(arg);
 	cm.setLibrary(config);
+});
+
+ipcMain.on('reset-config', async (event, arg) => {
+	cm.resetConfig();
+});
+
+ipcMain.on('save-events', async (event, arg) => {
+	cm.setEventMapping(arg[0]);
 });
 
 // Send client updated league data

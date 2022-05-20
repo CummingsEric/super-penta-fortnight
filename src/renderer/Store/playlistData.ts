@@ -14,6 +14,20 @@ const initialState: PData = {
 	value: [],
 };
 
+// TODO: change this
+const randId = (): string => {
+	let result = '';
+	const characters =
+		'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	const charactersLength = characters.length;
+	for (let i = 0; i < 10; i += 1) {
+		result += characters.charAt(
+			Math.floor(Math.random() * charactersLength)
+		);
+	}
+	return result;
+};
+
 const findPlaylistInd = (playlistId: string, playlists: Playlist[]): number => {
 	if (playlists === null || playlists === undefined) return -1;
 	const ind = playlists.findIndex((e) => e.id === playlistId);
@@ -21,20 +35,20 @@ const findPlaylistInd = (playlistId: string, playlists: Playlist[]): number => {
 	return ind;
 };
 
-export const libraryData = createSlice({
-	name: 'playlistData',
+export const library = createSlice({
+	name: 'library',
 	initialState,
 	reducers: {
 		setLibrary: (state, action) => {
 			state.value = action.payload;
 		},
+		// TODO: validate new playlist IDs and names
 		newPlaylist: (state, action) => {
 			if (state === undefined || state.value === undefined) return;
 			const playListName: string = action.payload.name;
-			const playlists: Playlist[] = state.value;
 			const playlist: Playlist = {
 				name: playListName,
-				id: (playlists.length + 1).toString(),
+				id: randId(),
 				songs: { '6naxalmIoLFWR0siv8dnQQ': tempSong },
 			};
 			state.value.push(playlist);
@@ -60,10 +74,18 @@ export const libraryData = createSlice({
 				delete state.value[ind].songs[songId];
 			}
 		},
+		removePlaylist: (state, action) => {
+			if (state === undefined || state.value === undefined) return;
+			const { playlistId } = action.payload;
+			const playlists: Playlist[] = state.value;
+			const ind = findPlaylistInd(playlistId, playlists);
+			if (ind === -1) return;
+			state.value.splice(ind, 1);
+		},
 	},
 });
 
-export const { setLibrary, newPlaylist, addSong, removeSong } =
-	libraryData.actions;
+export const { setLibrary, newPlaylist, addSong, removeSong, removePlaylist } =
+	library.actions;
 
-export default libraryData.reducer;
+export default library.reducer;

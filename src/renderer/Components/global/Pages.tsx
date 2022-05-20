@@ -5,6 +5,7 @@ import LibraryManager from '../playlists/LibraryManager';
 import LeagueDataDisplay from '../league/LeagueDataDisplay';
 import Header from './Header';
 import SpotifyAuth from '../spotify/SpotifyAuth';
+import EventManager from '../events/EventManager';
 
 const Home = () => {
 	return (
@@ -53,6 +54,7 @@ const Pages = () => {
 				<Route path="/league" element={<League />} />
 				<Route path="/spotify" element={<Spotify />} />
 				<Route path="/library" element={<LibraryManager />} />
+				<Route path="/events" element={<EventManager />} />
 			</Routes>
 		</Router>
 	);

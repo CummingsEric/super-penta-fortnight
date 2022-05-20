@@ -8,7 +8,9 @@ export type Channels =
 	| 'get-league-data'
 	| 'get-spotify-token'
 	| 'load-config'
-	| 'save-config';
+	| 'save-config'
+	| 'save-events'
+	| 'reset-config';
 
 contextBridge.exposeInMainWorld('electron', {
 	ipcRenderer: {
@@ -41,8 +43,7 @@ contextBridge.exposeInMainWorld('leagueAPI', {
 		instance
 			.get('https://127.0.0.1:2999/liveclientdata/allgamedata')
 			.then((data) => {
-				console.log(data);
-				if (data != null) {
+				if (data !== null) {
 					return data;
 				}
 				return null;

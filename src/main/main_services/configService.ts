@@ -29,13 +29,17 @@ export default class ConfigService {
 		return library;
 	};
 
-	setEventMapping = (mapping: EventInterface<Playlist>) => {
+	setEventMapping = (mapping: EventInterface<string>) => {
 		this.store.set('eventPlaylistMapping', mapping);
 	};
 
 	getEventMapping = () => {
 		const mapping = this.store.get('eventPlaylistMapping');
-		if (mapping === null || mapping === undefined)
+		if (
+			mapping === null ||
+			mapping === undefined ||
+			mapping instanceof Array
+		)
 			return this.defaultMapping();
 		return mapping;
 	};
@@ -49,6 +53,12 @@ export default class ConfigService {
 		if (priority === null || priority === undefined)
 			return this.defaultPriority();
 		return priority;
+	};
+
+	resetConfig = () => {
+		this.deleteProperty('library');
+		this.deleteProperty('eventPlaylistMapping');
+		this.deleteProperty('priorities');
 	};
 
 	deleteProperty = (key: string) => {
