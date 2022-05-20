@@ -57,6 +57,7 @@ ipcMain.on('reset-config', async (event, arg) => {
 
 ipcMain.on('save-events', async (event, arg) => {
 	cm.setEventMapping(arg[0]);
+	cm.setPriority(arg[1]);
 });
 
 // Send client updated league data

@@ -5,6 +5,7 @@ import spotifyRefreshTokenReducer from './spotifyRefreshToken';
 import leagueDataReducer from './leagueData';
 import playlistDataReducer from './playlistData';
 import eventMappingReducer from './eventMapping';
+import eventPriorityReducer from './eventPriority';
 
 export default configureStore({
 	reducer: {
@@ -14,5 +15,6 @@ export default configureStore({
 		leagueData: leagueDataReducer,
 		library: playlistDataReducer,
 		eventPlaylistMappings: eventMappingReducer,
+		priorities: eventPriorityReducer,
 	},
 });
