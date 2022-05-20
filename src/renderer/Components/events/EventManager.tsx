@@ -25,8 +25,8 @@ const EventManager = () => {
 				.filter(([key]) => key.endsWith('num'))
 				.map(([key, entry]) => [
 					key.replace('num', ''),
-					// eslint-disable-next-line radix
 					// TODO: fix this
+					// eslint-disable-next-line radix
 					Number.isNaN(parseInt(entry)) ? 0 : parseInt(entry),
 				])
 		);

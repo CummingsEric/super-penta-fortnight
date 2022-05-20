@@ -1,15 +1,7 @@
 import { useState } from 'react';
 import ConfigFile from 'renderer/Interfaces/ConfigFile';
-
-// TODO: prop validation
-const PrettyPrintJson = (props: any) => {
-	const { data } = props;
-	return (
-		<div>
-			<pre>{JSON.stringify(data, null, 2)}</pre>
-		</div>
-	);
-};
+import './Console.css';
+import JSONPrinter from '../global/JSONPrinter';
 
 const ConfigDebugger = () => {
 	const [config, setConfig] = useState<ConfigFile>();
@@ -24,8 +16,7 @@ const ConfigDebugger = () => {
 		window.electron.ipcRenderer.sendMessage('load-config', ['request']);
 		return (
 			<div>
-				<h1>Config Debugger</h1>
-				<span>Nothing to show yet...</span>
+				<h1 className="text-center">Config Debugger</h1>
 			</div>
 		);
 	}
@@ -45,22 +36,11 @@ const ConfigDebugger = () => {
 		loadConfig();
 	};
 
-	// TODO: make this look more like a console
 	return (
 		<div>
-			<h1>Config Debugger</h1>
+			<h1 className="text-center">Config Debugger</h1>
 			<div className="container pt-4">
-				<div
-					className="container overflow-auto rounded"
-					// TODO: make this a class
-					style={{
-						height: '70vh',
-						backgroundColor: '#f6f8fa',
-						color: 'black',
-					}}
-				>
-					<PrettyPrintJson data={config} />
-				</div>
+				<JSONPrinter data={config} />
 				<div className="py-2">
 					<button
 						type="button"

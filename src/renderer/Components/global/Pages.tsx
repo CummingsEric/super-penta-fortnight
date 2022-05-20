@@ -12,7 +12,6 @@ import ConfigDebugger from '../config/ConfigDebugger';
 const League = () => {
 	return (
 		<div className="page-container">
-			<h1>League TEST Debugger</h1>
 			<LeagueDataDisplay />
 		</div>
 	);
