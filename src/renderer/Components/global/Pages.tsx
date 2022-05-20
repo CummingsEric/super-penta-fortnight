@@ -5,6 +5,7 @@ import LibraryManager from '../playlists/LibraryManager';
 import LeagueDataDisplay from '../league/LeagueDataDisplay';
 import Header from './Header';
 import SpotifyAuth from '../spotify/SpotifyAuth';
+import spotifyGlobalListener from '../spotify/SpotifyGlobalListener';
 
 const Home = () => {
 	return (
