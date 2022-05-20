@@ -1,6 +1,7 @@
 import ConfigFile from 'renderer/Interfaces/ConfigFile';
 import EventInterface from 'renderer/Interfaces/EventInterface';
 import Playlist from 'renderer/Interfaces/Playlist';
+import SpotifyAuth from 'renderer/Interfaces/SpotifyAuth';
 
 const Store = require('electron-store');
 
@@ -61,8 +62,29 @@ export default class ConfigService {
 		this.deleteProperty('priorities');
 	};
 
+	setSpotifyAuth = (spotifyAuth: SpotifyAuth) => {
+		console.log('writing:', spotifyAuth);
+		this.store.set('spotifyAuth', spotifyAuth);
+	};
+
+	getSpotifyAuth = (): SpotifyAuth => {
+		const spotifyAuth = this.store.get('spotifyAuth');
+		if (spotifyAuth === null || spotifyAuth === undefined)
+			return this.defaultAuth();
+		console.log(spotifyAuth);
+		return spotifyAuth;
+	};
+
 	deleteProperty = (key: string) => {
 		this.store.delete(key);
+	};
+
+	defaultAuth = (): SpotifyAuth => {
+		return {
+			spotifyAccessCode: undefined,
+			spotifyAccessToken: undefined,
+			spotifyRefreshToken: undefined,
+		};
 	};
 
 	defaultMapping = (): EventInterface<string> => {
