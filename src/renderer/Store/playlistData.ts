@@ -55,10 +55,10 @@ export const library = createSlice({
 		},
 		addSong: (state, action) => {
 			if (state === undefined || state.value === undefined) return;
-			const playlistId: string = action.payload.id;
+			const playlistId: string = action.payload.playlistId;
 			const playlists: Playlist[] = state.value;
-			const songId: string = action.payload.id;
 			const { song } = action.payload;
+			const songId: string = song.id;
 			const ind = findPlaylistInd(playlistId, playlists);
 			if (ind === -1) return;
 			state.value[ind].songs[songId] = song;

@@ -105,7 +105,7 @@ const EventManager = () => {
 
 	return (
 		<div>
-			<h1>Events</h1>
+			<h1 className="text-center pb-2">Events</h1>
 			<div className="container">
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<div className="overflow-auto" style={{ height: '70vh' }}>

@@ -28,9 +28,13 @@ const LibraryManager = () => {
 	const [playlistId, setPlaylist] = useState<string>('');
 	const playlists = libraryData.map((e) => {
 		return (
-			<div key={e.id}>
-				<span>{e.name}</span>
-				<button type="button" onClick={() => setPlaylist(e.id)}>
+			<div key={e.id} className="pb-2">
+				<strong>{e.name}</strong>
+				<button
+					type="button"
+					onClick={() => setPlaylist(e.id)}
+					className="btn btn-secondary mx-4"
+				>
 					Edit
 				</button>
 			</div>
@@ -42,61 +46,45 @@ const LibraryManager = () => {
 		reset();
 	};
 
-	const load = () => {
-		window.electron.ipcRenderer.once('load-config', (arg: any) => {
-			if (arg !== null) {
-				dispatch(setLibrary(arg.library));
-			}
-		});
-		window.electron.ipcRenderer.sendMessage('load-config', ['request']);
-	};
-
 	const save = () => {
 		window.electron.ipcRenderer.sendMessage('save-config', libraryData);
 	};
 
-	const resetConfig = () => {
-		window.electron.ipcRenderer.sendMessage('reset-config', ['request']);
-	};
-
 	return (
-		<div className="page-container">
-			<h1>Library</h1>
-			<div>
-				<h3>Config</h3>
-				<button type="button" onClick={() => load()}>
-					Load from config
-				</button>
-				<button type="button" onClick={() => save()}>
-					Save
-				</button>
-				<button type="button" onClick={() => resetConfig()}>
-					Reset
-				</button>
-			</div>
-			<div>
-				<h3>Create a new playlist</h3>
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<div>
-						<input
-							// eslint-disable-next-line react/jsx-props-no-spreading
-							{...register('exampleRequired', { required: true })}
-						/>
-						{errors.exampleRequired && (
-							<span>This field is required</span>
-						)}
-					</div>
-					<div>
-						<input type="submit" value="Create new Playlist" />
-					</div>
-				</form>
-			</div>
+		<div>
+			<h1 className="text-center pb-2">Library</h1>
+			<div className="container">
+				<div className="pb-2">
+					<h3>Create a new playlist</h3>
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<div className="input-group mb-3">
+							<input
+								className="form-control"
+								placeholder="New playlist name"
+								aria-label="Song"
+								// eslint-disable-next-line react/jsx-props-no-spreading
+								{...register('exampleRequired', {
+									required: true,
+								})}
+							/>
+							{errors.exampleRequired && (
+								<span>This field is required</span>
+							)}
+							<input
+								className="btn btn-primary"
+								type="submit"
+								value="Create"
+							/>
+						</div>
+					</form>
+				</div>
 
-			<div>
-				<h3>All Playlists</h3>
-				{libraryData.length === 0 ? 'No Playlists' : playlists}
+				<div className="pb-2">
+					<h3>All Playlists</h3>
+					{libraryData.length === 0 ? 'No Playlists' : playlists}
+				</div>
+				<PlaylistManager playlistId={playlistId} />
 			</div>
-			<PlaylistManager playlistId={playlistId} />
 		</div>
 	);
 };
