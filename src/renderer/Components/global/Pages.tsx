@@ -8,6 +8,7 @@ import Home from './Home';
 import SpotifyAuth from '../spotify/SpotifyAuth';
 import EventManager from '../events/EventManager';
 import ConfigDebugger from '../config/ConfigDebugger';
+import Search from '../spotify/Search';
 
 const League = () => {
 	return (
@@ -46,6 +47,7 @@ const Pages = () => {
 				<Route path="/home" element={<Home />} />
 				<Route path="/league" element={<League />} />
 				<Route path="/spotify" element={<Spotify />} />
+				<Route path="/search" element={<Search />} />
 				<Route path="/library" element={<LibraryManager />} />
 				<Route path="/events" element={<EventManager />} />
 				<Route path="/config" element={<ConfigDebugger />} />
