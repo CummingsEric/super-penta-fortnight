@@ -35,6 +35,9 @@ const Header = () => {
 						<Link className="navbar-text" to="/events">
 							Events
 						</Link>
+						<Link className="navbar-text" to="/config">
+							Config
+						</Link>
 					</div>
 				</div>
 			</div>

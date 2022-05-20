@@ -56,7 +56,7 @@ const LibraryManager = () => {
 	};
 
 	const resetConfig = () => {
-		window.electron.ipcRenderer.sendMessage('reset-config', libraryData);
+		window.electron.ipcRenderer.sendMessage('reset-config', ['request']);
 	};
 
 	return (
