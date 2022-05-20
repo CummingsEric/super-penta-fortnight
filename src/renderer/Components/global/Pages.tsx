@@ -4,9 +4,9 @@ import { setLeagueData } from 'renderer/Store/leagueData';
 import LibraryManager from '../playlists/LibraryManager';
 import LeagueDataDisplay from '../league/LeagueDataDisplay';
 import Header from './Header';
+import Home from './Home';
 import SpotifyAuth from '../spotify/SpotifyAuth';
 import EventManager from '../events/EventManager';
-import Home from './Home';
 import ConfigDebugger from '../config/ConfigDebugger';
 
 const League = () => {

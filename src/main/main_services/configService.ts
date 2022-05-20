@@ -17,6 +17,7 @@ export default class ConfigService {
 			library: this.getLibrary(),
 			eventPlaylistMappings: this.getEventMapping(),
 			priorities: this.getPriority(),
+			spotifyAuth: this.getSpotifyAuth(),
 		};
 	};
 
@@ -63,7 +64,6 @@ export default class ConfigService {
 	};
 
 	setSpotifyAuth = (spotifyAuth: SpotifyAuth) => {
-		console.log('writing:', spotifyAuth);
 		this.store.set('spotifyAuth', spotifyAuth);
 	};
 
@@ -71,7 +71,6 @@ export default class ConfigService {
 		const spotifyAuth = this.store.get('spotifyAuth');
 		if (spotifyAuth === null || spotifyAuth === undefined)
 			return this.defaultAuth();
-		console.log(spotifyAuth);
 		return spotifyAuth;
 	};
 
