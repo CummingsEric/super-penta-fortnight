@@ -3,7 +3,7 @@ import EventInterface from 'renderer/Interfaces/EventInterface';
 import Playlist from 'renderer/Interfaces/Playlist';
 import SpotifyAuth from 'renderer/Interfaces/SpotifyAuth';
 
-const Store = require('electron-store');
+import Store from 'electron-store';
 
 export default class ConfigService {
 	store;
@@ -14,10 +14,10 @@ export default class ConfigService {
 
 	loadConfig = (): ConfigFile => {
 		return {
-			library: this.getLibrary(),
 			eventPlaylistMappings: this.getEventMapping(),
 			priorities: this.getPriority(),
 			spotifyAuth: this.getSpotifyAuth(),
+			library: this.getLibrary(),
 		};
 	};
 
