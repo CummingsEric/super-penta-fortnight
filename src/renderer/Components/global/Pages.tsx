@@ -6,18 +6,11 @@ import LeagueDataDisplay from '../league/LeagueDataDisplay';
 import Header from './Header';
 import SpotifyAuth from '../spotify/SpotifyAuth';
 import EventManager from '../events/EventManager';
-
-const Home = () => {
-	return (
-		<div>
-			<h1>League Main Page</h1>
-		</div>
-	);
-};
+import Home from './Home';
 
 const League = () => {
 	return (
-		<div>
+		<div className="page-container">
 			<h1>League TEST Debugger</h1>
 			<LeagueDataDisplay />
 		</div>
@@ -26,7 +19,7 @@ const League = () => {
 
 const Spotify = () => {
 	return (
-		<div>
+		<div className="page-container">
 			<h1>Spotify TEST Debugger</h1>
 			<SpotifyAuth />
 		</div>

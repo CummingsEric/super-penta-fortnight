@@ -2,8 +2,8 @@
  * @NOTE: Prepend a `~` to css file paths that are in your node_modules
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
-body{
-	background-color: rgb(66, 66, 66);
+body {
+	background-color: #171717;
 	color: white;
 }
 
@@ -13,7 +13,7 @@ button {
   border-radius: 10px;
   border: none;
   appearance: none;
-  font-size: 1.3rem;
+  font-size: 1rem;
   box-shadow: 0px 8px 28px -6px rgba(24, 39, 75, 0.12),
     0px 18px 88px -4px rgba(24, 39, 75, 0.14);
   transition: all ease-in 0.1s;
@@ -42,11 +42,78 @@ a:hover {
   text-decoration: none;
 }
 
-Link {
-	cursor: pointer;
-	padding: 10px 20px;
-  	border-radius: 10px;
-  	border: none;
-  	appearance: none;
-  	font-size: 1.3rem;
+.video-background {
+	z-index: 0;
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	min-width: 100%;
+	min-height: 100%;
+	opacity: 50%;
+  }
+
+.page-container {
+	padding: 5vh;
+	overflow: hidden;
+}
+
+.navbar {
+	z-index: 1;
+	background: none;
+}
+
+.navbar-text {
+	color: white;
+	margin-top: 1vh;
+	padding: 1vw;
+	font-size: 1.2rem;
+	font-family: 'Montserrat', sans-serif;
+}
+
+.navbar-text:hover {
+	color: #C862FF;
+}
+
+.home-page-main-text-container {
+	padding-top: 20vh;
+	width: 60vh;
+}
+
+.home-page-event-container {
+	padding-top: 35vh;
+	width: 60vh;
+}
+
+.home-header {
+	position: relative;
+	text-align: right;
+	font-size: 3.5rem;
+	font-family: 'Montserrat', sans-serif;
+	font-weight: bolder;
+}
+
+.home-subtext {
+	position: relative;
+	text-align: right;
+	font-size: 2.2rem;
+	font-family: 'Montserrat', sans-serif;
+}
+
+.home-event-line {
+	border-style: solid;
+	border-bottom: none;
+	border-width: 2px;
+	position: absolute;
+	width: 80vw;
+}
+
+.spotify-logo {
+	height: 30px;
+	opacity: 50%;
+	position: fixed;
+	padding-left: 92vw;
+}
+
+.width-100 {
+	width: 100%
 }
