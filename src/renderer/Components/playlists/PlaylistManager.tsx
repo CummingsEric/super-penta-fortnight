@@ -4,7 +4,7 @@ import MainState from 'renderer/Interfaces/MainState';
 import CurrentEvents from 'renderer/Interfaces/CurrentEvents';
 import Playlist from 'renderer/Interfaces/Playlist';
 
-import { removeSong } from 'renderer/Store/playlistData';
+import { removeSong, removePlaylist } from 'renderer/Store/playlistData';
 
 interface PlaylistManagerProps {
 	playlistId: string;
@@ -13,7 +13,7 @@ interface PlaylistManagerProps {
 const PlaylistManager = (props: PlaylistManagerProps) => {
 	const dispatch = useDispatch();
 	const libraryData: Playlist[] = useSelector(
-		(state: MainState) => state.libraryData.value
+		(state: MainState) => state.library.value
 	);
 
 	const { playlistId } = props;
@@ -24,6 +24,10 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 
 	const remove = (songId: string) => {
 		dispatch(removeSong({ playlistId: playlist.id, songId }));
+	};
+
+	const deleteP = () => {
+		dispatch(removePlaylist({ playlistId: playlist.id }));
 	};
 
 	const songJsx = Object.keys(songs).map((key: string) => (
@@ -41,6 +45,13 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 		<div>
 			<h3>Playlist {name}</h3>
 			{numSongs === 0 ? 'No songs yet!' : songJsx}
+			<button
+				type="button"
+				className="btn btn-danger"
+				onClick={() => deleteP()}
+			>
+				Delete Playlist
+			</button>
 		</div>
 	);
 };

@@ -16,7 +16,7 @@ import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import LeagueService from './main_services/leagueService';
 import ConfigService from './main_services/configService';
-import getTokens from './main_services/spotifyHandler';
+import { authenticateUserFuncStart } from './main_services/spotifyHandler';
 
 export default class AppUpdater {
 	constructor() {
@@ -33,26 +33,49 @@ const cm = new ConfigService();
 // ICP Handlers
 ipcMain.on('ipc-example', async (event, arg) => {
 	const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-	console.log(msgTemplate(arg));
 	event.reply('ipc-example', msgTemplate('request sent from main process'));
 });
 
 // Authenticate the user with spotify
-ipcMain.on('get-spotify-token', async (event, arg) => {
-	getTokens(event, arg);
-});
+// ipcMain.on('get-spotify-token', async (event, arg) => {
+// 	getAuthCode();
+// });
+
+// ipcMain.on('load-spotify-state', async (event, arg) => {
+// 	const data = cm.loadConfig();
+// 	event.reply('load-config', data);
+// });
+
+// ipcMain.on('save-spotify-state', async (event, arg) => {
+// 	const config = arg;
+// 	cm.setSpotifyAuth(config);
+// });
+const startSpotifyAuth = (_mainWindow: BrowserWindow) => {
+	if (_mainWindow) {
+		const initialAuth = cm.getSpotifyAuth();
+		console.log('\n\ninitial auth state:', initialAuth, '\n\n');
+		const newAuth = authenticateUserFuncStart(initialAuth, _mainWindow, cm);
+	}
+	setTimeout(startSpotifyAuth, 3540000, _mainWindow);
+};
 
 ipcMain.on('load-config', async (event, arg) => {
 	const data = cm.loadConfig();
-	console.log(data);
 	event.reply('load-config', data);
 });
 
 ipcMain.on('save-config', async (event, arg) => {
 	const config = arg;
-	console.log('saving');
-	console.log(arg);
 	cm.setLibrary(config);
+});
+
+ipcMain.on('reset-config', async (event, arg) => {
+	cm.resetConfig();
+});
+
+ipcMain.on('save-events', async (event, arg) => {
+	cm.setEventMapping(arg[0]);
+	cm.setPriority(arg[1]);
 });
 
 // Send client updated league data
@@ -123,6 +146,7 @@ const createWindow = async () => {
 			mainWindow.maximize();
 			mainWindow.show();
 		}
+		startSpotifyAuth(mainWindow);
 	});
 
 	mainWindow.on('closed', () => {

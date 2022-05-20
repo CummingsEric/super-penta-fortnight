@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
 
-import CurrentEvents from 'renderer/Interfaces/CurrentEvents';
 import LeagueResData from 'renderer/Interfaces/LeagueResData';
 import MainState from 'renderer/Interfaces/MainState';
 
+import JSONPrinter from '../global/JSONPrinter';
 import processData from './LeagueHelpers';
 
 const LeagueDataDisplay = () => {
@@ -17,24 +17,23 @@ const LeagueDataDisplay = () => {
 	const leagueEventDict = processData(leagueData, 1444);
 
 	if (leagueData === undefined || leagueEventDict === null) {
-		return <div>No data!!</div>;
+		return (
+			<div>
+				<h1 className="text-center">League Data Debugger</h1>
+				<span>No data yet</span>
+			</div>
+		);
 	}
-
-	const eventDebugger = Object.keys(leagueEventDict).map((key: string) => (
-		<li key={key}>
-			{key} : {String(leagueEventDict[key as keyof CurrentEvents])}
-		</li>
-	));
 
 	return (
 		<div>
-			<h3>Summoner Name: {leagueData.activePlayer.summonerName}</h3>
-			<h4>Gold: {leagueData.activePlayer.currentGold}</h4>
-			<h4>Level: {leagueData.activePlayer.level}</h4>
-			<ul>
-				<li>Last update: 1444</li>
-				{eventDebugger}
-			</ul>
+			<h1 className="text-center">League Data Debugger</h1>
+			<div className="container pt-4">
+				<div className="pb-4">
+					<JSONPrinter data={leagueEventDict} />
+				</div>
+				<JSONPrinter data={leagueData} />
+			</div>
 		</div>
 	);
 };

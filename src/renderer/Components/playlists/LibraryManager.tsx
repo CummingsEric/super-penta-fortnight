@@ -22,7 +22,7 @@ const LibraryManager = () => {
 		formState: { errors },
 	} = useForm<FormInput>();
 	const libraryData: Playlist[] = useSelector(
-		(state: MainState) => state.libraryData.value
+		(state: MainState) => state.library.value
 	);
 
 	const [playlistId, setPlaylist] = useState<string>('');
@@ -55,6 +55,10 @@ const LibraryManager = () => {
 		window.electron.ipcRenderer.sendMessage('save-config', libraryData);
 	};
 
+	const resetConfig = () => {
+		window.electron.ipcRenderer.sendMessage('reset-config', ['request']);
+	};
+
 	return (
 		<div className="page-container">
 			<h1>Library</h1>
@@ -65,6 +69,9 @@ const LibraryManager = () => {
 				</button>
 				<button type="button" onClick={() => save()}>
 					Save
+				</button>
+				<button type="button" onClick={() => resetConfig()}>
+					Reset
 				</button>
 			</div>
 			<div>
