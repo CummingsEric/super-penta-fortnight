@@ -2,11 +2,8 @@ import { MemoryRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 const Header = () => {
 	return (
-		<nav className="navbar navbar-expand-lg navbar-light bg-light">
+		<nav className="navbar navbar-expand-lg">
 			<div className="container-fluid">
-				<a className="navbar-brand" href="/">
-					Trash
-				</a>
 				<button
 					className="navbar-toggler"
 					type="button"
@@ -22,11 +19,25 @@ const Header = () => {
 					className="collapse navbar-collapse"
 					id="navbarNavAltMarkup"
 				>
-					<div className="navbar-nav">
-						<Link to="/home">Home</Link>
-						<Link to="/league">League</Link>
-						<Link to="/spotify">Spotify</Link>
-						<Link to="/library">Library</Link>
+					<div>
+						<Link className="navbar-text" to="/home">
+							Home
+						</Link>
+						<Link className="navbar-text" to="/league">
+							Debugger
+						</Link>
+						<Link className="navbar-text" to="/spotify">
+							Spotify
+						</Link>
+						<Link className="navbar-text" to="/library">
+							Library
+						</Link>
+						<Link className="navbar-text" to="/events">
+							Events
+						</Link>
+						<Link className="navbar-text" to="/config">
+							Config
+						</Link>
 					</div>
 				</div>
 			</div>

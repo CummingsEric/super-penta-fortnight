@@ -17,6 +17,7 @@ export default class ConfigService {
 			library: this.getLibrary(),
 			eventPlaylistMappings: this.getEventMapping(),
 			priorities: this.getPriority(),
+			spotifyAuth: this.getSpotifyAuth(),
 		};
 	};
 
@@ -30,13 +31,17 @@ export default class ConfigService {
 		return library;
 	};
 
-	setEventMapping = (mapping: EventInterface<Playlist>) => {
+	setEventMapping = (mapping: EventInterface<string>) => {
 		this.store.set('eventPlaylistMapping', mapping);
 	};
 
 	getEventMapping = () => {
 		const mapping = this.store.get('eventPlaylistMapping');
-		if (mapping === null || mapping === undefined)
+		if (
+			mapping === null ||
+			mapping === undefined ||
+			mapping instanceof Array
+		)
 			return this.defaultMapping();
 		return mapping;
 	};
@@ -52,8 +57,13 @@ export default class ConfigService {
 		return priority;
 	};
 
+	resetConfig = () => {
+		this.deleteProperty('library');
+		this.deleteProperty('eventPlaylistMapping');
+		this.deleteProperty('priorities');
+	};
+
 	setSpotifyAuth = (spotifyAuth: SpotifyAuth) => {
-		console.log('writing:', spotifyAuth);
 		this.store.set('spotifyAuth', spotifyAuth);
 	};
 
@@ -61,7 +71,6 @@ export default class ConfigService {
 		const spotifyAuth = this.store.get('spotifyAuth');
 		if (spotifyAuth === null || spotifyAuth === undefined)
 			return this.defaultAuth();
-		console.log(spotifyAuth);
 		return spotifyAuth;
 	};
 

@@ -4,21 +4,14 @@ import { setLeagueData } from 'renderer/Store/leagueData';
 import LibraryManager from '../playlists/LibraryManager';
 import LeagueDataDisplay from '../league/LeagueDataDisplay';
 import Header from './Header';
+import Home from './Home';
 import SpotifyAuth from '../spotify/SpotifyAuth';
-import spotifyGlobalListener from '../spotify/SpotifyGlobalListener';
-
-const Home = () => {
-	return (
-		<div>
-			<h1>League Main Page</h1>
-		</div>
-	);
-};
+import EventManager from '../events/EventManager';
+import ConfigDebugger from '../config/ConfigDebugger';
 
 const League = () => {
 	return (
-		<div>
-			<h1>League TEST Debugger</h1>
+		<div className="page-container">
 			<LeagueDataDisplay />
 		</div>
 	);
@@ -26,7 +19,7 @@ const League = () => {
 
 const Spotify = () => {
 	return (
-		<div>
+		<div className="page-container">
 			<h1>Spotify TEST Debugger</h1>
 			<SpotifyAuth />
 		</div>
@@ -54,6 +47,8 @@ const Pages = () => {
 				<Route path="/league" element={<League />} />
 				<Route path="/spotify" element={<Spotify />} />
 				<Route path="/library" element={<LibraryManager />} />
+				<Route path="/events" element={<EventManager />} />
+				<Route path="/config" element={<ConfigDebugger />} />
 			</Routes>
 		</Router>
 	);
