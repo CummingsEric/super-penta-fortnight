@@ -79,11 +79,11 @@ const EventManager = () => {
 		const priority = Number.isNaN(parsed) ? 0 : parsed;
 		return (
 			<div key={e} className="input-group mb-3">
-				<span className="input-group-text">{e}</span>
+				<span className="input-group-text event-input-1">{e}</span>
 				<select
 					defaultValue={events[e as keyof EventInterface<string>]}
 					{...register(e)}
-					className="form-select"
+					className="form-select event-input-2"
 				>
 					{libraryData.map((a) => {
 						return (
@@ -95,7 +95,7 @@ const EventManager = () => {
 				</select>
 				<input
 					type="number"
-					className="form-control"
+					className="event-input-3 form-control"
 					defaultValue={priority}
 					{...register(`${e}num`, { min: 0, max: 99 })}
 				/>
@@ -104,15 +104,20 @@ const EventManager = () => {
 	});
 
 	return (
-		<div>
+		<div className="page-container">
 			<h1 className="text-center pb-2">Events</h1>
 			<div className="container">
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<div className="overflow-auto" style={{ height: '70vh' }}>
-						{eventDisplay}
-					</div>
-					<input type="submit" />
-				</form>
+				<div className="input-group row">
+					<div className="event-header-1">Event</div>
+					<div className="event-header-2">Playlist</div>
+					<div className="event-header-3">Priority</div>
+				</div>
+				<div className="scrollbar-gradient events-container">
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<div className="force-overflow">{eventDisplay}</div>
+					</form>
+				</div>
+				<input type="submit" />
 			</div>
 		</div>
 	);

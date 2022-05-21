@@ -40,7 +40,7 @@ a:hover {
 
 .page-container {
 	padding: 5vh;
-	overflow: hidden;
+	overflow: hidden !important;
 }
 
 .navbar {
@@ -103,3 +103,75 @@ a:hover {
 .width-100 {
 	width: 100%
 }
+
+.event-input-1 {
+	background-color: rgb(240, 240, 240);
+	font-family: 'Montserrat', sans-serif;
+	color: #3a3a3a;
+	width: 15vw;
+}
+
+.event-input-2 {
+	font-family: 'Montserrat', sans-serif;
+	width: 40vw;
+}
+
+.event-input-3 {
+	font-family: 'Montserrat', sans-serif;
+	width: 10vw !important;
+}
+
+.event-header-1 {
+	font-family: 'Montserrat', sans-serif;
+	width: 15vw;
+}
+
+.event-header-2 {
+	font-family: 'Montserrat', sans-serif;
+	flex: 1 1 auto;
+	width: 40vw;
+}
+
+.event-header-3 {
+	font-family: 'Montserrat', sans-serif;
+	padding-right: 2vh;
+	width: 10vw !important;
+	flex-grow: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+.events-container {
+	overflow-y: scroll;
+	margin-bottom: 5vh;
+	height: 60vh;
+	padding-right: 2vh;
+}
+
+.form-control {
+	flex-grow: 0 !important;
+	flex-shrink: 0 !important;
+}
+
+.scrollbar {
+	margin-left: 30px;
+	float: left;
+	height: 300px;
+	width: 65px;
+	background: #fff;
+	overflow-y: scroll;
+	margin-bottom: 25px;
+}
+
+.scrollbar-gradient::-webkit-scrollbar-track {
+	background: linear-gradient(0deg, #706775 0%, #3a3a3a 50%, #C862FF 100%);
+}
+
+.scrollbar-gradient::-webkit-scrollbar {
+	width: 12px;
+}
+
+.scrollbar-gradient::-webkit-scrollbar-thumb {
+	background: transparent; /* opacity: 0; should do the thing either */
+  	box-shadow: 0px 0px 0px 1000vh #171717;
+}
+
