@@ -105,7 +105,7 @@ a:hover {
 }
 
 .event-input-1 {
-	background-color: rgb(240, 240, 240);
+	background-color: rgb(243, 243, 243);
 	font-family: 'Montserrat', sans-serif;
 	color: #3a3a3a;
 	width: 15vw;
@@ -153,25 +153,34 @@ a:hover {
 }
 
 .scrollbar {
-	margin-left: 30px;
-	float: left;
-	height: 300px;
-	width: 65px;
-	background: #fff;
-	overflow-y: scroll;
-	margin-bottom: 25px;
+    margin-left: 30px;
+    float: left;
+    height: 300px;
+    width: 65px;
+    background: #fff;
+    overflow-y: scroll;
+    margin-bottom: 25px;
 }
 
 .scrollbar-gradient::-webkit-scrollbar-track {
-	background: linear-gradient(0deg, #706775 0%, #3a3a3a 50%, #C862FF 100%);
+    background: #3a3a3a;
+	border-radius: 10px;
+
 }
 
 .scrollbar-gradient::-webkit-scrollbar {
-	width: 12px;
+	background: #3a3a3a;
+    width: 12px;
+	border-radius: 10px;
 }
 
 .scrollbar-gradient::-webkit-scrollbar-thumb {
-	background: transparent; /* opacity: 0; should do the thing either */
-  	box-shadow: 0px 0px 0px 1000vh #171717;
+	background-color: #C862FF;
+	border-radius: 10px;
+	/* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-image: -webkit-gradient(linear, left bottom, left top, from(#C862FF), color-stop(100%, #3a3a3a),
+            to(#C862FF));
+    background-image: -webkit-linear-gradient(bottom, #C862FF 0%, #3a3a3a 99%, #C862FF 100%);
+    background-image: linear-gradient(to top, #C862FF 0%, #3a3a3a 99%, #C862FF 100%);
+	border-radius: 10px; */
 }
-
