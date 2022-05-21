@@ -1,7 +1,7 @@
 import SpotifyTracksData from 'renderer/Interfaces/SpotifyTracksData';
 import Playlist from 'renderer/Interfaces/Playlist';
 import { useDispatch } from 'react-redux';
-import { addSong } from 'renderer/Store/playlistData';
+import { addSong } from 'renderer/Store/library';
 
 interface SongProps {
 	songs: SpotifyTracksData[];

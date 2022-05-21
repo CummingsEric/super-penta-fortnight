@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import MainState from 'renderer/Interfaces/MainState';
 import Playlist from 'renderer/Interfaces/Playlist';
 
-import { removeSong, removePlaylist } from 'renderer/Store/playlistData';
+import { removeSong, removePlaylist } from 'renderer/Store/library';
 
 interface PlaylistManagerProps {
 	playlistId: string;

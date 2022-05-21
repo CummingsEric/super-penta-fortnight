@@ -10,7 +10,8 @@ export type Channels =
 	| 'load-config'
 	| 'save-config'
 	| 'save-events'
-	| 'reset-config';
+	| 'reset-config'
+	| 'save-library';
 
 contextBridge.exposeInMainWorld('electron', {
 	ipcRenderer: {
