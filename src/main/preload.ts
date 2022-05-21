@@ -1,8 +1,5 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
-import https from 'https';
-import axios from 'axios';
-
 export type Channels =
 	| 'ipc-example'
 	| 'get-league-data'
@@ -30,25 +27,5 @@ contextBridge.exposeInMainWorld('electron', {
 		once(channel: Channels, func: (...args: unknown[]) => void) {
 			ipcRenderer.once(channel, (_event, ...args) => func(...args));
 		},
-	},
-});
-
-contextBridge.exposeInMainWorld('leagueAPI', {
-	getLeagueData: async () => {
-		const instance = axios.create({
-			httpsAgent: new https.Agent({
-				rejectUnauthorized: false,
-			}),
-		});
-
-		instance
-			.get('https://127.0.0.1:2999/liveclientdata/allgamedata')
-			.then((data) => {
-				if (data !== null) {
-					return data;
-				}
-				return null;
-			})
-			.catch((error) => console.log(error));
 	},
 });
