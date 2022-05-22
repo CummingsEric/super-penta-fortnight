@@ -12,6 +12,7 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import Playlist from 'renderer/Interfaces/Playlist';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import LeagueService from './main_services/leagueService';
@@ -69,11 +70,17 @@ ipcMain.on('save-config', async (event, arg) => {
 	cm.setLibrary(config);
 });
 
-ipcMain.on('reset-config', async (event, arg) => {
+ipcMain.on('save-library', async (_event, arg) => {
+	const library = arg as Playlist[];
+	console.log(library);
+	cm.setLibrary(library);
+});
+
+ipcMain.on('reset-config', async () => {
 	cm.resetConfig();
 });
 
-ipcMain.on('save-events', async (event, arg) => {
+ipcMain.on('save-events', async (_event, arg) => {
 	cm.setEventMapping(arg[0]);
 	cm.setPriority(arg[1]);
 });

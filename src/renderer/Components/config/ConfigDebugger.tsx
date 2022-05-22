@@ -38,8 +38,8 @@ const ConfigDebugger = () => {
 
 	return (
 		<div>
-			<h1 className="text-center">Config Debugger</h1>
-			<div className="container pt-4">
+			<h1 className="text-center pb-2">Config Debugger</h1>
+			<div className="container">
 				<JSONPrinter data={config} />
 				<div className="py-2">
 					<button

@@ -11,7 +11,7 @@ interface SearchInput {
 	searchString: string;
 }
 
-const SpotifyAuth = () => {
+const Search = () => {
 	// Searched songs
 	const [songs, setSongs] = useState<SpotifyTracksData[]>([]);
 	const spotifyAccessToken = useSelector(
@@ -108,43 +108,32 @@ const SpotifyAuth = () => {
 
 	return (
 		<div>
-			<div>
-				<div className="dropdown">
-					<button
-						className="btn btn-secondary dropdown-toggle"
-						type="button"
-						id="playlistAdd"
-						data-bs-toggle="dropdown"
-						aria-expanded="false"
-					>
-						Add to playlist
-					</button>
-					<ul className="dropdown-menu" aria-labelledby="playlistAdd">
-						{playButtons}
-					</ul>
-				</div>
+			<h1 className="text-center pb-2">Search</h1>
+			<div className="container">
+				<form onSubmit={handleSubmit(onSubmit)}>
+					<div className="input-group mb-3">
+						<input
+							className="form-control"
+							placeholder="Search for a song..."
+							aria-label="Song"
+							aria-describedby="searchbtn"
+							{...register('searchString', {
+								required: true,
+								maxLength: 20,
+							})}
+						/>
+						<input
+							className="btn btn-primary"
+							type="submit"
+							id="searchbtn"
+							value="Submit"
+						/>
+					</div>
+				</form>
+				<SongDisplay songs={songs} library={library} />
 			</div>
-			<div>
-				<h3>Access Token</h3>
-			</div>
-			<div>
-				{spotifyAccessToken === undefined
-					? 'Token not set'
-					: spotifyAccessToken.authToken}
-			</div>
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<input
-					className="form-control"
-					{...register('searchString', {
-						required: true,
-						maxLength: 20,
-					})}
-				/>
-				<input type="submit" className="btn btn-primary" />
-			</form>
-			<SongDisplay songs={songs} library={library} />
 		</div>
 	);
 };
 
-export default SpotifyAuth;
+export default Search;

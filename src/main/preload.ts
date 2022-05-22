@@ -10,7 +10,8 @@ export type Channels =
 	| 'reset-config'
 	| 'minimize'
 	| 'max-unmax'
-	| 'close';
+	| 'close'
+	| 'save-library';
 
 contextBridge.exposeInMainWorld('electron', {
 	ipcRenderer: {

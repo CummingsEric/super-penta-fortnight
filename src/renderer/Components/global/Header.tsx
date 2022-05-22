@@ -69,9 +69,13 @@ const Header = () => {
 							<Link className="navbar-text" to="/spotify">
 								Spotify
 							</Link>
+							<Link className="navbar-text" to="/search">
+								Search
+							</Link>
 							<Link className="navbar-text" to="/library">
 								Library
 							</Link>
+
 							<Link className="navbar-text" to="/events">
 								Events
 							</Link>
