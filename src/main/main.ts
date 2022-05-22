@@ -91,6 +91,32 @@ ipcMain.on('get-league-data', async (event, arg) => {
 	event.reply('get-league-data', data);
 });
 
+// menu listeners
+ipcMain.on('minimize', async (event, arg) => {
+	if (mainWindow && mainWindow.minimizable) {
+		// browserWindow.isMinimizable() for old electron versions
+		mainWindow.minimize();
+	}
+});
+
+ipcMain.on('max-unmax', async (event, arg) => {
+	if (mainWindow) {
+		if (mainWindow.isMaximized()) {
+			mainWindow.unmaximize();
+			event.reply('max-unmax', 'maximize');
+		} else {
+			mainWindow.maximize();
+			event.reply('max-unmax', 'minimize');
+		}
+	}
+});
+
+ipcMain.on('close', async (event, arg) => {
+	if (mainWindow) {
+		mainWindow.close();
+	}
+});
+
 if (process.env.NODE_ENV === 'production') {
 	const sourceMapSupport = require('source-map-support');
 	sourceMapSupport.install();
@@ -139,6 +165,7 @@ const createWindow = async () => {
 				? path.join(__dirname, 'preload.js')
 				: path.join(__dirname, '../../.erb/dll/preload.js'),
 		},
+		frame: false,
 	});
 
 	mainWindow.loadURL(resolveHtmlPath('index.html'));
