@@ -65,10 +65,7 @@ const getAccessRefreshTokens = (
 					payload.spotifyRefreshToken = response.data.refresh_token;
 				}
 				console.log('\n\nsending token \n\n');
-				mainWindow.webContents.send(
-					'send-spotify-token',
-					payload.spotifyAccessToken
-				);
+				mainWindow.webContents.send('send-spotify-token', payload);
 				cs.setSpotifyAuth(payload);
 				return payload;
 			}

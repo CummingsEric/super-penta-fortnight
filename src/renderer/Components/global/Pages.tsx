@@ -16,10 +16,11 @@ import LibraryManager from '../playlists/LibraryManager';
 import LeagueDataDisplay from '../league/LeagueDataDisplay';
 import Header from './Header';
 import Home from './Home';
-import SpotifyAuth from '../spotify/SpotifyAuth';
+import SpotifyAuth from '../spotify/SpotifyDebugger';
 import EventManager from '../events/EventManager';
 import ConfigDebugger from '../config/ConfigDebugger';
 import Search from '../spotify/Search';
+import ReduxViewer from './ReduxViewer';
 
 const Debugger = () => {
 	return (
@@ -33,6 +34,9 @@ const Debugger = () => {
 				</Link>
 				<Link className="link-light" to="config">
 					Config File
+				</Link>
+				<Link className="link-light" to="redux">
+					Redux Viewer
 				</Link>
 			</div>
 			<Outlet />
@@ -78,6 +82,7 @@ const Pages = () => {
 					<Route path="league" element={<LeagueDataDisplay />} />
 					<Route path="spotify" element={<SpotifyAuth />} />
 					<Route path="config" element={<ConfigDebugger />} />
+					<Route path="redux" element={<ReduxViewer />} />
 				</Route>
 			</Routes>
 		</Router>

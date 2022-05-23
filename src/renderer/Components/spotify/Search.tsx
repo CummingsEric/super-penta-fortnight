@@ -14,15 +14,16 @@ interface SearchInput {
 const Search = () => {
 	// Searched songs
 	const [songs, setSongs] = useState<SpotifyTracksData[]>([]);
-	const spotifyAccessToken = useSelector(
-		(state: MainState) => state.spotifyAccessToken.value
-	);
+
+	const spotifyAuth = useSelector((state: MainState) => state.spotifyAuth);
+	const { spotifyAccessToken } = spotifyAuth;
+
 	const getSongs = async (songName: string) => {
 		// Get the song urls
 		const tokenUrl = 'https://api.spotify.com/v1/search';
 		const songSearchBody = {
 			headers: {
-				Authorization: `Bearer ${spotifyAccessToken.authToken}`,
+				Authorization: `Bearer ${spotifyAccessToken?.authToken}`,
 				'Content-Type': 'application/json',
 			},
 			params: {
@@ -38,7 +39,7 @@ const Search = () => {
 		// Use the urls to lookup data
 		const songDataBody = {
 			headers: {
-				Authorization: `Bearer ${spotifyAccessToken.authToken}`,
+				Authorization: `Bearer ${spotifyAccessToken?.authToken}`,
 				'Content-Type': 'application/json',
 			},
 		};
@@ -71,7 +72,7 @@ const Search = () => {
 			url: tokenUrl,
 			method: 'put',
 			headers: {
-				Authorization: `Bearer ${spotifyAccessToken.authToken}`,
+				Authorization: `Bearer ${spotifyAccessToken?.authToken}`,
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},

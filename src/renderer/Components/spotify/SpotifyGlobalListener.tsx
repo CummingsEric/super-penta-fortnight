@@ -1,16 +1,14 @@
-import SpotifyAccessCode from 'renderer/Interfaces/SpotifyAccessCode';
 import { useDispatch } from 'react-redux';
-import { setSpotifyAccessToken } from 'renderer/Store/spotifyAccessToken';
+import SpotifyAuth from 'renderer/Interfaces/SpotifyAuth';
+import { setSpotifyAuth } from 'renderer/Store/spotifyAuth';
 
 const SpotifyGlobalListener = () => {
 	const dispatch = useDispatch();
 
 	window.electron.ipcRenderer.on('send-spotify-token', (arg) => {
-		console.log('arg recieved int he global listener:', arg);
 		if (arg != null) {
-			console.log('set local access token from store');
-			const authData: SpotifyAccessCode = arg as SpotifyAccessCode;
-			dispatch(setSpotifyAccessToken(authData));
+			const authData: SpotifyAuth = arg as SpotifyAuth;
+			dispatch(setSpotifyAuth(authData));
 		}
 	});
 
