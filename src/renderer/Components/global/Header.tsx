@@ -1,15 +1,15 @@
 import { MemoryRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 const Header = () => {
-	const minimizeButton = (e) => {
+	const minimizeButton = () => {
 		window.electron.ipcRenderer.sendMessage('minimize', [null]);
 	};
 
-	const maxUnmaxButton = (e) => {
+	const maxUnmaxButton = () => {
 		window.electron.ipcRenderer.sendMessage('max-unmax', [null]);
 	};
 
-	const closeButton = (e) => {
+	const closeButton = () => {
 		window.electron.ipcRenderer.sendMessage('close', [null]);
 	};
 
@@ -60,14 +60,8 @@ const Header = () => {
 						id="navbarNavAltMarkup"
 					>
 						<div>
-							<Link className="navbar-text" to="/home">
+							<Link className="navbar-text" to="/">
 								Home
-							</Link>
-							<Link className="navbar-text" to="/league">
-								Debugger
-							</Link>
-							<Link className="navbar-text" to="/spotify">
-								Spotify
 							</Link>
 							<Link className="navbar-text" to="/search">
 								Search
@@ -75,12 +69,11 @@ const Header = () => {
 							<Link className="navbar-text" to="/library">
 								Library
 							</Link>
-
 							<Link className="navbar-text" to="/events">
 								Events
 							</Link>
-							<Link className="navbar-text" to="/config">
-								Config
+							<Link className="navbar-text" to="/debug">
+								Debugger
 							</Link>
 						</div>
 					</div>
