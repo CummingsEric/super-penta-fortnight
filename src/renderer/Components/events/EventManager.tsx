@@ -81,7 +81,7 @@ const EventManager = () => {
 				</select>
 				<input
 					type="number"
-					className="event-input-3 form-control"
+					className="event-input-3 form-control flex-grow-0"
 					defaultValue={priority}
 					{...register(`${e}num`, { min: 0, max: 99 })}
 				/>

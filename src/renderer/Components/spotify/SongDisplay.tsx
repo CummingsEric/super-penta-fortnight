@@ -33,7 +33,7 @@ const SongDisplay = (props: SongProps) => {
 			<div className="d-flex pt-2" key={e.id}>
 				<div className="flex-shrink-0">
 					<img
-						className="bd-placeholder-img flex-shrink-0 me-2 rounded"
+						className="flex-shrink-0 me-2"
 						title={e.album.name}
 						src={e.album.images[2].url}
 						alt={`${e.album.name}Artwork`}

@@ -33,7 +33,7 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 		<div className="d-flex pt-2" key={key}>
 			<div className="flex-shrink-0">
 				<img
-					className="bd-placeholder-img flex-shrink-0 me-2 rounded"
+					className="flex-shrink-0 me-2"
 					title={entry.album.name}
 					src={entry.album.images[2].url}
 					alt={`${entry.album.name}Artwork`}

@@ -1,4 +1,10 @@
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+	MemoryRouter as Router,
+	Routes,
+	Route,
+	Link,
+	Outlet,
+} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setLeagueData } from 'renderer/Store/leagueData';
 import { setLibrary } from 'renderer/Store/library';
@@ -15,19 +21,21 @@ import EventManager from '../events/EventManager';
 import ConfigDebugger from '../config/ConfigDebugger';
 import Search from '../spotify/Search';
 
-const League = () => {
+const Debugger = () => {
 	return (
 		<div className="page-container">
-			<LeagueDataDisplay />
-		</div>
-	);
-};
-
-const Spotify = () => {
-	return (
-		<div className="page-container">
-			<h1>Spotify TEST Debugger</h1>
-			<SpotifyAuth />
+			<div>
+				<Link className="link-light" to="league">
+					League Data
+				</Link>
+				<Link className="link-light" to="spotify">
+					Spotify Auth
+				</Link>
+				<Link className="link-light" to="config">
+					Config File
+				</Link>
+			</div>
+			<Outlet />
 		</div>
 	);
 };
@@ -63,13 +71,14 @@ const Pages = () => {
 			<Header />
 			<Routes>
 				<Route path="/" element={<Home />} />
-				<Route path="/home" element={<Home />} />
-				<Route path="/league" element={<League />} />
-				<Route path="/spotify" element={<Spotify />} />
 				<Route path="/search" element={<Search />} />
 				<Route path="/library" element={<LibraryManager />} />
 				<Route path="/events" element={<EventManager />} />
-				<Route path="/config" element={<ConfigDebugger />} />
+				<Route path="/debug" element={<Debugger />}>
+					<Route path="league" element={<LeagueDataDisplay />} />
+					<Route path="spotify" element={<SpotifyAuth />} />
+					<Route path="config" element={<ConfigDebugger />} />
+				</Route>
 			</Routes>
 		</Router>
 	);

@@ -1,54 +1,22 @@
 import axios from 'axios';
-import { useForm } from 'react-hook-form';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import MainState from 'renderer/Interfaces/MainState';
-import SpotifyTracksData from 'renderer/Interfaces/SpotifyTracksData';
 import Playlist from 'renderer/Interfaces/Playlist';
-import SongDisplay from './SongDisplay';
-
-interface SearchInput {
-	searchString: string;
-}
+import JSONPrinter from '../global/JSONPrinter';
 
 const SpotifyAuth = () => {
 	// Searched songs
-	const [songs, setSongs] = useState<SpotifyTracksData[]>([]);
+	const spotifyAccessCode = useSelector(
+		(state: MainState) => state.spotifyAccessCode.value
+	);
+
 	const spotifyAccessToken = useSelector(
 		(state: MainState) => state.spotifyAccessToken.value
 	);
-	const getSongs = async (songName: string) => {
-		// Get the song urls
-		const tokenUrl = 'https://api.spotify.com/v1/search';
-		const songSearchBody = {
-			headers: {
-				Authorization: `Bearer ${spotifyAccessToken.authToken}`,
-				'Content-Type': 'application/json',
-			},
-			params: {
-				q: `track:${songName}`,
-				type: 'track',
-				limit: 10,
-				market: 'US',
-				offset: 0,
-			},
-		};
-		const songURLs = await axios.get(tokenUrl, songSearchBody);
 
-		// Use the urls to lookup data
-		const songDataBody = {
-			headers: {
-				Authorization: `Bearer ${spotifyAccessToken.authToken}`,
-				'Content-Type': 'application/json',
-			},
-		};
-		const songTracks: SpotifyTracksData[] = await (
-			await axios.get(songURLs.data.tracks.href, songDataBody)
-		).data.tracks.items;
-
-		// Set state
-		setSongs(songTracks);
-	};
+	const spotifyRefreshToken = useSelector(
+		(state: MainState) => state.spotifyRefreshToken.value
+	);
 
 	// Get library
 	const library: Playlist[] = useSelector(
@@ -67,7 +35,7 @@ const SpotifyAuth = () => {
 			position_ms: 0,
 		};
 		const tokenUrl = 'https://api.spotify.com/v1/me/player/play';
-		await axios({
+		axios({
 			url: tokenUrl,
 			method: 'put',
 			headers: {
@@ -76,7 +44,7 @@ const SpotifyAuth = () => {
 				'Content-Type': 'application/json',
 			},
 			data: body,
-		});
+		}).catch(() => {});
 	};
 	const playButtons = library.map((item) => {
 		return (
@@ -90,25 +58,11 @@ const SpotifyAuth = () => {
 		);
 	});
 
-	// Search bar
-	const { register, handleSubmit } = useForm<SearchInput>();
-	const onSubmit = ({ searchString }: SearchInput) => {
-		getSongs(searchString);
-	};
-
-	// Nothing to do if no playlists
-	if (library.length === 0) {
-		return (
-			<div>
-				<h4>No playlists yet!</h4>
-				<p>Create a playlist then come back</p>
-			</div>
-		);
-	}
-
 	return (
 		<div>
-			<div>
+			<h1 className="text-center">Spotify Debugger</h1>
+			<div className="pb-2">
+				<h4>Test a playlist</h4>
 				<div className="dropdown">
 					<button
 						className="btn btn-secondary dropdown-toggle"
@@ -117,7 +71,7 @@ const SpotifyAuth = () => {
 						data-bs-toggle="dropdown"
 						aria-expanded="false"
 					>
-						Add to playlist
+						Shuffle
 					</button>
 					<ul className="dropdown-menu" aria-labelledby="playlistAdd">
 						{playButtons}
@@ -125,24 +79,13 @@ const SpotifyAuth = () => {
 				</div>
 			</div>
 			<div>
-				<h3>Access Token</h3>
+				<h4>Spotify Access Code</h4>
+				<JSONPrinter data={spotifyAccessCode} />
+				<h4>Spotify Access Token</h4>
+				<JSONPrinter data={spotifyAccessToken} />
+				<h4>Spotify Refresh Token</h4>
+				<JSONPrinter data={{ spotifyRefreshToken }} />
 			</div>
-			<div>
-				{spotifyAccessToken === undefined
-					? 'Token not set'
-					: spotifyAccessToken.authToken}
-			</div>
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<input
-					className="form-control"
-					{...register('searchString', {
-						required: true,
-						maxLength: 20,
-					})}
-				/>
-				<input type="submit" className="btn btn-primary" />
-			</form>
-			<SongDisplay songs={songs} library={library} />
 		</div>
 	);
 };

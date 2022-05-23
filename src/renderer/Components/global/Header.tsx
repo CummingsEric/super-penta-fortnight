@@ -60,14 +60,8 @@ const Header = () => {
 						id="navbarNavAltMarkup"
 					>
 						<div>
-							<Link className="navbar-text" to="/home">
+							<Link className="navbar-text" to="/">
 								Home
-							</Link>
-							<Link className="navbar-text" to="/league">
-								Debugger
-							</Link>
-							<Link className="navbar-text" to="/spotify">
-								Spotify
 							</Link>
 							<Link className="navbar-text" to="/search">
 								Search
@@ -75,12 +69,11 @@ const Header = () => {
 							<Link className="navbar-text" to="/library">
 								Library
 							</Link>
-
 							<Link className="navbar-text" to="/events">
 								Events
 							</Link>
-							<Link className="navbar-text" to="/config">
-								Config
+							<Link className="navbar-text" to="/debug">
+								Debugger
 							</Link>
 						</div>
 					</div>
