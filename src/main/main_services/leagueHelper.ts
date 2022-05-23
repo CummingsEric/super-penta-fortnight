@@ -306,7 +306,7 @@ const processData = (
 		barronKilledByFriendly: baronKilledByFriendly(),
 		barronKilledByEnemy: baronKilledByEnemy(),
 		elderSpawningSoon: false,
-		frinedlyAce: friendlyAce(),
+		friendlyAce: friendlyAce(),
 		enemyAce: enemyAce(),
 		summonerKillstreak: false,
 		summonerDeathstreak: false,
@@ -328,8 +328,8 @@ const findMaxEvent = (
 ): [string, number] | undefined => {
 	const sortedPrios = Object.entries(priorities).sort(
 		([, a]: [string, number], [, b]: [string, number]) => {
-			if (a > b) return 1;
-			if (a < b) return -1;
+			if (a < b) return 1;
+			if (a > b) return -1;
 			return 0;
 		}
 	);

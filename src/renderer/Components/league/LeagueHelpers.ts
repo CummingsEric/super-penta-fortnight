@@ -305,7 +305,7 @@ const processData = (
 		barronKilledByFriendly: baronKilledByFriendly(),
 		barronKilledByEnemy: baronKilledByEnemy(),
 		elderSpawningSoon: false,
-		frinedlyAce: friendlyAce(),
+		friendlyAce: friendlyAce(),
 		enemyAce: enemyAce(),
 		summonerKillstreak: false,
 		summonerDeathstreak: false,
