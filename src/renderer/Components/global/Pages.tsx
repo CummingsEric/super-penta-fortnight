@@ -5,6 +5,7 @@ import { setLibrary } from 'renderer/Store/library';
 import { setPriority } from 'renderer/Store/eventPriority';
 import { setMapping } from 'renderer/Store/eventMapping';
 import ConfigFile from 'renderer/Interfaces/ConfigFile';
+import CurrentEvents from 'renderer/Interfaces/CurrentEvents';
 import LibraryManager from '../playlists/LibraryManager';
 import LeagueDataDisplay from '../league/LeagueDataDisplay';
 import Header from './Header';
@@ -38,8 +39,9 @@ const Pages = () => {
 	const update = () => {
 		window.electron.ipcRenderer.sendMessage('get-league-data', ['request']);
 		window.electron.ipcRenderer.once('get-league-data', (arg) => {
+			const leagueData = arg as CurrentEvents;
 			if (arg !== null) {
-				dispatch(setLeagueData(arg));
+				dispatch(setLeagueData(leagueData));
 			}
 		});
 	};

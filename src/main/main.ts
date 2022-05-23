@@ -16,8 +16,10 @@ import Playlist from 'renderer/Interfaces/Playlist';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import LeagueService from './main_services/leagueService';
+import { findMaxEvent } from './main_services/leagueHelper';
 import ConfigService from './main_services/configService';
 import { authenticateUserFuncStart } from './main_services/spotifyHandler';
+import SpotifyService from './main_services/spotifyService';
 
 export default class AppUpdater {
 	constructor() {
@@ -30,6 +32,7 @@ export default class AppUpdater {
 let mainWindow: BrowserWindow | null = null;
 const lcd = new LeagueService();
 const cm = new ConfigService();
+const qm = new SpotifyService(cm);
 
 // ICP Handlers
 ipcMain.on('ipc-example', async (event, arg) => {
@@ -88,6 +91,12 @@ ipcMain.on('save-events', async (_event, arg) => {
 // Send client updated league data
 ipcMain.on('get-league-data', async (event, arg) => {
 	const data = await lcd.getData();
+	// TODO: do we want to reply here?
+	if (data === null) return;
+	const maxPrio = findMaxEvent(data, cm.getPriority());
+	if (maxPrio !== undefined) {
+		qm.queueSongByEvent(maxPrio[0], maxPrio[1], data.updateTime);
+	}
 	event.reply('get-league-data', data);
 });
 

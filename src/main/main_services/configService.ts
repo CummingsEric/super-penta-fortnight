@@ -4,13 +4,21 @@ import Playlist from 'renderer/Interfaces/Playlist';
 import SpotifyAuth from 'renderer/Interfaces/SpotifyAuth';
 
 import Store from 'electron-store';
+import defaultConfig from './defaultConfig.json';
 
 export default class ConfigService {
 	store;
 
+	config: ConfigFile;
+
 	constructor() {
 		this.store = new Store();
+		this.config = this.loadConfig();
 	}
+
+	getConfig = (): ConfigFile => {
+		return this.config;
+	};
 
 	loadConfig = (): ConfigFile => {
 		return {
@@ -22,21 +30,28 @@ export default class ConfigService {
 	};
 
 	setLibrary = (library: Playlist[]) => {
+		this.config.library = library;
 		this.store.set('library', library);
 	};
 
-	getLibrary = () => {
-		const library = this.store.get('library');
-		if (library === null || library === undefined) return [];
+	getLibrary = (): Playlist[] => {
+		const library = this.store.get('library') as Playlist[];
+		if (library === null || library === undefined) {
+			this.setLibrary([]);
+			return [];
+		}
 		return library;
 	};
 
 	setEventMapping = (mapping: EventInterface<string>) => {
+		this.config.eventPlaylistMappings = mapping;
 		this.store.set('eventPlaylistMapping', mapping);
 	};
 
-	getEventMapping = () => {
-		const mapping = this.store.get('eventPlaylistMapping');
+	getEventMapping = (): EventInterface<string> => {
+		const mapping = this.store.get(
+			'eventPlaylistMapping'
+		) as EventInterface<string>;
 		if (
 			mapping === null ||
 			mapping === undefined ||
@@ -47,20 +62,15 @@ export default class ConfigService {
 	};
 
 	setPriority = (priorities: EventInterface<number>) => {
+		this.config.priorities = priorities;
 		this.store.set('priorities', priorities);
 	};
 
-	getPriority = () => {
-		const priority = this.store.get('priorities');
+	getPriority = (): EventInterface<number> => {
+		const priority = this.store.get('priorities') as EventInterface<number>;
 		if (priority === null || priority === undefined)
 			return this.defaultPriority();
 		return priority;
-	};
-
-	resetConfig = () => {
-		this.deleteProperty('library');
-		this.deleteProperty('eventPlaylistMapping');
-		this.deleteProperty('priorities');
 	};
 
 	setSpotifyAuth = (spotifyAuth: SpotifyAuth) => {
@@ -68,7 +78,7 @@ export default class ConfigService {
 	};
 
 	getSpotifyAuth = (): SpotifyAuth => {
-		const spotifyAuth = this.store.get('spotifyAuth');
+		const spotifyAuth = this.store.get('spotifyAuth') as SpotifyAuth;
 		if (spotifyAuth === null || spotifyAuth === undefined)
 			return this.defaultAuth();
 		return spotifyAuth;
@@ -78,59 +88,26 @@ export default class ConfigService {
 		this.store.delete(key);
 	};
 
+	resetConfig = () => {
+		this.config = defaultConfig;
+		this.setEventMapping(this.defaultMapping());
+		this.setPriority(this.defaultPriority());
+		this.setLibrary(this.defaultLibrary());
+	};
+
+	defaultLibrary = (): Playlist[] => {
+		return defaultConfig.library;
+	};
+
 	defaultAuth = (): SpotifyAuth => {
-		return {
-			spotifyAccessCode: undefined,
-			spotifyAccessToken: undefined,
-			spotifyRefreshToken: undefined,
-		};
+		return defaultConfig.spotifyAuth;
 	};
 
 	defaultMapping = (): EventInterface<string> => {
-		return {
-			wereInTheEndGameNow: '',
-			objStolenByFriendly: '',
-			objStolenByEnemy: '',
-			elderKilledByFriendly: '',
-			elderKilledByEnemy: '',
-			barronKilledByFriendly: '',
-			barronKilledByEnemy: '',
-			elderSpawningSoon: '',
-			frinedlyAce: '',
-			enemyAce: '',
-			summonerKillstreak: '',
-			summonerDeathstreak: '',
-			summonerMultikill: '',
-			enemyKillstreak: '',
-			alone: '',
-			heraldKilledByFriendly: '',
-			heraldKilledByEnemy: '',
-			summonerDoingGood: '',
-			summonerDoingBad: '',
-		};
+		return defaultConfig.eventPlaylistMappings;
 	};
 
 	defaultPriority = (): EventInterface<number> => {
-		return {
-			wereInTheEndGameNow: 20,
-			objStolenByFriendly: 16,
-			objStolenByEnemy: 16,
-			elderKilledByFriendly: 12,
-			elderKilledByEnemy: 12,
-			barronKilledByFriendly: 11,
-			barronKilledByEnemy: 11,
-			elderSpawningSoon: 10,
-			frinedlyAce: 14,
-			enemyAce: 14,
-			summonerKillstreak: 5,
-			summonerDeathstreak: 5,
-			summonerMultikill: 6,
-			enemyKillstreak: 6,
-			alone: 9,
-			heraldKilledByFriendly: 4,
-			heraldKilledByEnemy: 4,
-			summonerDoingGood: 1,
-			summonerDoingBad: 1,
-		};
+		return defaultConfig.priorities;
 	};
 }
