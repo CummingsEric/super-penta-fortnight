@@ -92,9 +92,9 @@ ipcMain.on('get-league-data', async (event) => {
 	const data = await lcd.getData();
 	// TODO: do we want to reply here?
 	if (data === null) return;
-	const maxPrio = findMaxEvent(data, cm.getEventData());
-	if (maxPrio !== undefined) {
-		qm.queueSongByEvent(maxPrio, data.updateTime);
+	const maxEvent = findMaxEvent(data, cm.getEventData());
+	if (maxEvent !== undefined) {
+		qm.queueSongByEvent(maxEvent, data.updateTime);
 	}
 	event.reply('get-league-data', data);
 });

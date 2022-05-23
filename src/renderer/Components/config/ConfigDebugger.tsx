@@ -33,9 +33,9 @@ const ConfigDebugger = () => {
 	return (
 		<div>
 			<h1 className="text-center pb-2">Config Debugger</h1>
-			<div className="container">
+			<div className="container pt-4">
 				<JSONPrinter data={config} />
-				<div className="py-2">
+				<div className="pt-1">
 					<button
 						type="button"
 						className="btn btn-primary mx-3"

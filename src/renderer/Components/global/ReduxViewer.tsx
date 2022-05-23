@@ -9,7 +9,9 @@ const ReduxViewer = () => {
 	return (
 		<div>
 			<h1 className="text-center">Redux Viewer</h1>
-			<JSONPrinter data={reduxState} />
+			<div className="container py-4">
+				<JSONPrinter data={reduxState} />
+			</div>
 		</div>
 	);
 };

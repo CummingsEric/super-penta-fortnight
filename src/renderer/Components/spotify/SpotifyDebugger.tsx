@@ -51,7 +51,7 @@ const SpotifyAuth = () => {
 	return (
 		<div>
 			<h1 className="text-center">Spotify Debugger</h1>
-			<div className="pb-2">
+			<div className="container pt-4 pb-2">
 				<h4>Test a playlist</h4>
 				<div className="dropdown">
 					<button
@@ -67,8 +67,6 @@ const SpotifyAuth = () => {
 						{playButtons}
 					</ul>
 				</div>
-			</div>
-			<div>
 				<h4>Spotify Auth</h4>
 				<JSONPrinter data={spotifyAuth} />
 			</div>
