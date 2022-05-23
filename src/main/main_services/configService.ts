@@ -37,7 +37,6 @@ export default class ConfigService {
 	getLibrary = (): Playlist[] => {
 		const library = this.store.get('library') as Playlist[];
 		if (library === null || library === undefined) {
-			this.setLibrary([]);
 			return [];
 		}
 		return library;
