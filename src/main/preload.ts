@@ -8,6 +8,9 @@ export type Channels =
 	| 'save-config'
 	| 'save-events'
 	| 'reset-config'
+	| 'minimize'
+	| 'max-unmax'
+	| 'close'
 	| 'save-library';
 
 contextBridge.exposeInMainWorld('electron', {
@@ -27,5 +30,11 @@ contextBridge.exposeInMainWorld('electron', {
 		once(channel: Channels, func: (...args: unknown[]) => void) {
 			ipcRenderer.once(channel, (_event, ...args) => func(...args));
 		},
+	},
+});
+
+contextBridge.exposeInMainWorld('menu', {
+	close: () => {
+		ipcRenderer.send('menu');
 	},
 });

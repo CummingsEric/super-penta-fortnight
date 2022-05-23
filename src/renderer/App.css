@@ -2,14 +2,49 @@
  * @NOTE: Prepend a `~` to css file paths that are in your node_modules
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
-body {
+.topGrabBar {
+	-webkit-user-select: none;
+  	-webkit-app-region: drag;
+	min-height: 15px;
+	max-width: calc(100% - 138px);
+}
+
+.window-buttons {
+	z-index: 2;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.navbar-spacing {
+	padding-top: 0px;
+}
+
+.menu-bar-button {
+	z-index: 2;
+	color: white;
 	background-color: #171717;
+	border: none;
+	appearance: none;
+	font-size: 1rem;
+	transition: all ease-in 0.1s;
+	cursor: pointer;
+	opacity: 0.9;
+	padding: 5px 15px 5px 15px;
+}
+
+.menu-bar-button:hover {
+	background-color: #4f545c;
+}
+
+.menu-bar-button-exit:hover {
+	background-color: red;
 	color: white;
 }
 
-button:hover {
-  transform: scale(1.05);
-  opacity: 1;
+body {
+	background-color: #171717;
+	color: white;
 }
 
 li {
