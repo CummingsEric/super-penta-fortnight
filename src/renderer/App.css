@@ -33,11 +33,6 @@
 	padding: 5px 15px 5px 15px;
 }
 
-button:hover {
-  transform: scale(1.05);
-  opacity: 1;
-}
-
 .menu-bar-button:hover {
 	background-color: #4f545c;
 }

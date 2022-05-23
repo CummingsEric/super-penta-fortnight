@@ -104,7 +104,7 @@ export default class SpotifyService {
 				'Content-Type': 'application/json',
 			},
 			data: body,
-		});
+		}).catch(() => {});
 		this.currSong = song.id;
 		this.switchByTime = song.duration_ms / 1000 + currTime;
 		return true;
