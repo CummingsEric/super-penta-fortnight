@@ -19,4 +19,6 @@ export default interface SpotifyTracksData {
 	track_number: number;
 	type: string;
 	uri: string;
+	start_time?: number;
+	end_by?: number;
 }

@@ -52,11 +52,10 @@ export default class SpotifyService {
 
 		// Pick a random song
 		const playlistSongs = Object.values(playlist.songs);
-
 		let song =
 			playlistSongs[Math.floor(Math.random() * playlistSongs.length)];
 
-		for (let i = 0; i < 2; i += 1) {
+		for (let i = 0; i < 2; i++) {
 			// Randomly selected the same song... attempt to reroll twice
 			if (song.id === this.currSong) {
 				const randInd = Math.floor(
@@ -85,9 +84,10 @@ export default class SpotifyService {
 		if (song === null) return false;
 
 		// Assume http success... TODO: fix
+		const startTime = song.start_time !== undefined ? song.start_time : 0;
 		const body = {
 			uris: [song.uri],
-			position_ms: 0,
+			position_ms: startTime,
 		};
 		const tokenUrl = 'https://api.spotify.com/v1/me/player/play';
 		axios({
