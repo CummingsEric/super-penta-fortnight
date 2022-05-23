@@ -1,45 +1,100 @@
 {
-	"eventPlaylistMappings": {
-		"wereInTheEndGameNow": "",
-		"objStolenByFriendly": "",
-		"objStolenByEnemy": "",
-		"elderKilledByFriendly": "",
-		"elderKilledByEnemy": "",
-		"barronKilledByFriendly": "",
-		"barronKilledByEnemy": "",
-		"elderSpawningSoon": "",
-		"friendlyAce": "",
-		"enemyAce": "",
-		"summonerKillstreak": "",
-		"summonerDeathstreak": "",
-		"summonerMultikill": "",
-		"enemyKillstreak": "",
-		"alone": "",
-		"heraldKilledByFriendly": "",
-		"heraldKilledByEnemy": "",
-		"summonerDoingGood": "",
-		"summonerDoingBad": ""
-	},
-	"priorities": {
-		"wereInTheEndGameNow": 20,
-		"objStolenByFriendly": 16,
-		"objStolenByEnemy": 16,
-		"elderKilledByFriendly": 12,
-		"elderKilledByEnemy": 12,
-		"barronKilledByFriendly": 11,
-		"barronKilledByEnemy": 11,
-		"elderSpawningSoon": 10,
-		"friendlyAce": 14,
-		"enemyAce": 14,
-		"summonerKillstreak": 5,
-		"summonerDeathstreak": 5,
-		"summonerMultikill": 6,
-		"enemyKillstreak": 6,
-		"alone": 9,
-		"heraldKilledByFriendly": 4,
-		"heraldKilledByEnemy": 4,
-		"summonerDoingGood": 1,
-		"summonerDoingBad": 1
+	"eventData": {
+		"wereInTheEndGameNow": {
+			"friendlyName":"Game is almost over!",
+			"priority": 20,
+			"playlistId": ""
+		},
+		"objStolenByFriendly": {
+			"friendlyName":"Objective stolen by friendly team",
+			"priority": 16,
+			"playlistId": ""
+		},
+		"objStolenByEnemy": {
+			"friendlyName":"Objective stolen by enemy team",
+			"priority": 16,
+			"playlistId": ""
+		},
+		"elderKilledByFriendly": {
+			"friendlyName":"Elder slain by friendly team",
+			"priority": 12,
+			"playlistId": ""
+		},
+		"elderKilledByEnemy": {
+			"friendlyName":"Elder slain by enemy team",
+			"priority": 12,
+			"playlistId": ""
+		},
+		"barronKilledByFriendly": {
+			"friendlyName":"Barron slain by friendly team",
+			"priority": 11,
+			"playlistId": ""
+		},
+		"barronKilledByEnemy": {
+			"friendlyName":"Baron slain by enemy team",
+			"priority": 11,
+			"playlistId": ""
+		},
+		"elderSpawningSoon": {
+			"friendlyName":"Elder is spawning soon!",
+			"priority": 10,
+			"playlistId": ""
+		},
+		"friendlyAce": {
+			"friendlyName":"Friendly Ace",
+			"priority": 14,
+			"playlistId": ""
+		},
+		"enemyAce": {
+			"friendlyName":"Enemy Ace",
+			"priority": 14,
+			"playlistId": ""
+		},
+		"summonerKillstreak": {
+			"friendlyName":"You're on a killstreak",
+			"priority": 5,
+			"playlistId": ""
+		},
+		"summonerDeathstreak": {
+			"friendlyName":"You're on a deathstreak",
+			"priority": 5,
+			"playlistId": ""
+		},
+		"summonerMultikill": {
+			"friendlyName":"You got a multikill",
+			"priority": 6,
+			"playlistId": ""
+		},
+		"enemyKillstreak": {
+			"friendlyName":"Enemy is on a killstreak",
+			"priority": 5,
+			"playlistId": ""
+		},
+		"alone": {
+			"friendlyName":"You are the last one alive",
+			"priority": 9,
+			"playlistId": ""
+		},
+		"heraldKilledByFriendly": {
+			"friendlyName":"Herald slain by friendly team",
+			"priority": 4,
+			"playlistId": ""
+		},
+		"heraldKilledByEnemy": {
+			"friendlyName":"Herald slain by enemy team",
+			"priority": 4,
+			"playlistId": ""
+		},
+		"summonerDoingGood": {
+			"friendlyName":"Your KDA is above 2",
+			"priority": 1,
+			"playlistId": ""
+		},
+		"summonerDoingBad":{
+			"friendlyName": "Your KDA is below .5",
+			"priority": 1,
+			"playlistId": ""
+			}
 	},
 	"library": [],
 	"spotifyAuth": {}

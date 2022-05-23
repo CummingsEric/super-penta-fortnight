@@ -46,10 +46,6 @@ const LibraryManager = () => {
 		reset();
 	};
 
-	const save = () => {
-		window.electron.ipcRenderer.sendMessage('save-config', libraryData);
-	};
-
 	return (
 		<div>
 			<h1 className="text-center pb-2">Library</h1>

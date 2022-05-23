@@ -6,26 +6,11 @@ import JSONPrinter from '../global/JSONPrinter';
 const ConfigDebugger = () => {
 	const [config, setConfig] = useState<ConfigFile>();
 
-	if (config === undefined) {
-		window.electron.ipcRenderer.once('load-config', (arg: any) => {
-			// TODO: validate
-			if (arg !== null) {
-				setConfig(arg);
-			}
-		});
-		window.electron.ipcRenderer.sendMessage('load-config', ['request']);
-		return (
-			<div>
-				<h1 className="text-center">Config Debugger</h1>
-			</div>
-		);
-	}
-
 	const loadConfig = () => {
-		window.electron.ipcRenderer.once('load-config', (arg: any) => {
-			// TODO: validate
-			if (arg !== null) {
-				setConfig(arg);
+		window.electron.ipcRenderer.once('load-config', (arg) => {
+			const newConfig = arg as ConfigFile;
+			if (newConfig !== null) {
+				setConfig(newConfig);
 			}
 		});
 		window.electron.ipcRenderer.sendMessage('load-config', ['request']);
@@ -35,6 +20,15 @@ const ConfigDebugger = () => {
 		window.electron.ipcRenderer.sendMessage('reset-config', ['request']);
 		loadConfig();
 	};
+
+	if (config === undefined) {
+		loadConfig();
+		return (
+			<div>
+				<h1 className="text-center">Config Debugger</h1>
+			</div>
+		);
+	}
 
 	return (
 		<div>

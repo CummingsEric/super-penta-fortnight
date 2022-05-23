@@ -3,7 +3,7 @@ import LeagueResData, {
 	LeaguePlayerStats,
 } from 'renderer/Interfaces/LeagueResData';
 import CurrentEvents from 'renderer/Interfaces/CurrentEvents';
-import EventInterface from 'renderer/Interfaces/EventInterface';
+import EventData, { EventProps } from 'renderer/Interfaces/EventData';
 
 const processData = (
 	leagueData: LeagueResData,
@@ -324,12 +324,12 @@ const processData = (
 
 const findMaxEvent = (
 	eventDict: CurrentEvents,
-	priorities: EventInterface<number>
-): [string, number] | undefined => {
+	priorities: EventData
+): EventProps | undefined => {
 	const sortedPrios = Object.entries(priorities).sort(
-		([, a]: [string, number], [, b]: [string, number]) => {
-			if (a < b) return 1;
-			if (a > b) return -1;
+		([, a]: [string, EventProps], [, b]: [string, EventProps]) => {
+			if (a.priority < b.priority) return 1;
+			if (a.priority > b.priority) return -1;
 			return 0;
 		}
 	);
@@ -337,7 +337,7 @@ const findMaxEvent = (
 		([key]) => eventDict[key as keyof CurrentEvents] === true
 	);
 	if (event === undefined) return undefined;
-	return event;
+	return event[1];
 };
 
 export default processData;

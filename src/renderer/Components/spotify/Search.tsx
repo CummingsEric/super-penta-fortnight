@@ -56,41 +56,6 @@ const Search = () => {
 		(state: MainState) => state.library.value
 	);
 
-	// Play songs
-	const playSong = async (playlistId: string) => {
-		const playlist = library.find((e) => e.id === playlistId);
-		if (playlist === undefined) return;
-		const playlistSongs = Object.values(playlist.songs);
-		const song =
-			playlistSongs[Math.floor(Math.random() * playlistSongs.length)];
-		const body = {
-			uris: [song.uri],
-			position_ms: 0,
-		};
-		const tokenUrl = 'https://api.spotify.com/v1/me/player/play';
-		await axios({
-			url: tokenUrl,
-			method: 'put',
-			headers: {
-				Authorization: `Bearer ${spotifyAccessToken?.authToken}`,
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			data: body,
-		});
-	};
-	const playButtons = library.map((item) => {
-		return (
-			<li
-				key={`${item.id}play`}
-				onClick={() => playSong(item.id)}
-				aria-hidden="true"
-			>
-				<span className="dropdown-item">{item.name}</span>
-			</li>
-		);
-	});
-
 	// Search bar
 	const { register, handleSubmit } = useForm<SearchInput>();
 	const onSubmit = ({ searchString }: SearchInput) => {

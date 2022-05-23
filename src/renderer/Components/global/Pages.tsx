@@ -8,10 +8,9 @@ import {
 import { useDispatch } from 'react-redux';
 import { setLeagueData } from 'renderer/Store/leagueData';
 import { setLibrary } from 'renderer/Store/library';
-import { setPriority } from 'renderer/Store/eventPriority';
-import { setMapping } from 'renderer/Store/eventMapping';
 import ConfigFile from 'renderer/Interfaces/ConfigFile';
 import CurrentEvents from 'renderer/Interfaces/CurrentEvents';
+import { setAllEvents } from 'renderer/Store/eventData';
 import LibraryManager from '../playlists/LibraryManager';
 import LeagueDataDisplay from '../league/LeagueDataDisplay';
 import Header from './Header';
@@ -64,8 +63,7 @@ const Pages = () => {
 		const config = arg as ConfigFile;
 		if (config !== null) {
 			dispatch(setLibrary(config.library));
-			dispatch(setMapping(config.eventPlaylistMappings));
-			dispatch(setPriority(config.priorities));
+			dispatch(setAllEvents(config.eventData));
 		}
 	});
 	window.electron.ipcRenderer.sendMessage('load-config', ['request']);

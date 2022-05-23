@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint global-require: off, no-console: off, promise/always-return: off */
 
 /**
@@ -35,7 +36,7 @@ const cm = new ConfigService();
 const qm = new SpotifyService(cm);
 
 // ICP Handlers
-ipcMain.on('ipc-example', async (event, arg) => {
+ipcMain.on('ipc-example', async (event) => {
 	const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
 	event.reply('ipc-example', msgTemplate('request sent from main process'));
 });
@@ -58,24 +59,23 @@ const startSpotifyAuth = (_mainWindow: BrowserWindow) => {
 	if (_mainWindow) {
 		const initialAuth = cm.getSpotifyAuth();
 		console.log('\n\ninitial auth state:', initialAuth, '\n\n');
-		const newAuth = authenticateUserFuncStart(initialAuth, _mainWindow, cm);
+		authenticateUserFuncStart(initialAuth, _mainWindow, cm);
 	}
 	setTimeout(startSpotifyAuth, 3540000, _mainWindow);
 };
 
-ipcMain.on('load-config', async (event, arg) => {
+ipcMain.on('load-config', async (event) => {
 	const data = cm.loadConfig();
 	event.reply('load-config', data);
 });
 
-ipcMain.on('save-config', async (event, arg) => {
+ipcMain.on('save-config', async (_event, arg) => {
 	const config = arg;
 	cm.setLibrary(config);
 });
 
 ipcMain.on('save-library', async (_event, arg) => {
 	const library = arg as Playlist[];
-	console.log(library);
 	cm.setLibrary(library);
 });
 
@@ -84,31 +84,30 @@ ipcMain.on('reset-config', async () => {
 });
 
 ipcMain.on('save-events', async (_event, arg) => {
-	cm.setEventMapping(arg[0]);
-	cm.setPriority(arg[1]);
+	cm.setEventData(arg[0]);
 });
 
 // Send client updated league data
-ipcMain.on('get-league-data', async (event, arg) => {
+ipcMain.on('get-league-data', async (event) => {
 	const data = await lcd.getData();
 	// TODO: do we want to reply here?
 	if (data === null) return;
-	const maxPrio = findMaxEvent(data, cm.getPriority());
+	const maxPrio = findMaxEvent(data, cm.getEventData());
 	if (maxPrio !== undefined) {
-		qm.queueSongByEvent(maxPrio[0], maxPrio[1], data.updateTime);
+		qm.queueSongByEvent(maxPrio, data.updateTime);
 	}
 	event.reply('get-league-data', data);
 });
 
 // menu listeners
-ipcMain.on('minimize', async (event, arg) => {
+ipcMain.on('minimize', async () => {
 	if (mainWindow && mainWindow.minimizable) {
 		// browserWindow.isMinimizable() for old electron versions
 		mainWindow.minimize();
 	}
 });
 
-ipcMain.on('max-unmax', async (event, arg) => {
+ipcMain.on('max-unmax', async (event) => {
 	if (mainWindow) {
 		if (mainWindow.isMaximized()) {
 			mainWindow.unmaximize();
@@ -120,7 +119,7 @@ ipcMain.on('max-unmax', async (event, arg) => {
 	}
 });
 
-ipcMain.on('close', async (event, arg) => {
+ipcMain.on('close', async () => {
 	if (mainWindow) {
 		mainWindow.close();
 	}

@@ -4,7 +4,7 @@ export interface EventProps {
 	playlistId?: string;
 }
 
-export default interface EventDictionary {
+export default interface EventData {
 	wereInTheEndGameNow: EventProps;
 	objStolenByFriendly: EventProps;
 	objStolenByEnemy: EventProps;

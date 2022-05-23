@@ -1,7 +1,6 @@
 import axios from 'axios';
-import SpotifyAuth from 'renderer/Interfaces/SpotifyAuth';
-import EventInterface from 'renderer/Interfaces/EventInterface';
 import SpotifyTracksData from 'renderer/Interfaces/SpotifyTracksData';
+import { EventProps } from 'renderer/Interfaces/EventData';
 import ConfigService from './configService';
 
 export default class SpotifyService {
@@ -19,17 +18,8 @@ export default class SpotifyService {
 		this.cs = configService;
 	}
 
-	getSpotifyAuth = (): SpotifyAuth => {
-		return this.cs.getSpotifyAuth();
-	};
-
-	queueSongByEvent = (
-		eventId: string,
-		priority: number,
-		currTime: number
-	) => {
-		const mapping = this.cs.getEventMapping();
-		const playlistId = mapping[eventId as keyof EventInterface<string>];
+	queueSongByEvent = (event: EventProps, currTime: number) => {
+		const { playlistId } = event;
 
 		// No playlist to play off of...
 		if (playlistId === undefined) return;
@@ -43,19 +33,20 @@ export default class SpotifyService {
 		}
 
 		// Trying to queue off lower priority event & don't need to switch = quit
-		if (priority < this.currPriority && !needToSwitch) {
+		if (event.priority < this.currPriority && !needToSwitch) {
 			return;
 		}
 
 		const res = this.queueSongFromPlaylist(playlistId, currTime);
 		if (res) {
 			this.currPlaylist = playlistId;
-			this.currPriority = priority;
+			this.currPriority = event.priority;
 		}
 	};
 
 	getSongFromPlaylist = (playlistId: string): SpotifyTracksData | null => {
-		const library = this.cs.getLibrary();
+		const { library } = this.cs.config;
+		if (library === undefined) return null;
 		const playlist = library.find((e) => e.id === playlistId);
 		if (playlist === undefined) return null;
 
@@ -82,8 +73,12 @@ export default class SpotifyService {
 
 	queueSongFromPlaylist = (playlistId: string, currTime: number): boolean => {
 		// Not authenticated yet
-		const spotifyAuth = this.cs.getSpotifyAuth();
-		if (spotifyAuth.spotifyAccessToken === undefined) return false;
+		const { spotifyAuth } = this.cs.config;
+		if (
+			spotifyAuth === undefined ||
+			spotifyAuth.spotifyAccessToken === undefined
+		)
+			return false;
 
 		// No matching playlist / songs on the playlist
 		const song = this.getSongFromPlaylist(playlistId);

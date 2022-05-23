@@ -1,10 +1,9 @@
-import EventInterface from './EventInterface';
+import EventData from './EventData';
 import Playlist from './Playlist';
 import SpotifyAuth from './SpotifyAuth';
 
 export default interface ConfigFile {
-	library: Playlist[];
-	eventPlaylistMappings: EventInterface<string>;
-	priorities: EventInterface<number>;
 	spotifyAuth: SpotifyAuth;
+	eventData: EventData;
+	library: Playlist[];
 }

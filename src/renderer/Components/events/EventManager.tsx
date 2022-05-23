@@ -3,91 +3,86 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Playlist from 'renderer/Interfaces/Playlist';
 import MainState from 'renderer/Interfaces/MainState';
-import EventInterface from 'renderer/Interfaces/EventInterface';
-import { setMapping } from 'renderer/Store/eventMapping';
-import { setPriority } from 'renderer/Store/eventPriority';
-
-// TODO: validate this
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type EventInput = any;
+import EventData, { EventProps } from 'renderer/Interfaces/EventData';
+import { setAllEvents } from 'renderer/Store/eventData';
 
 const EventManager = () => {
 	const dispatch = useDispatch();
 	const { register, handleSubmit } = useForm();
 
-	const onSubmit: SubmitHandler<EventInput> = (data) => {
-		const newMap = Object.fromEntries(
-			Object.entries(data).filter(([key]) => !key.endsWith('num'))
-		);
-		const newPrios = Object.fromEntries(
-			Object.entries(data)
-				.filter(([key]) => key.endsWith('num'))
-				.map(([key, entry]) => [
-					key.replace('num', ''),
-					Number.isNaN(parseInt(entry as string, 10))
-						? 0
-						: parseInt(entry as string, 10),
-				])
-		);
-		window.electron.ipcRenderer.sendMessage('save-events', [
-			newMap,
-			newPrios,
-		]);
-		dispatch(setMapping(newMap));
-		dispatch(setPriority(newPrios));
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const onSubmit: SubmitHandler<any> = (data: EventData) => {
+		window.electron.ipcRenderer.sendMessage('save-events', [data]);
+		dispatch(setAllEvents(data));
 	};
 
 	const libraryData: Playlist[] = useSelector(
 		(state: MainState) => state.library.value
 	);
 
-	const events: EventInterface<string> = useSelector(
-		(state: MainState) => state.eventPlaylistMappings.value
+	const events: EventData = useSelector(
+		(state: MainState) => state.eventData.value
 	);
 
-	const priorities: EventInterface<number> = useSelector(
-		(state: MainState) => state.priorities.value
-	);
+	if (events === null || events === undefined) return <></>;
 
-	const sortedEvents = Object.entries(priorities).sort(
-		([, entryA]: [string, number], [, entryB]: [string, number]) => {
-			if (entryA < entryB) return 1;
-			if (entryB < entryA) return -1;
+	const sortedEvents = Object.entries(events).sort(
+		(
+			[, entryA]: [string, EventProps],
+			[, entryB]: [string, EventProps]
+		) => {
+			if (entryA.priority < entryB.priority) return 1;
+			if (entryB.priority < entryA.priority) return -1;
+			if (entryA.friendlyName < entryB.friendlyName) return 1;
+			if (entryB.friendlyName < entryA.friendlyName) return -1;
 			return 0;
 		}
 	);
 
-	const eventDisplay = sortedEvents.map(([e]) => {
-		const parsed =
-			priorities !== undefined
-				? priorities[e as keyof EventInterface<number>]
-				: 0;
-		const priority = Number.isNaN(parsed) ? 0 : parsed;
-		return (
-			<div key={e} className="input-group mb-3">
-				<span className="input-group-text event-input-1">{e}</span>
-				<select
-					defaultValue={events[e as keyof EventInterface<string>]}
-					{...register(e)}
-					className="form-select event-input-2"
-				>
-					{libraryData.map((a) => {
-						return (
-							<option key={e + a.id} value={a.id}>
-								{a.name}
-							</option>
-						);
-					})}
-				</select>
-				<input
-					type="number"
-					className="event-input-3 form-control flex-grow-0"
-					defaultValue={priority}
-					{...register(`${e}num`, { min: 0, max: 99 })}
-				/>
-			</div>
-		);
-	});
+	const eventDisplay = sortedEvents.map(
+		([key, event]: [string, EventProps]) => {
+			const defaultPlaylist =
+				event.playlistId === undefined ? '' : event.playlistId;
+			return (
+				<div key={key} className="input-group mb-3">
+					<span className="input-group-text event-input-1">
+						{event.friendlyName}
+					</span>
+					<select
+						defaultValue={defaultPlaylist}
+						{...register(`${key}.playlistId`)}
+						className="form-select event-input-2"
+					>
+						<option value="" disabled>
+							Select one
+						</option>
+						{libraryData.map((song) => {
+							return (
+								<option key={key + song.id} value={song.id}>
+									{song.name}
+								</option>
+							);
+						})}
+					</select>
+					<input
+						type="number"
+						className="event-input-3 form-control flex-grow-0"
+						defaultValue={event.priority}
+						{...register(`${key}.priority`, {
+							min: 0,
+							max: 99,
+							valueAsNumber: true,
+						})}
+					/>
+					<input
+						type="hidden"
+						{...register(`${key}.friendlyName`)}
+						value={event.friendlyName}
+					/>
+				</div>
+			);
+		}
+	);
 
 	return (
 		<div className="page-container">
@@ -98,12 +93,12 @@ const EventManager = () => {
 					<div className="event-header-2">Playlist</div>
 					<div className="event-header-3">Priority</div>
 				</div>
-				<div className="scrollbar-gradient events-container">
-					<form onSubmit={handleSubmit(onSubmit)}>
+				<form onSubmit={handleSubmit(onSubmit)}>
+					<div className="scrollbar-gradient events-container">
 						<div className="force-overflow">{eventDisplay}</div>
-					</form>
-				</div>
-				<input type="submit" />
+					</div>
+					<input type="submit" />
+				</form>
 			</div>
 		</div>
 	);

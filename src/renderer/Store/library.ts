@@ -1,4 +1,5 @@
 import { createSlice, current } from '@reduxjs/toolkit';
+import { WritableDraft } from 'immer/dist/internal';
 import Playlist from 'renderer/Interfaces/Playlist';
 
 export interface PData {
@@ -28,7 +29,7 @@ const findPlaylistInd = (playlistId: string, playlists: Playlist[]): number => {
 	return ind;
 };
 
-const updateConf = (state: any) => {
+const updateConf = (state: WritableDraft<PData>) => {
 	const newLibrary = current(state.value);
 	window.electron.ipcRenderer.sendMessage('save-library', newLibrary);
 };
