@@ -6,26 +6,11 @@ import JSONPrinter from '../global/JSONPrinter';
 const ConfigDebugger = () => {
 	const [config, setConfig] = useState<ConfigFile>();
 
-	if (config === undefined) {
-		window.electron.ipcRenderer.once('load-config', (arg: any) => {
-			// TODO: validate
-			if (arg !== null) {
-				setConfig(arg);
-			}
-		});
-		window.electron.ipcRenderer.sendMessage('load-config', ['request']);
-		return (
-			<div>
-				<h1 className="text-center">Config Debugger</h1>
-			</div>
-		);
-	}
-
 	const loadConfig = () => {
-		window.electron.ipcRenderer.once('load-config', (arg: any) => {
-			// TODO: validate
-			if (arg !== null) {
-				setConfig(arg);
+		window.electron.ipcRenderer.once('load-config', (arg) => {
+			const newConfig = arg as ConfigFile;
+			if (newConfig !== null) {
+				setConfig(newConfig);
 			}
 		});
 		window.electron.ipcRenderer.sendMessage('load-config', ['request']);
@@ -36,12 +21,21 @@ const ConfigDebugger = () => {
 		loadConfig();
 	};
 
+	if (config === undefined) {
+		loadConfig();
+		return (
+			<div>
+				<h1 className="text-center">Config Debugger</h1>
+			</div>
+		);
+	}
+
 	return (
 		<div>
 			<h1 className="text-center pb-2">Config Debugger</h1>
-			<div className="container">
+			<div className="container pt-4">
 				<JSONPrinter data={config} />
-				<div className="py-2">
+				<div className="pt-1">
 					<button
 						type="button"
 						className="btn btn-primary mx-3"

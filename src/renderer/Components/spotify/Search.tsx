@@ -14,15 +14,16 @@ interface SearchInput {
 const Search = () => {
 	// Searched songs
 	const [songs, setSongs] = useState<SpotifyTracksData[]>([]);
-	const spotifyAccessToken = useSelector(
-		(state: MainState) => state.spotifyAccessToken.value
-	);
+
+	const spotifyAuth = useSelector((state: MainState) => state.spotifyAuth);
+	const { spotifyAccessToken } = spotifyAuth;
+
 	const getSongs = async (songName: string) => {
 		// Get the song urls
 		const tokenUrl = 'https://api.spotify.com/v1/search';
 		const songSearchBody = {
 			headers: {
-				Authorization: `Bearer ${spotifyAccessToken.authToken}`,
+				Authorization: `Bearer ${spotifyAccessToken?.authToken}`,
 				'Content-Type': 'application/json',
 			},
 			params: {
@@ -38,7 +39,7 @@ const Search = () => {
 		// Use the urls to lookup data
 		const songDataBody = {
 			headers: {
-				Authorization: `Bearer ${spotifyAccessToken.authToken}`,
+				Authorization: `Bearer ${spotifyAccessToken?.authToken}`,
 				'Content-Type': 'application/json',
 			},
 		};
@@ -54,41 +55,6 @@ const Search = () => {
 	const library: Playlist[] = useSelector(
 		(state: MainState) => state.library.value
 	);
-
-	// Play songs
-	const playSong = async (playlistId: string) => {
-		const playlist = library.find((e) => e.id === playlistId);
-		if (playlist === undefined) return;
-		const playlistSongs = Object.values(playlist.songs);
-		const song =
-			playlistSongs[Math.floor(Math.random() * playlistSongs.length)];
-		const body = {
-			uris: [song.uri],
-			position_ms: 0,
-		};
-		const tokenUrl = 'https://api.spotify.com/v1/me/player/play';
-		await axios({
-			url: tokenUrl,
-			method: 'put',
-			headers: {
-				Authorization: `Bearer ${spotifyAccessToken.authToken}`,
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			data: body,
-		});
-	};
-	const playButtons = library.map((item) => {
-		return (
-			<li
-				key={`${item.id}play`}
-				onClick={() => playSong(item.id)}
-				aria-hidden="true"
-			>
-				<span className="dropdown-item">{item.name}</span>
-			</li>
-		);
-	});
 
 	// Search bar
 	const { register, handleSubmit } = useForm<SearchInput>();
@@ -107,7 +73,7 @@ const Search = () => {
 	}
 
 	return (
-		<div>
+		<div className="page-container">
 			<h1 className="text-center pb-2">Search</h1>
 			<div className="container">
 				<form onSubmit={handleSubmit(onSubmit)}>

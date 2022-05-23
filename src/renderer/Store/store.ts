@@ -1,20 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
-import accessCodeReducer from './spotifyAccessCode';
-import spotifyAccessCodeReducer from './spotifyAccessToken';
-import spotifyRefreshTokenReducer from './spotifyRefreshToken';
 import leagueDataReducer from './leagueData';
 import playlistDataReducer from './library';
-import eventMappingReducer from './eventMapping';
-import eventPriorityReducer from './eventPriority';
+import spotifyAuthReducer from './spotifyAuth';
+import eventDataReducer from './eventData';
+import currSongReducer from './currSong';
 
 export default configureStore({
 	reducer: {
-		spotifyAccessCode: accessCodeReducer,
-		spotifyAccessToken: spotifyAccessCodeReducer,
-		spotifyRefreshToken: spotifyRefreshTokenReducer,
+		spotifyAuth: spotifyAuthReducer,
 		leagueData: leagueDataReducer,
+		eventData: eventDataReducer,
+		currSong: currSongReducer,
 		library: playlistDataReducer,
-		eventPlaylistMappings: eventMappingReducer,
-		priorities: eventPriorityReducer,
 	},
 });

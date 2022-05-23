@@ -17,7 +17,6 @@ const getAccessRefreshTokens = (
 	let body = {};
 	let requestMethod = 'refresh';
 	if (authData.spotifyAccessCode === undefined) {
-		console.log('oh no from the reducer');
 		return authData;
 	}
 	// set the body based on if the access token is comming from AC or RT
@@ -64,17 +63,14 @@ const getAccessRefreshTokens = (
 				if (response.data.refresh_token) {
 					payload.spotifyRefreshToken = response.data.refresh_token;
 				}
-				console.log('\n\nsending token \n\n');
-				mainWindow.webContents.send(
-					'send-spotify-token',
-					payload.spotifyAccessToken
-				);
+				mainWindow.webContents.send('send-spotify-token', payload);
 				cs.setSpotifyAuth(payload);
 				return payload;
 			}
 			return authData;
 		})
 		.catch((err) => {
+			// eslint-disable-next-line no-console
 			console.log(err);
 			return authData;
 		});
@@ -86,7 +82,6 @@ export const authenticateUserFuncEnd = (
 	mainWindow: BrowserWindow,
 	cs: ConfigService
 ): SpotifyAuth => {
-	const time = new Date().getTime();
 	// check for refresh token
 	if (authData.spotifyRefreshToken) {
 		return getAccessRefreshTokens(authData, mainWindow, cs);
@@ -100,7 +95,6 @@ export const authenticateUserFuncEnd = (
 		return getAccessRefreshTokens(authData, mainWindow, cs);
 	}
 	// if both of these fail, we need to request an accesscode and recall authenticate user
-	console.log('something has gone horribly wrong');
 	return authData;
 };
 
@@ -159,7 +153,6 @@ export const authenticateUserFuncStart = (
 	mainWindow: BrowserWindow,
 	cs: ConfigService
 ): SpotifyAuth => {
-	const time = new Date().getTime();
 	// check for refresh token
 	if (authData.spotifyRefreshToken) {
 		return getAccessRefreshTokens(authData, mainWindow, cs);

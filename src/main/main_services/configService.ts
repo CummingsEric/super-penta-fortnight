@@ -1,9 +1,9 @@
 import ConfigFile from 'renderer/Interfaces/ConfigFile';
-import EventInterface from 'renderer/Interfaces/EventInterface';
 import Playlist from 'renderer/Interfaces/Playlist';
 import SpotifyAuth from 'renderer/Interfaces/SpotifyAuth';
 
 import Store from 'electron-store';
+import EventData from 'renderer/Interfaces/EventData';
 import defaultConfig from './defaultConfig.json';
 
 export default class ConfigService {
@@ -22,8 +22,7 @@ export default class ConfigService {
 
 	loadConfig = (): ConfigFile => {
 		return {
-			eventPlaylistMappings: this.getEventMapping(),
-			priorities: this.getPriority(),
+			eventData: this.getEventData(),
 			spotifyAuth: this.getSpotifyAuth(),
 			library: this.getLibrary(),
 		};
@@ -42,37 +41,20 @@ export default class ConfigService {
 		return library;
 	};
 
-	setEventMapping = (mapping: EventInterface<string>) => {
-		this.config.eventPlaylistMappings = mapping;
-		this.store.set('eventPlaylistMapping', mapping);
+	setEventData = (eventData: EventData) => {
+		this.config.eventData = eventData;
+		this.store.set('eventData', eventData);
 	};
 
-	getEventMapping = (): EventInterface<string> => {
-		const mapping = this.store.get(
-			'eventPlaylistMapping'
-		) as EventInterface<string>;
-		if (
-			mapping === null ||
-			mapping === undefined ||
-			mapping instanceof Array
-		)
-			return this.defaultMapping();
-		return mapping;
-	};
-
-	setPriority = (priorities: EventInterface<number>) => {
-		this.config.priorities = priorities;
-		this.store.set('priorities', priorities);
-	};
-
-	getPriority = (): EventInterface<number> => {
-		const priority = this.store.get('priorities') as EventInterface<number>;
-		if (priority === null || priority === undefined)
-			return this.defaultPriority();
-		return priority;
+	getEventData = (): EventData => {
+		const eventData = this.store.get('eventData') as EventData;
+		if (eventData === null || eventData === undefined)
+			return this.defaultEvents();
+		return eventData;
 	};
 
 	setSpotifyAuth = (spotifyAuth: SpotifyAuth) => {
+		this.config.spotifyAuth = spotifyAuth;
 		this.store.set('spotifyAuth', spotifyAuth);
 	};
 
@@ -89,8 +71,7 @@ export default class ConfigService {
 
 	resetConfig = () => {
 		this.config = defaultConfig;
-		this.setEventMapping(this.defaultMapping());
-		this.setPriority(this.defaultPriority());
+		this.setEventData(this.defaultEvents());
 		this.setLibrary(this.defaultLibrary());
 	};
 
@@ -102,11 +83,7 @@ export default class ConfigService {
 		return defaultConfig.spotifyAuth;
 	};
 
-	defaultMapping = (): EventInterface<string> => {
-		return defaultConfig.eventPlaylistMappings;
-	};
-
-	defaultPriority = (): EventInterface<number> => {
-		return defaultConfig.priorities;
+	defaultEvents = () => {
+		return defaultConfig.eventData;
 	};
 }

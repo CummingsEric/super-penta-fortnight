@@ -8,18 +8,19 @@ import {
 import { useDispatch } from 'react-redux';
 import { setLeagueData } from 'renderer/Store/leagueData';
 import { setLibrary } from 'renderer/Store/library';
-import { setPriority } from 'renderer/Store/eventPriority';
-import { setMapping } from 'renderer/Store/eventMapping';
 import ConfigFile from 'renderer/Interfaces/ConfigFile';
 import CurrentEvents from 'renderer/Interfaces/CurrentEvents';
+import { setAllEvents } from 'renderer/Store/eventData';
+import { setSong } from 'renderer/Store/currSong';
 import LibraryManager from '../playlists/LibraryManager';
 import LeagueDataDisplay from '../league/LeagueDataDisplay';
 import Header from './Header';
 import Home from './Home';
-import SpotifyAuth from '../spotify/SpotifyAuth';
+import SpotifyAuth from '../spotify/SpotifyDebugger';
 import EventManager from '../events/EventManager';
 import ConfigDebugger from '../config/ConfigDebugger';
 import Search from '../spotify/Search';
+import ReduxViewer from './ReduxViewer';
 
 const Debugger = () => {
 	return (
@@ -34,6 +35,9 @@ const Debugger = () => {
 				<Link className="link-light" to="config">
 					Config File
 				</Link>
+				<Link className="link-light" to="redux">
+					Redux Viewer
+				</Link>
 			</div>
 			<Outlet />
 		</div>
@@ -46,11 +50,15 @@ const Pages = () => {
 	// Begin pinging the main process for league updates every 10 seconds
 	const update = () => {
 		window.electron.ipcRenderer.sendMessage('get-league-data', ['request']);
-		window.electron.ipcRenderer.once('get-league-data', (arg) => {
-			const leagueData = arg as CurrentEvents;
-			if (arg !== null) {
-				dispatch(setLeagueData(leagueData));
-			}
+		window.electron.ipcRenderer.once('get-league-data', (arg: any) => {
+			if (arg === null || typeof arg !== 'object') return;
+			const data = arg.leagueData as CurrentEvents;
+			const song = {
+				songName: arg.songName,
+				songEvent: arg.songEvent,
+			};
+			dispatch(setLeagueData(data));
+			dispatch(setSong(song));
 		});
 	};
 	setInterval(update, 5000);
@@ -60,8 +68,7 @@ const Pages = () => {
 		const config = arg as ConfigFile;
 		if (config !== null) {
 			dispatch(setLibrary(config.library));
-			dispatch(setMapping(config.eventPlaylistMappings));
-			dispatch(setPriority(config.priorities));
+			dispatch(setAllEvents(config.eventData));
 		}
 	});
 	window.electron.ipcRenderer.sendMessage('load-config', ['request']);
@@ -78,6 +85,7 @@ const Pages = () => {
 					<Route path="league" element={<LeagueDataDisplay />} />
 					<Route path="spotify" element={<SpotifyAuth />} />
 					<Route path="config" element={<ConfigDebugger />} />
+					<Route path="redux" element={<ReduxViewer />} />
 				</Route>
 			</Routes>
 		</Router>

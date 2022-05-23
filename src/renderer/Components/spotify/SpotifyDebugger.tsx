@@ -6,17 +6,7 @@ import JSONPrinter from '../global/JSONPrinter';
 
 const SpotifyAuth = () => {
 	// Searched songs
-	const spotifyAccessCode = useSelector(
-		(state: MainState) => state.spotifyAccessCode.value
-	);
-
-	const spotifyAccessToken = useSelector(
-		(state: MainState) => state.spotifyAccessToken.value
-	);
-
-	const spotifyRefreshToken = useSelector(
-		(state: MainState) => state.spotifyRefreshToken.value
-	);
+	const spotifyAuth = useSelector((state: MainState) => state.spotifyAuth);
 
 	// Get library
 	const library: Playlist[] = useSelector(
@@ -39,7 +29,7 @@ const SpotifyAuth = () => {
 			url: tokenUrl,
 			method: 'put',
 			headers: {
-				Authorization: `Bearer ${spotifyAccessToken.authToken}`,
+				Authorization: `Bearer ${spotifyAuth.spotifyAccessToken?.authToken}`,
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
@@ -61,7 +51,7 @@ const SpotifyAuth = () => {
 	return (
 		<div>
 			<h1 className="text-center">Spotify Debugger</h1>
-			<div className="pb-2">
+			<div className="container pt-4 pb-2">
 				<h4>Test a playlist</h4>
 				<div className="dropdown">
 					<button
@@ -77,14 +67,8 @@ const SpotifyAuth = () => {
 						{playButtons}
 					</ul>
 				</div>
-			</div>
-			<div>
-				<h4>Spotify Access Code</h4>
-				<JSONPrinter data={spotifyAccessCode} />
-				<h4>Spotify Access Token</h4>
-				<JSONPrinter data={spotifyAccessToken} />
-				<h4>Spotify Refresh Token</h4>
-				<JSONPrinter data={{ spotifyRefreshToken }} />
+				<h4>Spotify Auth</h4>
+				<JSONPrinter data={spotifyAuth} />
 			</div>
 		</div>
 	);

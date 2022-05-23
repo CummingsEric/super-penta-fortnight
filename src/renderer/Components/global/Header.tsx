@@ -1,4 +1,4 @@
-import { MemoryRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
 	const minimizeButton = () => {

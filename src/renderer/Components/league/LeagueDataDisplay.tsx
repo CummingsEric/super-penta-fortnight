@@ -13,10 +13,8 @@ const LeagueDataDisplay = () => {
 	return (
 		<div>
 			<h1 className="text-center">League Data Debugger</h1>
-			<div className="container pt-4">
-				<div className="pb-4">
-					<JSONPrinter data={leagueDict} />
-				</div>
+			<div className="container py-4">
+				<JSONPrinter data={leagueDict} />
 			</div>
 		</div>
 	);

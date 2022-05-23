@@ -143,12 +143,12 @@ a:hover {
 	background-color: rgb(243, 243, 243);
 	font-family: 'Montserrat', sans-serif;
 	color: #3a3a3a;
-	width: 15vw;
+	width: 20vw;
 }
 
 .event-input-2 {
 	font-family: 'Montserrat', sans-serif;
-	width: 40vw;
+	width: 35vw;
 }
 
 .event-input-3 {
@@ -158,13 +158,13 @@ a:hover {
 
 .event-header-1 {
 	font-family: 'Montserrat', sans-serif;
-	width: 15vw;
+	width: 20vw;
 }
 
 .event-header-2 {
 	font-family: 'Montserrat', sans-serif;
 	flex: 1 1 auto;
-	width: 40vw;
+	width: 35vw;
 }
 
 .event-header-3 {

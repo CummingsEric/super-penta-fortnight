@@ -46,15 +46,11 @@ const LibraryManager = () => {
 		reset();
 	};
 
-	const save = () => {
-		window.electron.ipcRenderer.sendMessage('save-config', libraryData);
-	};
-
 	return (
-		<div>
+		<div className="page-container">
 			<h1 className="text-center pb-2">Library</h1>
 			<div className="container">
-				<div className="pb-2">
+				<div>
 					<h3>Create a new playlist</h3>
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<div className="input-group mb-3">
