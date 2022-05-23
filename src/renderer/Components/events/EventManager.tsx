@@ -6,17 +6,16 @@ import MainState from 'renderer/Interfaces/MainState';
 import EventInterface from 'renderer/Interfaces/EventInterface';
 import { setMapping } from 'renderer/Store/eventMapping';
 import { setPriority } from 'renderer/Store/eventPriority';
-import { setLibrary } from 'renderer/Store/playlistData';
 
 // TODO: validate this
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type IFormInput = any;
+type EventInput = any;
 
 const EventManager = () => {
 	const dispatch = useDispatch();
 	const { register, handleSubmit } = useForm();
 
-	const onSubmit: SubmitHandler<IFormInput> = (data) => {
+	const onSubmit: SubmitHandler<EventInput> = (data) => {
 		const newMap = Object.fromEntries(
 			Object.entries(data).filter(([key]) => !key.endsWith('num'))
 		);
@@ -25,9 +24,9 @@ const EventManager = () => {
 				.filter(([key]) => key.endsWith('num'))
 				.map(([key, entry]) => [
 					key.replace('num', ''),
-					// TODO: fix this
-					// eslint-disable-next-line radix
-					Number.isNaN(parseInt(entry)) ? 0 : parseInt(entry),
+					Number.isNaN(parseInt(entry as string, 10))
+						? 0
+						: parseInt(entry as string, 10),
 				])
 		);
 		window.electron.ipcRenderer.sendMessage('save-events', [
@@ -50,21 +49,8 @@ const EventManager = () => {
 		(state: MainState) => state.priorities.value
 	);
 
-	if (events === undefined) {
-		window.electron.ipcRenderer.once('load-config', (arg: any) => {
-			// TODO: validate
-			if (arg !== null) {
-				dispatch(setLibrary(arg.library));
-				dispatch(setMapping(arg.eventPlaylistMappings));
-				dispatch(setPriority(arg.priorities));
-			}
-		});
-		window.electron.ipcRenderer.sendMessage('load-config', ['request']);
-		return <></>;
-	}
-
 	const sortedEvents = Object.entries(priorities).sort(
-		([keyA, entryA], [keyB, entryB]) => {
+		([, entryA]: [string, number], [, entryB]: [string, number]) => {
 			if (entryA < entryB) return 1;
 			if (entryB < entryA) return -1;
 			return 0;

@@ -4,13 +4,12 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 
 import MainState from 'renderer/Interfaces/MainState';
 import Playlist from 'renderer/Interfaces/Playlist';
-import { newPlaylist, setLibrary } from 'renderer/Store/playlistData';
+import { newPlaylist } from 'renderer/Store/library';
 
 import PlaylistManager from './PlaylistManager';
 
 type FormInput = {
-	example: string;
-	exampleRequired: string;
+	playlistName: string;
 };
 
 const LibraryManager = () => {
@@ -41,8 +40,9 @@ const LibraryManager = () => {
 		);
 	});
 
-	const onSubmit: SubmitHandler<FormInput> = (data) => {
-		dispatch(newPlaylist({ name: data.exampleRequired }));
+	const onSubmit: SubmitHandler<FormInput> = (data: FormInput) => {
+		const { playlistName } = data;
+		dispatch(newPlaylist({ name: playlistName }));
 		reset();
 	};
 
@@ -63,11 +63,11 @@ const LibraryManager = () => {
 								placeholder="New playlist name"
 								aria-label="Song"
 								// eslint-disable-next-line react/jsx-props-no-spreading
-								{...register('exampleRequired', {
+								{...register('playlistName', {
 									required: true,
 								})}
 							/>
-							{errors.exampleRequired && (
+							{errors.playlistName && (
 								<span>This field is required</span>
 							)}
 							<input

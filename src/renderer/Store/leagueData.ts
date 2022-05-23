@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import LeagueResData from 'renderer/Interfaces/LeagueResData';
+import CurrentEvents from 'renderer/Interfaces/CurrentEvents';
 
 export interface LData {
-	value?: LeagueResData;
+	value?: CurrentEvents;
 }
 
 const initialState: LData = {
@@ -14,7 +14,9 @@ export const leagueData = createSlice({
 	initialState,
 	reducers: {
 		setLeagueData: (state, action) => {
-			state.value = action.payload;
+			if (action.payload === undefined || action.payload === null) return;
+			const leagueEvents = action.payload as CurrentEvents;
+			state.value = leagueEvents;
 		},
 	},
 });

@@ -7,7 +7,7 @@ export default interface EventInterface<Type> {
 	barronKilledByFriendly: Type;
 	barronKilledByEnemy: Type;
 	elderSpawningSoon: Type;
-	frinedlyAce: Type;
+	friendlyAce: Type;
 	enemyAce: Type;
 	summonerKillstreak: Type;
 	summonerDeathstreak: Type;

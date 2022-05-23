@@ -12,11 +12,14 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import Playlist from 'renderer/Interfaces/Playlist';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import LeagueService from './main_services/leagueService';
+import { findMaxEvent } from './main_services/leagueHelper';
 import ConfigService from './main_services/configService';
 import { authenticateUserFuncStart } from './main_services/spotifyHandler';
+import SpotifyService from './main_services/spotifyService';
 
 export default class AppUpdater {
 	constructor() {
@@ -29,6 +32,7 @@ export default class AppUpdater {
 let mainWindow: BrowserWindow | null = null;
 const lcd = new LeagueService();
 const cm = new ConfigService();
+const qm = new SpotifyService(cm);
 
 // ICP Handlers
 ipcMain.on('ipc-example', async (event, arg) => {
@@ -69,11 +73,17 @@ ipcMain.on('save-config', async (event, arg) => {
 	cm.setLibrary(config);
 });
 
-ipcMain.on('reset-config', async (event, arg) => {
+ipcMain.on('save-library', async (_event, arg) => {
+	const library = arg as Playlist[];
+	console.log(library);
+	cm.setLibrary(library);
+});
+
+ipcMain.on('reset-config', async () => {
 	cm.resetConfig();
 });
 
-ipcMain.on('save-events', async (event, arg) => {
+ipcMain.on('save-events', async (_event, arg) => {
 	cm.setEventMapping(arg[0]);
 	cm.setPriority(arg[1]);
 });
@@ -81,7 +91,39 @@ ipcMain.on('save-events', async (event, arg) => {
 // Send client updated league data
 ipcMain.on('get-league-data', async (event, arg) => {
 	const data = await lcd.getData();
+	// TODO: do we want to reply here?
+	if (data === null) return;
+	const maxPrio = findMaxEvent(data, cm.getPriority());
+	if (maxPrio !== undefined) {
+		qm.queueSongByEvent(maxPrio[0], maxPrio[1], data.updateTime);
+	}
 	event.reply('get-league-data', data);
+});
+
+// menu listeners
+ipcMain.on('minimize', async (event, arg) => {
+	if (mainWindow && mainWindow.minimizable) {
+		// browserWindow.isMinimizable() for old electron versions
+		mainWindow.minimize();
+	}
+});
+
+ipcMain.on('max-unmax', async (event, arg) => {
+	if (mainWindow) {
+		if (mainWindow.isMaximized()) {
+			mainWindow.unmaximize();
+			event.reply('max-unmax', 'maximize');
+		} else {
+			mainWindow.maximize();
+			event.reply('max-unmax', 'minimize');
+		}
+	}
+});
+
+ipcMain.on('close', async (event, arg) => {
+	if (mainWindow) {
+		mainWindow.close();
+	}
 });
 
 if (process.env.NODE_ENV === 'production') {
@@ -132,6 +174,7 @@ const createWindow = async () => {
 				? path.join(__dirname, 'preload.js')
 				: path.join(__dirname, '../../.erb/dll/preload.js'),
 		},
+		frame: false,
 	});
 
 	mainWindow.loadURL(resolveHtmlPath('index.html'));
