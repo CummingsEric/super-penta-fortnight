@@ -11,6 +11,7 @@ import { setLibrary } from 'renderer/Store/library';
 import ConfigFile from 'renderer/Interfaces/ConfigFile';
 import CurrentEvents from 'renderer/Interfaces/CurrentEvents';
 import { setAllEvents } from 'renderer/Store/eventData';
+import { setSong } from 'renderer/Store/currSong';
 import LibraryManager from '../playlists/LibraryManager';
 import LeagueDataDisplay from '../league/LeagueDataDisplay';
 import Header from './Header';
@@ -49,11 +50,15 @@ const Pages = () => {
 	// Begin pinging the main process for league updates every 10 seconds
 	const update = () => {
 		window.electron.ipcRenderer.sendMessage('get-league-data', ['request']);
-		window.electron.ipcRenderer.once('get-league-data', (arg) => {
-			const leagueData = arg as CurrentEvents;
-			if (arg !== null) {
-				dispatch(setLeagueData(leagueData));
-			}
+		window.electron.ipcRenderer.once('get-league-data', (arg: any) => {
+			if (arg === null || typeof arg !== 'object') return;
+			const data = arg.leagueData as CurrentEvents;
+			const song = {
+				songName: arg.songName,
+				songEvent: arg.songEvent,
+			};
+			dispatch(setLeagueData(data));
+			dispatch(setSong(song));
 		});
 	};
 	setInterval(update, 5000);

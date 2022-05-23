@@ -41,37 +41,16 @@ ipcMain.on('ipc-example', async (event) => {
 	event.reply('ipc-example', msgTemplate('request sent from main process'));
 });
 
-// Authenticate the user with spotify
-// ipcMain.on('get-spotify-token', async (event, arg) => {
-// 	getAuthCode();
-// });
-
-// ipcMain.on('load-spotify-state', async (event, arg) => {
-// 	const data = cm.loadConfig();
-// 	event.reply('load-config', data);
-// });
-
-// ipcMain.on('save-spotify-state', async (event, arg) => {
-// 	const config = arg;
-// 	cm.setSpotifyAuth(config);
-// });
 const startSpotifyAuth = (_mainWindow: BrowserWindow) => {
 	if (_mainWindow) {
 		const initialAuth = cm.getSpotifyAuth();
-		console.log('\n\ninitial auth state:', initialAuth, '\n\n');
 		authenticateUserFuncStart(initialAuth, _mainWindow, cm);
 	}
-	setTimeout(startSpotifyAuth, 3540000, _mainWindow);
 };
 
 ipcMain.on('load-config', async (event) => {
 	const data = cm.loadConfig();
 	event.reply('load-config', data);
-});
-
-ipcMain.on('save-config', async (_event, arg) => {
-	const config = arg;
-	cm.setLibrary(config);
 });
 
 ipcMain.on('save-library', async (_event, arg) => {
@@ -90,13 +69,25 @@ ipcMain.on('save-events', async (_event, arg) => {
 // Send client updated league data
 ipcMain.on('get-league-data', async (event) => {
 	const data = await lcd.getData();
-	// TODO: do we want to reply here?
-	if (data === null) return;
+	if (data === null) {
+		event.reply('get-league-data', null);
+		return;
+	}
+
+	// A new game started, we need to reset event priority
+	if (data.lastUpdate > data.updateTime) {
+		qm.currPriority = 0;
+	}
 	const maxEvent = findMaxEvent(data, cm.getEventData());
 	if (maxEvent !== undefined) {
 		qm.queueSongByEvent(maxEvent, data.updateTime);
 	}
-	event.reply('get-league-data', data);
+	const payload = {
+		leagueData: data,
+		songName: qm.songName,
+		songEvent: qm.songEvent,
+	};
+	event.reply('get-league-data', payload);
 });
 
 // menu listeners
@@ -188,7 +179,9 @@ const createWindow = async () => {
 			mainWindow.maximize();
 			mainWindow.show();
 		}
+		// Starts spotify auth and reauthenticates after ~1hr
 		startSpotifyAuth(mainWindow);
+		setInterval(startSpotifyAuth, 3540000, mainWindow);
 	});
 
 	mainWindow.on('closed', () => {
