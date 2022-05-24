@@ -35,6 +35,12 @@ const lcd = new LeagueService();
 const cm = new ConfigService();
 const qm = new SpotifyService(cm);
 
+const isDebug =
+	process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
+if (isDebug) {
+	require('electron-debug')();
+}
+
 // ICP Handlers
 ipcMain.on('ipc-example', async (event) => {
 	const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
@@ -68,7 +74,9 @@ ipcMain.on('save-events', async (_event, arg) => {
 
 // Send client updated league data
 ipcMain.on('get-league-data', async (event) => {
-	const data = await lcd.getData();
+	const data = await lcd.getData(isDebug);
+
+	// No data to return so return null
 	if (data === null) {
 		event.reply('get-league-data', null);
 		return;
@@ -78,10 +86,13 @@ ipcMain.on('get-league-data', async (event) => {
 	if (data.lastUpdate > data.updateTime) {
 		qm.currPriority = 0;
 	}
+
+	// Get the event with highest priority and queue
 	const maxEvent = findMaxEvent(data, cm.getEventData());
 	if (maxEvent !== undefined) {
 		qm.queueSongByEvent(maxEvent, data.updateTime);
 	}
+
 	const payload = {
 		leagueData: data,
 		songName: qm.songName,
@@ -119,13 +130,6 @@ ipcMain.on('close', async () => {
 if (process.env.NODE_ENV === 'production') {
 	const sourceMapSupport = require('source-map-support');
 	sourceMapSupport.install();
-}
-
-const isDebug =
-	process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
-
-if (isDebug) {
-	require('electron-debug')();
 }
 
 const installExtensions = async () => {
