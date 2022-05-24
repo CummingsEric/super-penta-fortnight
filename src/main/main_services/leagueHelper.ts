@@ -57,10 +57,11 @@ const processData = (
 
 	const getPlayerKDA = (playerName: string): number => {
 		const summonerStats = getPlayerStats(playerName);
-		return (
-			(summonerStats.scores.assists + summonerStats.scores.kills) /
-			Math.max(1, summonerStats.scores.deaths)
-		);
+		const killsAssists =
+			summonerStats.scores.assists + summonerStats.scores.kills;
+		// If no deaths or kills KDA of 1
+		if (summonerStats.scores.deaths === 0 && killsAssists === 0) return 1;
+		return killsAssists / Math.max(1, summonerStats.scores.deaths);
 	};
 
 	const getSummonerKDA = (): number => {
@@ -193,6 +194,13 @@ const processData = (
 		return aceEvent.AcingTeam !== summonerTeam;
 	};
 
+	const summonerRecentMultikill = (): boolean => {
+		const multikill = recentEvents.find(
+			(e) => e.EventName === 'Multikill' && e.KillerName === summonerName
+		);
+		return multikill === undefined;
+	};
+
 	// Game ending
 
 	const nexusExposed = (): boolean => {
@@ -296,6 +304,28 @@ const processData = (
 		return steal !== undefined;
 	};
 
+	const elderSpawningSoon = (): boolean => {
+		const dragonKills = events.filter((e) => e.EventName === 'DragonKill');
+		const friendlyNames = getFriendlySummonerNames();
+		const enemyNames = getEnemySummonerNames();
+		const friendlyDragKills = dragonKills.filter((e) =>
+			friendlyNames.includes(e.KillerName)
+		);
+		const enemyDragKills = dragonKills.filter((e) =>
+			enemyNames.includes(e.KillerName)
+		);
+		if (friendlyDragKills.length >= 4 || enemyDragKills.length >= 4) {
+			const lastDragon = dragonKills.reduce((a, b) => {
+				if (a.EventTime > b.EventTime) return a;
+				return b;
+			});
+			const lastDragonKilledTime = lastDragon.EventTime;
+			const diff = gameTime - lastDragonKilledTime;
+			if (diff > 5 * 60 && diff < 6 * 60) return true;
+		}
+		return false;
+	};
+
 	const leagueEventDict: CurrentEvents = {
 		lastUpdate,
 		updateTime: gameTime,
@@ -306,12 +336,12 @@ const processData = (
 		elderKilledByEnemy: elderKilledByEnemy(),
 		barronKilledByFriendly: baronKilledByFriendly(),
 		barronKilledByEnemy: baronKilledByEnemy(),
-		elderSpawningSoon: false,
+		elderSpawningSoon: elderSpawningSoon(),
 		friendlyAce: friendlyAce(),
 		enemyAce: enemyAce(),
+		summonerMultikill: summonerRecentMultikill(),
 		summonerKillstreak: false,
 		summonerDeathstreak: false,
-		summonerMultikill: false,
 		enemyKillstreak: false,
 		alone: isAloneInBot() || isAloneInGame(),
 		heraldKilledByFriendly: heraldKilledByFriendly(),
