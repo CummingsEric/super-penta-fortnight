@@ -19,7 +19,7 @@ import { resolveHtmlPath } from './util';
 import LeagueService from './main_services/leagueService';
 import { findMaxEvent } from './main_services/leagueHelper';
 import ConfigService from './main_services/configService';
-import { authenticateUserFuncStart } from './main_services/spotifyHandler';
+import { authenticateUserFuncStart } from './main_services/spotifyAuth';
 import SpotifyService from './main_services/spotifyService';
 
 export default class AppUpdater {

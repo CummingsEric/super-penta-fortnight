@@ -20,6 +20,7 @@ import EventManager from '../events/EventManager';
 import ConfigDebugger from '../config/ConfigDebugger';
 import Search from '../spotify/Search';
 import ReduxViewer from './ReduxViewer';
+import SelectDevice from '../settings/selectDevice';
 
 const Debugger = () => {
 	return (
@@ -82,6 +83,7 @@ const Pages = () => {
 					<Route path="config" element={<ConfigDebugger />} />
 					<Route path="redux" element={<ReduxViewer />} />
 				</Route>
+				<Route path="/settings" element={<SelectDevice />} />
 			</Routes>
 		</Router>
 	);
