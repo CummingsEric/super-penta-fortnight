@@ -198,7 +198,7 @@ const processData = (
 		const multikill = recentEvents.find(
 			(e) => e.EventName === 'Multikill' && e.KillerName === summonerName
 		);
-		return multikill === undefined;
+		return multikill !== undefined;
 	};
 
 	// Game ending

@@ -22,7 +22,7 @@ export default class SpotifyService {
 		this.cs = configService;
 	}
 
-	queueSongByEvent = (event: EventProps, currTime: number) => {
+	queueSongByEvent = async (event: EventProps, currTime: number) => {
 		const { playlistId } = event;
 
 		// No playlist to play off of...
@@ -41,11 +41,17 @@ export default class SpotifyService {
 			return;
 		}
 
-		const res = this.queueSongFromPlaylist(playlistId, currTime);
+		const song = this.getSongFromPlaylist(playlistId);
+		if (song === null) return;
+
+		const res = await this.queueSong(song);
 		if (res) {
 			this.songEvent = event.friendlyName;
 			this.currPlaylist = playlistId;
 			this.currPriority = event.priority;
+			this.currSong = song.id;
+			this.switchByTime = song.duration_ms / 1000 + currTime;
+			this.songName = song.name;
 		}
 	};
 
@@ -75,7 +81,7 @@ export default class SpotifyService {
 		return song;
 	};
 
-	queueSongFromPlaylist = (playlistId: string, currTime: number): boolean => {
+	queueSong = async (song: SpotifyTracksData): Promise<boolean> => {
 		// Not authenticated yet
 		const { spotifyAuth } = this.cs.config;
 		if (
@@ -84,30 +90,27 @@ export default class SpotifyService {
 		)
 			return false;
 
-		// No matching playlist / songs on the playlist
-		const song = this.getSongFromPlaylist(playlistId);
-		if (song === null) return false;
-
-		// Assume http success... TODO: fix
 		const startTime = song.start_time !== undefined ? song.start_time : 0;
 		const body = {
 			uris: [song.uri],
 			position_ms: startTime,
 		};
 		const tokenUrl = 'https://api.spotify.com/v1/me/player/play';
-		axios({
-			url: tokenUrl,
-			method: 'put',
-			headers: {
-				Authorization: `Bearer ${spotifyAuth.spotifyAccessToken.authToken}`,
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			data: body,
-		}).catch(() => {});
-		this.currSong = song.id;
-		this.switchByTime = song.duration_ms / 1000 + currTime;
-		this.songName = song.name;
+		try {
+			const res = await axios({
+				url: tokenUrl,
+				method: 'put',
+				headers: {
+					Authorization: `Bearer ${spotifyAuth.spotifyAccessToken.authToken}`,
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+				data: body,
+			});
+			if (res.status === 200) return true;
+		} catch (err) {
+			return false;
+		}
 		return true;
 	};
 }
