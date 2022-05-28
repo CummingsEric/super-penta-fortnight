@@ -14,6 +14,7 @@ import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import Playlist from 'renderer/Interfaces/Playlist';
+import Settings from 'renderer/Interfaces/Settings';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import LeagueService from './main_services/leagueService';
@@ -77,6 +78,12 @@ ipcMain.on('save-config', async (_event, arg) => {
 ipcMain.on('save-library', async (_event, arg) => {
 	const library = arg as Playlist[];
 	cm.setLibrary(library);
+});
+
+ipcMain.on('save-settings', async (_event, arg) => {
+	const settings = arg[0] as Settings;
+	console.log('settings recieved in main:\n\n ', settings);
+	cm.setSettings(settings);
 });
 
 ipcMain.on('reset-config', async () => {

@@ -1,71 +1,101 @@
-import SpotifyTracksData from 'renderer/Interfaces/SpotifyTracksData';
-import Playlist from 'renderer/Interfaces/Playlist';
-import { useDispatch useSelector} from 'react-redux';
-import { addSong } from 'renderer/Store/library';
+import axios from 'axios';
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import MainState from 'renderer/Interfaces/MainState';
+import Settings from 'renderer/Interfaces/Settings';
+import SpotifyDevice from 'renderer/Interfaces/SpotifyDevice';
+import { setSettings } from 'renderer/Store/settings';
 
-const selectDevice = () => {
+const SelectDevice = () => {
+	// Searched songs
+	const [devices, setDevices] = useState<SpotifyDevice[]>([]);
 	const dispatch = useDispatch();
-	const {} =
 
-	const selectPlaybackDevice = (deviceId: string) => {
-		dispatch(setDevice({ deviceId }));
+	const spotifyAuth = useSelector((state: MainState) => state.spotifyAuth);
+	const settings = useSelector((state: MainState) => state.settings.value);
+	const { spotifyAccessToken } = spotifyAuth;
+
+	console.log(settings);
+	const getDevices = () => {
+		if (spotifyAccessToken === null || spotifyAccessToken === undefined)
+			return [];
+		const tokenUrl = 'https://api.spotify.com/v1/me/player/devices';
+		axios({
+			url: tokenUrl,
+			method: 'get',
+			headers: {
+				Authorization: `Bearer ${spotifyAccessToken.authToken}`,
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+		})
+			.then((resp) => {
+				const inDevices = resp.data.devices as SpotifyDevice[];
+				console.log(inDevices.length, devices.length);
+				if (inDevices.length !== devices.length) {
+					setDevices(resp.data.devices);
+				}
+				return null;
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+		return null;
+	};
+	getDevices();
+
+	const selectDevice = (device: SpotifyDevice) => {
+		const newSettings: Settings = { spotifyDevice: device };
+		window.electron.ipcRenderer.sendMessage('save-settings', [newSettings]);
+		console.log('selecting device:', newSettings);
+		dispatch(setSettings(newSettings));
 	};
 
-
-	const deviceJSX = devices.map((e: SpotifyTracksData) => {
-		const playlistItems = library.map((item) => {
-			return (
-				<li
-					key={e.id + item.id}
-					onClick={() => selectPlaybackDevice(item.id)}
-					aria-hidden="true"
-				>
-					<span className="dropdown-item">{item.name}</span>
-				</li>
-			);
-		});
-
+	const deviceJSX = devices.map((device) => {
 		return (
-			<div className="d-flex pt-2" key={e.id}>
-				<div className="flex-shrink-0">
-					<img
-						className="flex-shrink-0 me-2"
-						title={e.album.name}
-						src={e.album.images[2].url}
-						alt={`${e.album.name}Artwork`}
-					/>
-				</div>
-				<div className="flex-grow-1 ms-3 border-bottom">
-					<p className="pt-2 mb-0 small lh-sm">
-						<strong className="d-block text-gray-dark">
-							{e.name}
-						</strong>
-						<span>{e.artists[0].name}</span>
-					</p>
-				</div>
-				<div className="d-flex align-items-center border-bottom">
-					<div className="dropdown">
-						<button
-							className="btn btn-secondary dropdown-toggle"
-							type="button"
-							id="playlistAdd"
-							data-bs-toggle="dropdown"
-							aria-expanded="false"
-						>
-							Add to playlist
-						</button>
-						<ul
-							className="dropdown-menu"
-							aria-labelledby="playlistAdd"
-						>
-							{playlistItems}
-						</ul>
-					</div>
-				</div>
-			</div>
+			<li
+				onClick={() => selectDevice(device)}
+				aria-hidden="true"
+				key={device.id}
+			>
+				<span className="dropdown-item">
+					{device.name} - {device.type}
+				</span>
+			</li>
 		);
 	});
-	return <div>{deviceJSX}</div>;
+
+	return (
+		<div>
+			<h1>Set Device</h1>
+			<h3>
+				{settings &&
+				settings.spotifyDevice &&
+				settings.spotifyDevice.name
+					? `${settings.spotifyDevice.name}-${settings.spotifyDevice.type}`
+					: 'no device selected'}
+			</h3>
+			<div className="d-flex align-items-center border-bottom">
+				<div className="dropdown">
+					<button
+						className="btn btn-secondary dropdown-toggle"
+						type="button"
+						id="selectDevice"
+						data-bs-toggle="dropdown"
+						aria-expanded="false"
+					>
+						Select Spotify Device
+					</button>
+					<ul
+						className="dropdown-menu"
+						aria-labelledby="selectDevice"
+					>
+						{deviceJSX}
+					</ul>
+				</div>
+			</div>
+		</div>
+	);
 };
 
-export default selectDevice;
+export default SelectDevice;

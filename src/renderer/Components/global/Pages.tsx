@@ -8,6 +8,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { setLeagueData } from 'renderer/Store/leagueData';
 import { setLibrary } from 'renderer/Store/library';
+import { setSettings } from 'renderer/Store/settings';
 import ConfigFile from 'renderer/Interfaces/ConfigFile';
 import CurrentEvents from 'renderer/Interfaces/CurrentEvents';
 import { setAllEvents } from 'renderer/Store/eventData';
@@ -20,7 +21,7 @@ import EventManager from '../events/EventManager';
 import ConfigDebugger from '../config/ConfigDebugger';
 import Search from '../spotify/Search';
 import ReduxViewer from './ReduxViewer';
-import SelectDevice from '../settings/selectDevice';
+import SelectDevice from '../settings/SelectDevice';
 
 const Debugger = () => {
 	return (
@@ -65,6 +66,8 @@ const Pages = () => {
 		if (config !== null) {
 			dispatch(setLibrary(config.library));
 			dispatch(setAllEvents(config.eventData));
+			console.log(config);
+			dispatch(setSettings(config.settings));
 		}
 	});
 	window.electron.ipcRenderer.sendMessage('load-config', ['request']);

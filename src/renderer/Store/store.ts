@@ -3,6 +3,7 @@ import leagueDataReducer from './leagueData';
 import playlistDataReducer from './library';
 import spotifyAuthReducer from './spotifyAuth';
 import eventDataReducer from './eventData';
+import settingsReducer from './settings';
 
 export default configureStore({
 	reducer: {
@@ -10,5 +11,6 @@ export default configureStore({
 		leagueData: leagueDataReducer,
 		eventData: eventDataReducer,
 		library: playlistDataReducer,
+		settings: settingsReducer,
 	},
 });

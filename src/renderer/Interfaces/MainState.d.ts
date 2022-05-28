@@ -3,6 +3,7 @@ import EventInterface from './EventInterface';
 import CurrentEvents from './CurrentEvents';
 import SpotifyAuth from './SpotifyAuth';
 import EventData from './EventData';
+import Settings from './Settings';
 
 export default interface MainState {
 	eventData: { value: EventData };
@@ -11,4 +12,5 @@ export default interface MainState {
 	spotifyAuth: SpotifyAuth;
 	eventPlaylistMappings: { value: EventInterface<string> };
 	priorities: { value: EventInterface<number> };
+	settings: { value: Settings };
 }
