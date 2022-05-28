@@ -1,7 +1,14 @@
+import { CurrSong } from 'renderer/Store/currSong';
+import MainState from 'renderer/Interfaces/MainState';
+import { useSelector } from 'react-redux';
 import spotifyLogo from '/assets/images/Spotify_Logo_RGB_White.png';
 import background from '../../../videos/background.mp4';
 
 const Home = () => {
+	const currSong: CurrSong = useSelector(
+		(state: MainState) => state.currSong
+	);
+
 	return (
 		<div>
 			<video autoPlay muted loop className="video-background">
@@ -13,7 +20,9 @@ const Home = () => {
 					<p className="home-subtext">Get Playing</p>
 				</div>
 				<div className="home-page-event-container">
-					<p className="home-subtext">Baron Kill | Event </p>
+					<p className="home-subtext">
+						{currSong.songName} | {currSong.songEvent}
+					</p>
 				</div>
 			</div>
 			<div className="width-100">

@@ -4,7 +4,6 @@ import SpotifyAuth from 'renderer/Interfaces/SpotifyAuth';
 
 import Store from 'electron-store';
 import EventData from 'renderer/Interfaces/EventData';
-import SpotifyDevice from 'renderer/Interfaces/SpotifyDevice';
 import Settings from 'renderer/Interfaces/Settings';
 import defaultConfig from './defaultConfig.json';
 

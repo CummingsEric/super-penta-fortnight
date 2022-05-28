@@ -14,6 +14,10 @@ export default class SpotifyService {
 
 	switchByTime: number = 0;
 
+	songEvent: string = '';
+
+	songName: string = '';
+
 	constructor(configService: ConfigService) {
 		this.cs = configService;
 	}
@@ -39,6 +43,7 @@ export default class SpotifyService {
 
 		const res = this.queueSongFromPlaylist(playlistId, currTime);
 		if (res) {
+			this.songEvent = event.friendlyName;
 			this.currPlaylist = playlistId;
 			this.currPriority = event.priority;
 		}
@@ -102,6 +107,7 @@ export default class SpotifyService {
 		}).catch(() => {});
 		this.currSong = song.id;
 		this.switchByTime = song.duration_ms / 1000 + currTime;
+		this.songName = song.name;
 		return true;
 	};
 
