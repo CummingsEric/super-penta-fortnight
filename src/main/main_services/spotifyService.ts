@@ -110,4 +110,30 @@ export default class SpotifyService {
 		this.songName = song.name;
 		return true;
 	};
+
+	getUserDevices = (): string | null => {
+		const { spotifyAuth } = this.cs.config;
+		if (
+			spotifyAuth === undefined ||
+			spotifyAuth.spotifyAccessToken === undefined
+		)
+			return null;
+
+		const tokenUrl = 'https://api.spotify.com/v1/me/player/devices';
+		axios({
+			url: tokenUrl,
+			method: 'get',
+			headers: {
+				Authorization: `Bearer ${spotifyAuth.spotifyAccessToken.authToken}`,
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+		})
+			.then((resp) => {
+				console.log(resp);
+				return null;
+			})
+			.catch(() => {});
+		return null;
+	};
 }

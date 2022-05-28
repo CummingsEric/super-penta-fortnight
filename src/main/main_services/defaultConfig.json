@@ -97,5 +97,8 @@
 			}
 	},
 	"library": [],
-	"spotifyAuth": {}
+	"spotifyAuth": {},
+	"settings":{
+		"spotifyDevice":{}
+	}
 }

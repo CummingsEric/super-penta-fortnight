@@ -3,6 +3,8 @@ import Playlist from './Playlist';
 import CurrentEvents from './CurrentEvents';
 import SpotifyAuth from './SpotifyAuth';
 import EventData from './EventData';
+import Settings from './Settings';
+import EventInterface from './EventInterface';
 
 export default interface MainState {
 	eventData: { value: EventData };
@@ -10,4 +12,7 @@ export default interface MainState {
 	currSong: CurrSong;
 	library: { value: Playlist[] };
 	spotifyAuth: SpotifyAuth;
+	eventPlaylistMappings: { value: EventInterface<string> };
+	priorities: { value: EventInterface<number> };
+	settings: { value: Settings };
 }

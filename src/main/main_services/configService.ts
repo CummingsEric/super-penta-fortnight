@@ -4,6 +4,7 @@ import SpotifyAuth from 'renderer/Interfaces/SpotifyAuth';
 
 import Store from 'electron-store';
 import EventData from 'renderer/Interfaces/EventData';
+import Settings from 'renderer/Interfaces/Settings';
 import defaultConfig from './defaultConfig.json';
 
 export default class ConfigService {
@@ -25,6 +26,7 @@ export default class ConfigService {
 			eventData: this.getEventData(),
 			spotifyAuth: this.getSpotifyAuth(),
 			library: this.getLibrary(),
+			settings: this.getSettings(),
 		};
 	};
 
@@ -53,6 +55,7 @@ export default class ConfigService {
 		return eventData;
 	};
 
+	// Spotify Based Methods
 	setSpotifyAuth = (spotifyAuth: SpotifyAuth) => {
 		this.config.spotifyAuth = spotifyAuth;
 		this.store.set('spotifyAuth', spotifyAuth);
@@ -63,6 +66,18 @@ export default class ConfigService {
 		if (spotifyAuth === null || spotifyAuth === undefined)
 			return this.defaultAuth();
 		return spotifyAuth;
+	};
+
+	setSettings = (settings: Settings) => {
+		this.config.settings = settings;
+		this.store.set('settings', settings);
+	};
+
+	getSettings = (): Settings => {
+		const settings = this.store.get('settings') as Settings;
+		if (settings === null || settings === undefined)
+			return this.defaultSettings();
+		return settings;
 	};
 
 	deleteProperty = (key: string) => {
@@ -81,6 +96,10 @@ export default class ConfigService {
 
 	defaultAuth = (): SpotifyAuth => {
 		return defaultConfig.spotifyAuth;
+	};
+
+	defaultSettings = (): Settings => {
+		return defaultConfig.settings;
 	};
 
 	defaultEvents = () => {

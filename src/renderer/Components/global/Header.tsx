@@ -75,6 +75,9 @@ const Header = () => {
 							<Link className="navbar-text" to="/debug">
 								Debugger
 							</Link>
+							<Link className="navbar-text" to="/settings">
+								Settings
+							</Link>
 						</div>
 					</div>
 				</div>

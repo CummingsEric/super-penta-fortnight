@@ -14,12 +14,13 @@ import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import Playlist from 'renderer/Interfaces/Playlist';
+import Settings from 'renderer/Interfaces/Settings';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import LeagueService from './main_services/leagueService';
 import { findMaxEvent } from './main_services/leagueHelper';
 import ConfigService from './main_services/configService';
-import { authenticateUserFuncStart } from './main_services/spotifyHandler';
+import { authenticateUserFuncStart } from './main_services/spotifyAuth';
 import SpotifyService from './main_services/spotifyService';
 
 export default class AppUpdater {
@@ -53,9 +54,19 @@ ipcMain.on('load-config', async (event) => {
 	event.reply('load-config', data);
 });
 
+ipcMain.on('save-config', async (_event, arg) => {
+	const config = arg;
+	cm.setLibrary(config);
+});
+
 ipcMain.on('save-library', async (_event, arg) => {
 	const library = arg as Playlist[];
 	cm.setLibrary(library);
+});
+
+ipcMain.on('save-settings', async (_event, arg) => {
+	const settings = arg[0] as Settings;
+	cm.setSettings(settings);
 });
 
 ipcMain.on('reset-config', async () => {
@@ -158,6 +169,8 @@ const createWindow = async () => {
 		show: false,
 		width: 1024,
 		height: 728,
+		minWidth: 1024,
+		minHeight: 728,
 		icon: getAssetPath('icon.png'),
 		webPreferences: {
 			preload: app.isPackaged
