@@ -21,7 +21,7 @@ import EventManager from '../events/EventManager';
 import ConfigDebugger from '../config/ConfigDebugger';
 import Search from '../spotify/Search';
 import ReduxViewer from './ReduxViewer';
-import SelectDevice from '../settings/SelectDevice';
+import SelectDevice from '../settings/selectDevice';
 
 const Debugger = () => {
 	return (
