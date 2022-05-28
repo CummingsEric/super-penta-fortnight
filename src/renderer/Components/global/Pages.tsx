@@ -66,7 +66,6 @@ const Pages = () => {
 		if (config !== null) {
 			dispatch(setLibrary(config.library));
 			dispatch(setAllEvents(config.eventData));
-			console.log(config);
 			dispatch(setSettings(config.settings));
 		}
 	});

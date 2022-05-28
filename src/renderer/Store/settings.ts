@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import Settings from 'renderer/Interfaces/Settings';
-import SpotifyDevice from 'renderer/Interfaces/SpotifyDevice';
 
 export interface SettingsInit {
 	value: Settings;
@@ -15,7 +14,6 @@ export const settings = createSlice({
 	initialState,
 	reducers: {
 		setSettings: (state, action) => {
-			console.log(action.payload);
 			state.value = action.payload;
 		},
 	},

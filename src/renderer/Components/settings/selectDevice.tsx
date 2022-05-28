@@ -31,7 +31,6 @@ const SelectDevice = () => {
 		})
 			.then((resp) => {
 				const inDevices = resp.data.devices as SpotifyDevice[];
-				console.log(inDevices.length, devices.length);
 				if (inDevices.length !== devices.length) {
 					setDevices(resp.data.devices);
 				}
@@ -47,7 +46,6 @@ const SelectDevice = () => {
 	const selectDevice = (device: SpotifyDevice) => {
 		const newSettings: Settings = { spotifyDevice: device };
 		window.electron.ipcRenderer.sendMessage('save-settings', [newSettings]);
-		console.log('selecting device:', newSettings);
 		dispatch(setSettings(newSettings));
 	};
 

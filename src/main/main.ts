@@ -59,7 +59,7 @@ ipcMain.on('ipc-example', async (event) => {
 const startSpotifyAuth = (_mainWindow: BrowserWindow) => {
 	if (_mainWindow) {
 		const initialAuth = cm.getSpotifyAuth();
-		console.log('\n\ninitial auth state:', initialAuth, '\n\n');
+		// console.log('\n\ninitial auth state:', initialAuth, '\n\n');
 		authenticateUserFuncStart(initialAuth, _mainWindow, cm);
 	}
 	setTimeout(startSpotifyAuth, 3540000, _mainWindow);
@@ -82,7 +82,6 @@ ipcMain.on('save-library', async (_event, arg) => {
 
 ipcMain.on('save-settings', async (_event, arg) => {
 	const settings = arg[0] as Settings;
-	console.log('settings recieved in main:\n\n ', settings);
 	cm.setSettings(settings);
 });
 
