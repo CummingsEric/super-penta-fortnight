@@ -2,6 +2,40 @@
  * @NOTE: Prepend a `~` to css file paths that are in your node_modules
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
+
+.errorClose {
+	float: right;
+	transition: all .1s ease-in-out;
+	z-index: 2;
+	color: white;
+	background-color: transparent;
+	border: none;
+	appearance: none;
+	font-size: 1rem;
+	transition: all ease-in 0.1s;
+	cursor: pointer;
+	opacity: 0.9;
+}
+
+.errorClose:hover {
+	transform: scale(1.1);
+}
+
+.errorLink {
+	z-index: 2;
+	color:#ffffff;
+}
+
+.errorLink:hover {
+	z-index: 2;
+	color:#220000;
+}
+
+.errorBar {
+	z-index: 2;
+	background-color: #ff6464;
+}
+
 .topGrabBar {
 	-webkit-user-select: none;
   	-webkit-app-region: drag;

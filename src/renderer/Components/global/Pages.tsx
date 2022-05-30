@@ -13,6 +13,7 @@ import ConfigFile from 'renderer/Interfaces/ConfigFile';
 import CurrentEvents from 'renderer/Interfaces/CurrentEvents';
 import { setAllEvents } from 'renderer/Store/eventData';
 import { setSong } from 'renderer/Store/currSong';
+import ErrorBanner from './ErrorBanner';
 import LibraryManager from '../playlists/LibraryManager';
 import LeagueDataDisplay from '../league/LeagueDataDisplay';
 import Header from './Header';
@@ -79,6 +80,7 @@ const Pages = () => {
 	return (
 		<Router>
 			<Header />
+			<ErrorBanner />
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/search" element={<Search />} />
