@@ -5,6 +5,7 @@ import SpotifyAuth from './SpotifyAuth';
 import EventData from './EventData';
 import Settings from './Settings';
 import EventInterface from './EventInterface';
+import ErrorMessage from './ErrorMessage';
 
 export default interface MainState {
 	eventData: { value: EventData };
@@ -15,4 +16,5 @@ export default interface MainState {
 	eventPlaylistMappings: { value: EventInterface<string> };
 	priorities: { value: EventInterface<number> };
 	settings: { value: Settings };
+	errorMessages: { value: ErrorMessage[] };
 }

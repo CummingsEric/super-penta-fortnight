@@ -7,6 +7,7 @@ import JSONPrinter from '../global/JSONPrinter';
 const SpotifyAuth = () => {
 	// Searched songs
 	const spotifyAuth = useSelector((state: MainState) => state.spotifyAuth);
+	const settings = useSelector((state: MainState) => state.settings.value);
 
 	// Get library
 	const library: Playlist[] = useSelector(
@@ -24,7 +25,10 @@ const SpotifyAuth = () => {
 			uris: [song.uri],
 			position_ms: 0,
 		};
-		const tokenUrl = 'https://api.spotify.com/v1/me/player/play';
+		let tokenUrl = 'https://api.spotify.com/v1/me/player/play';
+		if (settings && settings.spotifyDevice) {
+			tokenUrl = `${tokenUrl}?device_id=${settings.spotifyDevice.id}`;
+		}
 		axios({
 			url: tokenUrl,
 			method: 'put',
