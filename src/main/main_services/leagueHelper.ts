@@ -348,6 +348,7 @@ const processData = (
 		heraldKilledByEnemy: heraldKilledByEnemy(),
 		summonerDoingGood: getSummonerKDA() >= 2,
 		summonerDoingBad: getSummonerKDA() <= 0.5,
+		defaultEvent: true,
 	};
 
 	return leagueEventDict;

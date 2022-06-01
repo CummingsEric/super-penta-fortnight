@@ -22,6 +22,15 @@ export default class SpotifyService {
 		this.cs = configService;
 	}
 
+	resetGlobals = () => {
+		this.currSong = undefined;
+		this.currPlaylist = undefined;
+		this.currPriority = 0;
+		this.switchByTime = 0;
+		this.songEvent = '';
+		this.songName = '';
+	};
+
 	queueSongByEvent = async (event: EventProps, currTime: number) => {
 		const { playlistId } = event;
 
@@ -41,11 +50,16 @@ export default class SpotifyService {
 			return;
 		}
 
-		const song = this.getSongFromPlaylist(playlistId);
-		if (song === null) return;
+		// Get 1-5 random songs. First will be played, others will be added to context
+		// so music is always playing even if app bugs out
+		const songs = this.getRandomSongs(playlistId);
+		if (songs === null) return;
 
-		const res = await this.queueSong(song);
+		// Was song queued successfully?
+		const res = await this.queueSong(songs);
 		if (res) {
+			// First song is playing
+			const song = songs[0];
 			this.songEvent = event.friendlyName;
 			this.currPlaylist = playlistId;
 			this.currPriority = event.priority;
@@ -55,33 +69,37 @@ export default class SpotifyService {
 		}
 	};
 
-	getSongFromPlaylist = (playlistId: string): SpotifyTracksData | null => {
+	getPlaylistSongs = (playlistId: string): SpotifyTracksData[] | null => {
 		const { library } = this.cs.config;
 		if (library === undefined) return null;
 		const playlist = library.find((e) => e.id === playlistId);
 		if (playlist === undefined) return null;
-
-		// Pick a random song
-		const playlistSongs = Object.values(playlist.songs);
-		let song =
-			playlistSongs[Math.floor(Math.random() * playlistSongs.length)];
-
-		for (let i = 0; i < 2; i++) {
-			// Randomly selected the same song... attempt to reroll twice
-			if (song.id === this.currSong) {
-				const randInd = Math.floor(
-					Math.random() * playlistSongs.length
-				);
-				song = playlistSongs[randInd];
-			} else {
-				break;
-			}
-		}
-
-		return song;
+		const songs = Object.values(playlist.songs);
+		if (songs.length === 0) return null;
+		return songs;
 	};
 
-	queueSong = async (song: SpotifyTracksData): Promise<boolean> => {
+	getRandomSongs = (playlistId: string): SpotifyTracksData[] | null => {
+		const playlistSongs = this.getPlaylistSongs(playlistId);
+		if (playlistSongs === null) return null;
+
+		const numSongs = Math.min(5, playlistSongs.length);
+
+		// Shuffle songs and return at most 5
+		const shuffled = playlistSongs.sort(() => 0.5 - Math.random());
+		let selected = shuffled.slice(0, numSongs);
+
+		// If the first song is the same as current song reshuffle the 5 songs
+		const firstSong = selected[0];
+		if (firstSong.id === this.currSong) {
+			selected = selected.sort(() => 0.5 - Math.random());
+		}
+
+		return selected;
+	};
+
+	// Queue the first song in an array (have 4 additional as backups)
+	queueSong = async (songs: SpotifyTracksData[]): Promise<boolean> => {
 		// Not authenticated yet
 		const { spotifyAuth } = this.cs.config;
 		if (
@@ -90,9 +108,12 @@ export default class SpotifyService {
 		)
 			return false;
 
-		const startTime = song.start_time !== undefined ? song.start_time : 0;
+		const firstSong = songs[0];
+		const songUris = songs.map((e) => e.uri);
+		const startTime =
+			firstSong.start_time !== undefined ? firstSong.start_time : 0;
 		const body = {
-			uris: [song.uri],
+			uris: songUris,
 			position_ms: startTime,
 		};
 		const tokenUrl = 'https://api.spotify.com/v1/me/player/play';

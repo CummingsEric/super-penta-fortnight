@@ -84,7 +84,7 @@ ipcMain.on('get-league-data', async (event) => {
 
 	// A new game started, we need to reset event priority
 	if (data.lastUpdate > data.updateTime) {
-		qm.currPriority = 0;
+		qm.resetGlobals();
 	}
 
 	// Get the event with highest priority and queue

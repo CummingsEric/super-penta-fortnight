@@ -18,10 +18,9 @@ const SpotifyAuth = () => {
 		const playlist = library.find((e) => e.id === playlistId);
 		if (playlist === undefined) return;
 		const playlistSongs = Object.values(playlist.songs);
-		const song =
-			playlistSongs[Math.floor(Math.random() * playlistSongs.length)];
+		const songURIs = playlistSongs.map((e) => e.uri);
 		const body = {
-			uris: [song.uri],
+			uris: songURIs,
 			position_ms: 0,
 		};
 		const tokenUrl = 'https://api.spotify.com/v1/me/player/play';

@@ -94,7 +94,12 @@
 			"friendlyName": "Your KDA is below .5",
 			"priority": 1,
 			"playlistId": ""
-			}
+		},
+		"defaultEvent":{
+			"friendlyName": "Default",
+			"priority": 0,
+			"playlistId": ""
+		}
 	},
 	"library": [],
 	"spotifyAuth": {}
