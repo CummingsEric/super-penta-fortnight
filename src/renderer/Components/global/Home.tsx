@@ -11,9 +11,6 @@ const Home = () => {
 
 	return (
 		<div>
-			<video autoPlay muted loop className="video-background">
-				<source src={background} type="video/mp4" />
-			</video>
 			<div className="page-container">
 				<div className="home-page-main-text-container">
 					<p className="home-header">Welcome to Sona</p>
