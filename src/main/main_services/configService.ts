@@ -1,7 +1,6 @@
 import ConfigFile from 'renderer/Interfaces/ConfigFile';
 import Playlist from 'renderer/Interfaces/Playlist';
 import SpotifyAuth from 'renderer/Interfaces/SpotifyAuth';
-
 import Store from 'electron-store';
 import EventData from 'renderer/Interfaces/EventData';
 import Settings from 'renderer/Interfaces/Settings';

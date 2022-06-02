@@ -64,7 +64,7 @@ const SelectDevice = () => {
 	});
 
 	return (
-		<div>
+		<div className="page-container">
 			<h1>Set Device</h1>
 			<h3>
 				{settings &&

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
 import MainState from 'renderer/Interfaces/MainState';
@@ -14,6 +15,8 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 	const libraryData: Playlist[] = useSelector(
 		(state: MainState) => state.library.value
 	);
+	const spotifyAuth = useSelector((state: MainState) => state.spotifyAuth);
+	const settings = useSelector((state: MainState) => state.settings.value);
 
 	const { playlistId } = props;
 	const playlist = libraryData.find((e) => e.id === playlistId);
@@ -27,6 +30,32 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 
 	const deleteP = () => {
 		dispatch(removePlaylist({ playlistId: playlist.id }));
+	};
+
+	// Play songs
+	const play = async () => {
+		if (playlist === undefined) return;
+		const playlistSongs = Object.values(playlist.songs);
+		if (playlistSongs.length === 0) return;
+		const songURIs = playlistSongs.map((e) => e.uri);
+		const body = {
+			uris: songURIs,
+			position_ms: 0,
+		};
+		let tokenUrl = 'https://api.spotify.com/v1/me/player/play';
+		if (settings && settings.spotifyDevice) {
+			tokenUrl = `${tokenUrl}?device_id=${settings.spotifyDevice.id}`;
+		}
+		axios({
+			url: tokenUrl,
+			method: 'put',
+			headers: {
+				Authorization: `Bearer ${spotifyAuth.spotifyAccessToken?.authToken}`,
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			data: body,
+		}).catch(() => {});
 	};
 
 	const songJsx = Object.entries(songs).map(([key, entry]) => (
@@ -48,31 +77,41 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 				</p>
 			</div>
 			<div className="d-flex align-items-center border-bottom">
-				<button
-					type="button"
-					className="btn btn-outline-danger"
+				<i
+					className="bi bi-x clickable fs-5 p-1"
 					onClick={() => remove(key)}
-				>
-					Remove
-				</button>
+					aria-hidden="true"
+				/>
 			</div>
 		</div>
 	));
 
 	return (
 		<div>
-			<h3>Playlist &apos;{name}&apos;</h3>
-			<div className="pb-2">
-				{numSongs === 0 ? 'No songs yet!' : songJsx}
+			<div className="w-100 d-flex">
+				<div className="flex-grow-1 d-flex align-items-center">
+					<h3 className="m-0">Playlist &apos;{name}&apos;</h3>
+				</div>
+				<div className="d-flex align-items-center">
+					<i
+						className="bi bi-play clickable fs-3 px-1"
+						onClick={play}
+						aria-hidden="true"
+					/>
+					<i
+						className="bi bi-pencil clickable fs-5 p-2 mx-2"
+						onClick={() => console.log('beep boop')}
+						aria-hidden="true"
+					/>
+					<i
+						className="bi bi-trash clickable text-danger fs-5 p-2"
+						onClick={deleteP}
+						aria-hidden="true"
+					/>
+				</div>
 			</div>
-			<div>
-				<button
-					type="button"
-					className="btn btn-danger"
-					onClick={() => deleteP()}
-				>
-					Delete Playlist
-				</button>
+			<div className="py-3">
+				{numSongs === 0 ? 'No songs yet!' : songJsx}
 			</div>
 		</div>
 	);

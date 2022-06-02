@@ -26,7 +26,7 @@
 			"playlistId": ""
 		},
 		"barronKilledByFriendly": {
-			"friendlyName":"Barron slain by friendly team",
+			"friendlyName":"Baron slain by friendly team",
 			"priority": 11,
 			"playlistId": ""
 		},
@@ -94,7 +94,12 @@
 			"friendlyName": "Your KDA is below .5",
 			"priority": 1,
 			"playlistId": ""
-			}
+		},
+		"defaultEvent":{
+			"friendlyName": "Default",
+			"priority": 0,
+			"playlistId": ""
+		}
 	},
 	"library": [],
 	"spotifyAuth": {},

@@ -53,6 +53,7 @@ const Pages = () => {
 	// Begin pinging the main process for league updates every 10 seconds
 	const update = () => {
 		window.electron.ipcRenderer.sendMessage('get-league-data', ['request']);
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		window.electron.ipcRenderer.once('get-league-data', (arg: any) => {
 			if (arg === null || typeof arg !== 'object') return;
 			const data = arg.leagueData as CurrentEvents;

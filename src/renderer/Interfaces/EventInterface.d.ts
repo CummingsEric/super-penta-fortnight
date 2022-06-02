@@ -18,4 +18,5 @@ export default interface EventInterface<Type> {
 	heraldKilledByEnemy: Type;
 	summonerDoingGood: Type;
 	summonerDoingBad: Type;
+	defaultEvent: Type;
 }

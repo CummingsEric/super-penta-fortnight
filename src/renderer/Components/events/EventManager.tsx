@@ -94,10 +94,10 @@ const EventManager = () => {
 					<div className="event-header-3">Priority</div>
 				</div>
 				<form onSubmit={handleSubmit(onSubmit)}>
-					<div className="scrollbar-gradient events-container">
+					<div className="scrollbar-gradient events-container mb-3">
 						<div className="force-overflow">{eventDisplay}</div>
 					</div>
-					<input type="submit" />
+					<input type="submit" className="btn btn-primary" />
 				</form>
 			</div>
 		</div>
