@@ -19,6 +19,7 @@ const LibraryManager = () => {
 		handleSubmit,
 		reset,
 		formState: { errors },
+		clearErrors,
 	} = useForm<FormInput>();
 	const libraryData: Playlist[] = useSelector(
 		(state: MainState) => state.library.value
@@ -27,15 +28,14 @@ const LibraryManager = () => {
 	const [playlistId, setPlaylist] = useState<string>('');
 	const playlists = libraryData.map((e) => {
 		return (
-			<div key={e.id} className="pb-2">
-				<strong>{e.name}</strong>
-				<button
-					type="button"
-					onClick={() => setPlaylist(e.id)}
-					className="btn btn-secondary mx-4"
-				>
-					Edit
-				</button>
+			<div
+				key={e.id}
+				role="button"
+				className="pb-2 pe-auto hov-under"
+				onClick={() => setPlaylist(e.id)}
+				aria-hidden="true"
+			>
+				<strong className="">{e.name}</strong>
 			</div>
 		);
 	});
@@ -49,37 +49,35 @@ const LibraryManager = () => {
 	return (
 		<div className="page-container">
 			<h1 className="text-center pb-2">Library</h1>
-			<div className="container">
-				<div>
-					<h3>Create a new playlist</h3>
-					<form onSubmit={handleSubmit(onSubmit)}>
-						<div className="input-group mb-3">
-							<input
-								className="form-control"
-								placeholder="New playlist name"
-								aria-label="Song"
-								// eslint-disable-next-line react/jsx-props-no-spreading
-								{...register('playlistName', {
-									required: true,
-								})}
-							/>
-							{errors.playlistName && (
-								<span>This field is required</span>
-							)}
-							<input
-								className="btn btn-primary"
-								type="submit"
-								value="Create"
-							/>
+			<div className="container-fluid">
+				<div className="row">
+					<div className="col-3">
+						<div className="pb-3">
+							<form onSubmit={handleSubmit(onSubmit)}>
+								<input
+									className={`form-control rounded-0 border-0 bg-dark text-white ${
+										errors.playlistName && 'is-invalid'
+									}`}
+									placeholder="Create a new playlist"
+									aria-label="Song"
+									// eslint-disable-next-line react/jsx-props-no-spreading
+									{...register('playlistName', {
+										required: true,
+									})}
+									onBlur={() => clearErrors()}
+								/>
+							</form>
 						</div>
-					</form>
+						<div>
+							{libraryData.length === 0
+								? 'No Playlists'
+								: playlists}
+						</div>
+					</div>
+					<div className="col-9">
+						<PlaylistManager playlistId={playlistId} />
+					</div>
 				</div>
-
-				<div className="pb-2">
-					<h3>All Playlists</h3>
-					{libraryData.length === 0 ? 'No Playlists' : playlists}
-				</div>
-				<PlaylistManager playlistId={playlistId} />
 			</div>
 		</div>
 	);
