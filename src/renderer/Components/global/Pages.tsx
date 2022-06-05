@@ -17,6 +17,7 @@ import ErrorBanner from './ErrorBanner';
 import LibraryManager from '../playlists/LibraryManager';
 import LeagueDataDisplay from '../league/LeagueDataDisplay';
 import Header from './Header';
+import SideBar from './SideBar';
 import Home from './Home';
 import SpotifyAuth from '../spotify/SpotifyDebugger';
 import EventManager from '../events/EventManager';
@@ -81,6 +82,7 @@ const Pages = () => {
 	return (
 		<Router>
 			<Header />
+			<SideBar />
 			<ErrorBanner />
 			<Routes>
 				<Route path="/" element={<Home />} />

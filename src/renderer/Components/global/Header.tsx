@@ -42,46 +42,6 @@ const Header = () => {
 				</button>
 			</div>
 			<div className="topGrabBar " />
-			<nav className="navbar navbar-expand-lg navbar-spacing">
-				<div className="container-fluid">
-					<button
-						className="navbar-toggler"
-						type="button"
-						data-bs-toggle="collapse"
-						data-bs-target="#navbarNavAltMarkup"
-						aria-controls="navbarNavAltMarkup"
-						aria-expanded="false"
-						aria-label="Toggle navigation"
-					>
-						<span className="navbar-toggler-icon" />
-					</button>
-					<div
-						className="collapse navbar-collapse"
-						id="navbarNavAltMarkup"
-					>
-						<div>
-							<Link className="navbar-text" to="/">
-								Home
-							</Link>
-							<Link className="navbar-text" to="/search">
-								Search
-							</Link>
-							<Link className="navbar-text" to="/library">
-								Library
-							</Link>
-							<Link className="navbar-text" to="/events">
-								Events
-							</Link>
-							<Link className="navbar-text" to="/debug">
-								Debugger
-							</Link>
-							<Link className="navbar-text" to="/settings">
-								Settings
-							</Link>
-						</div>
-					</div>
-				</div>
-			</nav>
 		</>
 	);
 };

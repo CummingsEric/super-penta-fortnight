@@ -10,17 +10,15 @@ const Home = () => {
 	);
 
 	return (
-		<div>
-			<div className="page-container">
-				<div className="home-page-main-text-container">
-					<p className="home-header">Welcome to Sona</p>
-					<p className="home-subtext">Get Playing</p>
-				</div>
-				<div className="home-page-event-container">
-					<p className="home-subtext">
-						{currSong.songName} | {currSong.songEvent}
-					</p>
-				</div>
+		<div className="page-container">
+			<div className="home-page-main-text-container">
+				<p className="home-header">Welcome to Sona</p>
+				<p className="home-subtext">Get Playing</p>
+			</div>
+			<div className="home-page-event-container">
+				<p className="home-subtext">
+					{currSong.songName} | {currSong.songEvent}
+				</p>
 			</div>
 			<div className="width-100">
 				<img className="spotify-logo" alt="" src={spotifyLogo} />

@@ -12,9 +12,33 @@
 	text-decoration: underline;
 }
 
+/*.page-container {
+	position: absolute;
+	height: 100%;
+	width: calc(100% - 78px);
+	left: 78px;
+	overflow: hidden !important;
+	transition: all 0.5s ease;
+}
+
+.sidebar.open ~ .page-container{
+	width: calc(100% - 240px);
+	left:240px;
+}*/
+
 .errorAlert {
 	background-color: #ff6464;
 	color: white;
+	width: calc(100% - 78px);
+	left: 78px;
+	transition: all 0.5s ease;
+}
+
+.sidebar.open ~ div .errorAlert {
+	background-color: #ff6464;
+	color: white;
+	width: calc(100% - 240px);
+	left:240px;
 }
 
 .hov-under:hover {
@@ -29,7 +53,8 @@
 	-webkit-user-select: none;
 	user-select: none;
   	-webkit-app-region: drag;
-	min-height: 15px;
+	min-height: 20px;
+	margin-bottom: 14px;
 	max-width: calc(100% - 138px);
 }
 
@@ -75,18 +100,6 @@ li {
   list-style: none;
 }
 
-a {
-  text-decoration: none;
-  height: fit-content;
-  width: fit-content;
-  margin: 10px;
-}
-
-a:hover {
-  opacity: 1;
-  text-decoration: none;
-}
-
 .video-background {
 	z-index: 0;
 	position: fixed;
@@ -96,11 +109,6 @@ a:hover {
 	min-height: 100%;
 	opacity: 50%;
   }
-
-.page-container {
-	padding: 5vh;
-	overflow: hidden !important;
-}
 
 .navbar {
 	z-index: 1;
@@ -153,14 +161,17 @@ a:hover {
 }
 
 .spotify-logo {
+	position: absolute;
+	bottom: 100px;
+	right: 75px;
 	height: 30px;
 	opacity: 50%;
-	position: fixed;
+
 	padding-left: 92vw;
 }
 
 .width-100 {
-	width: 100%
+	width: 100%;
 }
 
 .event-input-1 {
@@ -236,4 +247,238 @@ a:hover {
     background-image: -webkit-linear-gradient(bottom, #C862FF 0%, #3a3a3a 99%, #C862FF 100%);
     background-image: linear-gradient(to top, #C862FF 0%, #3a3a3a 99%, #C862FF 100%);
 	border-radius: 10px; */
+}
+
+body{
+	position: relative;
+	min-height: 100vh;
+	width: 100%;
+	overflow: hidden;
+}
+
+.sidebar{
+	position: fixed;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 78px;
+	background: #3a3a3a;
+	padding: 6px 14px;
+	z-index: 99;
+	transition: all 0.5s ease;
+  }
+
+.sidebar.open{
+	width: 240px;
+}
+
+/*TOP NAVBAR LOGO*/
+
+.sidebar .logo_content .logo{
+	color: #fff;
+	display: flex;
+	height: 50px;
+	width: 100%;
+	align-items: center;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.sidebar.open .logo_content .logo{
+	opacity: 1;
+}
+
+.logo_content .logo i{
+	font-size: 28px;
+	margin-right: 5px;
+}
+
+.logo_content .logo .logo_name{
+	font-size: 28px;
+	font-weight: 400;
+}
+
+.sidebar #btn{
+	position: absolute;
+	color: #fff;
+	left: 50%;
+	top: 6px;
+	font-size: 20px;
+	height: 50px;
+	width: 50px;
+	text-align: center;
+	line-height: 50px;
+	transform: translateX(-50%);
+}
+
+.sidebar.open #btn{
+	left: 85%;
+}
+
+/*SIDE NAVBAR GENERAL*/
+
+.sidebar ul{
+	margin-top: 20px;
+}
+
+.sidebar ul li{
+	position: relative;
+	height: 50px;
+	width: 100%;
+	list-style: none;
+
+}
+
+.sidebar ul li a{
+	width:auto;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	transition: all 0.4s ease;
+	border-radius: 12px;
+	white-space: nowrap;
+}
+
+.sidebar ul li a:hover{
+	color: #3a3a3a;
+	background: #fff;
+}
+
+.sidebar ul li a i{
+	height: 50px;
+	min-width: 50px;
+	border-radius: 50px;
+	line-height: 50px;
+	text-align: center;
+}
+
+.sidebar .links_name{
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.4s cubic-bezier(0, 1, 0.5, 1);
+}
+
+.sidebar.open .links_name{
+	opacity: 1;
+	pointer-events: auto;
+	transition: opacity 0.4s ease-in;
+}
+
+.sidebar ul li .tooltip-cust{
+	position: absolute;
+	left: 122px;
+	top:0%;
+	transform: translate(-45%, -50%);
+	border-radius: 6px;
+	height: 35px;
+	width: 122px;
+	background: #fff;
+	color:#3a3a3a;
+	box-shadow: 0, 5px, 10px rgba(0, 0, 0, 0.2);
+	line-height: 35px;
+	text-align: center;
+	transition: 0s;
+	opacity: 0;
+	pointer-events: none;
+	transition: all 0.5s ease;
+	display: block;
+}
+
+.sidebar.open ul li .tooltip-cust{
+	display: none;
+}
+
+.sidebar ul li:hover .tooltip-cust{
+	transition: all 0.5s ease;
+	opacity: 1;
+	top:50%;
+}
+
+
+/*SETTINGS*/
+.sidebar .settings{
+	position: absolute;
+	padding: 14px;
+	left: 0;
+	bottom: 0px;
+	height: 78px;
+	width: 100%;
+	list-style: none;
+	background:#272727;
+}
+
+.sidebar .settings a{
+	width:auto;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	transition: all 0.4s ease;
+	border-radius: 12px;
+	white-space: nowrap;
+}
+
+.sidebar .settings a:hover{
+	color: #3a3a3a;
+	background: #fff;
+}
+
+.sidebar .settings a i{
+	height: 50px;
+	min-width: 50px;
+	border-radius: 50px;
+	line-height: 50px;
+	text-align: center;
+}
+
+.sidebar .settings .tooltip-cust{
+	position: absolute;
+	left: 122px;
+	top:0%;
+	transform: translate(-45%, -50%);
+	border-radius: 6px;
+	height: 35px;
+	width: 122px;
+	background: #fff;
+	color:#3a3a3a;
+	box-shadow: 0, 5px, 10px rgba(0, 0, 0, 0.2);
+	line-height: 35px;
+	text-align: center;
+	transition: 0s;
+	opacity: 0;
+	pointer-events: none;
+	transition: all 0.5s ease;
+	display: block;
+}
+
+.sidebar.open .settings .tooltip-cust{
+	display: none;
+}
+
+.sidebar .settings:hover .tooltip-cust{
+	transition: all 0.5s ease;
+	opacity: 1;
+	top:50%;
+}
+
+
+
+.nav_list{
+	padding: 0px;
+}
+
+/* Stuff to make the main page resize correctly*/
+.page-container {
+	position: absolute;
+	height: 100%;
+	width: calc(100% - 78px);
+	left: 78px;
+	overflow: hidden !important;
+	transition: all 0.5s ease;
+}
+
+.sidebar.open ~ .page-container{
+	width: calc(100% - 240px);
+	left:240px;
 }
