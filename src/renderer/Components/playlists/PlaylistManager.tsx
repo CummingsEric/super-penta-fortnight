@@ -70,7 +70,7 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 					alt={`${entry.album.name}Artwork`}
 				/>
 			</div>
-			<div className="flex-grow-1 ms-3 border-bottom">
+			<div className="flex-grow-1 ms-3 border-bottom border-opacity-50 border-light">
 				<p className="pt-2 mb-0 small lh-sm">
 					<strong className="d-block text-gray-dark">
 						{entry.name}
@@ -78,7 +78,7 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 					<span>{entry.artists[0].name}</span>
 				</p>
 			</div>
-			<div className="d-flex align-items-center border-bottom">
+			<div className="d-flex align-items-center border-bottom border-opacity-50 border-light">
 				<i
 					className="bi bi-x clickable fs-5 p-1"
 					onClick={() => remove(key)}

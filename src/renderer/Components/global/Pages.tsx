@@ -28,7 +28,7 @@ import SelectDevice from '../settings/selectDevice';
 
 const Debugger = () => {
 	return (
-		<div>
+		<div className="container-fluid">
 			<div>
 				<Link className="link-light pe-2" to="league">
 					League Data

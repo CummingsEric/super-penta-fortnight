@@ -39,7 +39,7 @@ const SongDisplay = (props: SongProps) => {
 						alt={`${e.album.name}Artwork`}
 					/>
 				</div>
-				<div className="flex-grow-1 ms-3 border-bottom">
+				<div className="flex-grow-1 ms-3 border-bottom border-opacity-50 border-light">
 					<p className="pt-2 mb-0 small lh-sm">
 						<strong className="d-block text-gray-dark">
 							{e.name}
@@ -47,7 +47,8 @@ const SongDisplay = (props: SongProps) => {
 						<span>{e.artists[0].name}</span>
 					</p>
 				</div>
-				<div className="d-flex align-items-center border-bottom">
+				<div />
+				<div className="d-flex align-items-center border-bottom border-opacity-50 border-light">
 					<div className="dropdown">
 						<button
 							className="btn btn-secondary dropdown-toggle"
