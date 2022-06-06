@@ -1,21 +1,17 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import MainState from 'renderer/Interfaces/MainState';
 import Playlist from 'renderer/Interfaces/Playlist';
 
-import { addSongs, removeSong, removePlaylist } from 'renderer/Store/library';
+import { removeSong, removePlaylist } from 'renderer/Store/library';
+import ImportPlaylist from './ImportPlaylist';
 
 interface PlaylistManagerProps {
 	playlistId: string;
 }
-
-type FormInput = {
-	spotifyURL: string;
-};
 
 const PlaylistManager = (props: PlaylistManagerProps) => {
 	const dispatch = useDispatch();
@@ -25,15 +21,6 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 	);
 	const spotifyAuth = useSelector((state: MainState) => state.spotifyAuth);
 	const settings = useSelector((state: MainState) => state.settings.value);
-
-	const {
-		register,
-		handleSubmit,
-		reset,
-		formState: { errors },
-		clearErrors,
-		setError,
-	} = useForm<FormInput>();
 
 	const { playlistId } = props;
 	const playlist = libraryData.find((e) => e.id === playlistId);
@@ -47,37 +34,6 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 
 	const deleteP = () => {
 		dispatch(removePlaylist({ playlistId: playlist.id }));
-	};
-
-	const onSubmit: SubmitHandler<FormInput> = (data: FormInput) => {
-		const { spotifyURL } = data;
-		const tokens = spotifyURL
-			.substring(0, spotifyURL.indexOf('?'))
-			.split('/');
-		const spotifyPlaylistId = tokens[4];
-		if (spotifyPlaylistId === undefined) {
-			setError('spotifyURL', { type: 'focus' }, { shouldFocus: true });
-			return;
-		}
-		const tokenUrl = `https://api.spotify.com/v1/playlists/${spotifyPlaylistId}/tracks`;
-		axios({
-			url: tokenUrl,
-			method: 'get',
-			headers: {
-				Authorization: `Bearer ${spotifyAuth.spotifyAccessToken?.authToken}`,
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			data: playlist,
-		})
-			.then((res) => {
-				const songsFromSpotify = res.data.items;
-				dispatch(addSongs({ songs: songsFromSpotify, playlistId }));
-				reset({ spotifyURL: '' });
-				$('#importPlaylist').modal('hide');
-				return true;
-			})
-			.catch(() => {});
 	};
 
 	// Play songs
@@ -191,61 +147,7 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 			<div className="my-3 song-display">
 				{numSongs === 0 ? noSongsJsx : songJsx}
 			</div>
-			<div
-				className="modal fade"
-				id="importPlaylist"
-				data-bs-keyboard="false"
-				data-bs-backdrop="static"
-				tabIndex={-1}
-				aria-hidden="true"
-			>
-				<div className="modal-dialog modal-dialog-centered modal-lg">
-					<div className="modal-content">
-						<div className="modal-header">
-							<h5 className="modal-title text-dark">
-								Import Spotify Playlist
-							</h5>
-							<button
-								type="button"
-								className="btn-close"
-								data-bs-dismiss="modal"
-								aria-label="Close"
-							/>
-						</div>
-						<form
-							className="me-3"
-							onSubmit={handleSubmit(onSubmit)}
-						>
-							<div className="modal-body text-dark">
-								<span className="col-form-label">
-									Spotify Playlist URL
-								</span>
-								<input
-									id="url"
-									className={`form-control  ${
-										errors.spotifyURL && 'is-invalid'
-									}`}
-									placeholder="https://open.spotify.com/playlist/1VhJ4MMCZFRqFU3zc76zWp"
-									aria-label="Song"
-									// eslint-disable-next-line react/jsx-props-no-spreading
-									{...register('spotifyURL', {
-										required: true,
-									})}
-									onBlur={() => clearErrors()}
-								/>
-							</div>
-							<div className="modal-footer">
-								<input
-									className="btn btn-primary"
-									type="submit"
-									id="submitURL"
-									value="Import"
-								/>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
+			<ImportPlaylist spotifyAuth={spotifyAuth} playlistId={playlistId} />
 		</div>
 	);
 };
