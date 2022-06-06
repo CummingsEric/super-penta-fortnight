@@ -47,7 +47,7 @@ const LibraryManager = () => {
 	};
 
 	return (
-		<div className="page-container">
+		<div>
 			<h1 className="text-center pb-2">Library</h1>
 			<div className="container-fluid">
 				<div className="row">

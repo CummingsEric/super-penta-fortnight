@@ -73,7 +73,7 @@ const Search = () => {
 	}
 
 	return (
-		<div className="page-container">
+		<div>
 			<h1 className="text-center pb-2">Search</h1>
 			<div className="container">
 				<form onSubmit={handleSubmit(onSubmit)}>

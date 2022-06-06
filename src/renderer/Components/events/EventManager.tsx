@@ -85,7 +85,7 @@ const EventManager = () => {
 	);
 
 	return (
-		<div className="page-container">
+		<div>
 			<h1 className="text-center pb-2">Events</h1>
 			<div className="container">
 				<div className="input-group row">

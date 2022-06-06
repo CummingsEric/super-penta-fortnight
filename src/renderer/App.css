@@ -161,17 +161,11 @@ li {
 }
 
 .spotify-logo {
-	position: absolute;
-	bottom: 100px;
-	right: 75px;
+	position: fixed;
+	bottom: 50px;
+	right: 50px;
 	height: 30px;
 	opacity: 50%;
-
-	padding-left: 92vw;
-}
-
-.width-100 {
-	width: 100%;
 }
 
 .event-input-1 {
@@ -476,6 +470,7 @@ body{
 	left: 78px;
 	overflow: hidden !important;
 	transition: all 0.5s ease;
+	padding: 2vw;
 }
 
 .sidebar.open ~ .page-container{

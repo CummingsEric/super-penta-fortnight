@@ -28,7 +28,7 @@ import SelectDevice from '../settings/selectDevice';
 
 const Debugger = () => {
 	return (
-		<div className="page-container">
+		<div>
 			<div>
 				<Link className="link-light" to="league">
 					League Data
@@ -84,19 +84,21 @@ const Pages = () => {
 			<Header />
 			<SideBar />
 			<ErrorBanner />
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/search" element={<Search />} />
-				<Route path="/library" element={<LibraryManager />} />
-				<Route path="/events" element={<EventManager />} />
-				<Route path="/debug" element={<Debugger />}>
-					<Route path="league" element={<LeagueDataDisplay />} />
-					<Route path="spotify" element={<SpotifyAuth />} />
-					<Route path="config" element={<ConfigDebugger />} />
-					<Route path="redux" element={<ReduxViewer />} />
-				</Route>
-				<Route path="/settings" element={<SelectDevice />} />
-			</Routes>
+			<div className="page-container">
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/search" element={<Search />} />
+					<Route path="/library" element={<LibraryManager />} />
+					<Route path="/events" element={<EventManager />} />
+					<Route path="/debug" element={<Debugger />}>
+						<Route path="league" element={<LeagueDataDisplay />} />
+						<Route path="spotify" element={<SpotifyAuth />} />
+						<Route path="config" element={<ConfigDebugger />} />
+						<Route path="redux" element={<ReduxViewer />} />
+					</Route>
+					<Route path="/settings" element={<SelectDevice />} />
+				</Routes>
+			</div>
 		</Router>
 	);
 };

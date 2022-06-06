@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 const Header = () => {
 	const minimizeButton = () => {
 		window.electron.ipcRenderer.sendMessage('minimize', [null]);
