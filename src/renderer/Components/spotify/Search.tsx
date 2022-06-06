@@ -62,16 +62,6 @@ const Search = () => {
 		getSongs(searchString);
 	};
 
-	// Nothing to do if no playlists
-	if (library.length === 0) {
-		return (
-			<div>
-				<h4>No playlists yet!</h4>
-				<p>Create a playlist then come back</p>
-			</div>
-		);
-	}
-
 	return (
 		<div>
 			<h1 className="text-center pb-2">Search</h1>
