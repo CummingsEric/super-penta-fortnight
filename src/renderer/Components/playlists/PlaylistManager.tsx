@@ -7,7 +7,8 @@ import { Link } from 'react-router-dom';
 import MainState from 'renderer/Interfaces/MainState';
 import Playlist from 'renderer/Interfaces/Playlist';
 
-import { addSongs, removeSong, removePlaylist } from 'renderer/Store/library';
+import { removeSong, removePlaylist, addSongs } from 'renderer/Store/library';
+import ImportPlaylist from './ImportPlaylist';
 
 interface PlaylistManagerProps {
 	playlistId: string;
@@ -191,61 +192,7 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 			<div className="my-3 song-display">
 				{numSongs === 0 ? noSongsJsx : songJsx}
 			</div>
-			<div
-				className="modal fade"
-				id="importPlaylist"
-				data-bs-keyboard="false"
-				data-bs-backdrop="static"
-				tabIndex={-1}
-				aria-hidden="true"
-			>
-				<div className="modal-dialog modal-dialog-centered modal-lg">
-					<div className="modal-content">
-						<div className="modal-header">
-							<h5 className="modal-title text-dark">
-								Import Spotify Playlist
-							</h5>
-							<button
-								type="button"
-								className="btn-close"
-								data-bs-dismiss="modal"
-								aria-label="Close"
-							/>
-						</div>
-						<form
-							className="me-3"
-							onSubmit={handleSubmit(onSubmit)}
-						>
-							<div className="modal-body text-dark">
-								<span className="col-form-label">
-									Spotify Playlist URL
-								</span>
-								<input
-									id="url"
-									className={`form-control  ${
-										errors.spotifyURL && 'is-invalid'
-									}`}
-									placeholder="https://open.spotify.com/playlist/1VhJ4MMCZFRqFU3zc76zWp"
-									aria-label="Song"
-									// eslint-disable-next-line react/jsx-props-no-spreading
-									{...register('spotifyURL', {
-										required: true,
-									})}
-									onBlur={() => clearErrors()}
-								/>
-							</div>
-							<div className="modal-footer">
-								<input
-									className="btn btn-primary"
-									type="submit"
-									id="submitURL"
-									value="Import"
-								/>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
+			<ImportPlaylist spotifyAuth={spotifyAuth} playlistId={playlistId} />
 		</div>
 	);
 };
