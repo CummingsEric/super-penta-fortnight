@@ -36,7 +36,7 @@ const LibraryManager = () => {
 				onClick={() => setPlaylist(e.id)}
 				aria-hidden="true"
 			>
-				<strong className="">{e.name}</strong>
+				<span className="">{e.name}</span>
 			</div>
 		);
 	});
@@ -50,16 +50,16 @@ const LibraryManager = () => {
 	return (
 		<div>
 			<h1 className="text-center pb-2">Library</h1>
-			<div className="container-fluid">
+			<div className="container">
 				<div className="row">
 					<div className="col-3">
 						<div className="pb-3">
 							<form
-								className="me-3"
+								className="me-2"
 								onSubmit={handleSubmit(onSubmit)}
 							>
 								<input
-									className={`form-control rounded-0 border-0 bg-dark text-white ${
+									className={`form-control rounded-2 border-0 bg-dark text-white ${
 										errors.playlistName && 'is-invalid'
 									}`}
 									placeholder="Create a new playlist"
@@ -72,7 +72,7 @@ const LibraryManager = () => {
 								/>
 							</form>
 						</div>
-						<div>
+						<div className="bg-dark px-3 pt-2 rounded-2 me-2">
 							{libraryData.length === 0
 								? 'No Playlists'
 								: playlists}

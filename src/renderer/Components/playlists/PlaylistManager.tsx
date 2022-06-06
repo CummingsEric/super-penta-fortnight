@@ -1,15 +1,21 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import MainState from 'renderer/Interfaces/MainState';
 import Playlist from 'renderer/Interfaces/Playlist';
 
-import { removeSong, removePlaylist } from 'renderer/Store/library';
+import { addSongs, removeSong, removePlaylist } from 'renderer/Store/library';
 
 interface PlaylistManagerProps {
 	playlistId: string;
 }
+
+type FormInput = {
+	spotifyURL: string;
+};
 
 const PlaylistManager = (props: PlaylistManagerProps) => {
 	const dispatch = useDispatch();
@@ -19,6 +25,15 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 	);
 	const spotifyAuth = useSelector((state: MainState) => state.spotifyAuth);
 	const settings = useSelector((state: MainState) => state.settings.value);
+
+	const {
+		register,
+		handleSubmit,
+		reset,
+		formState: { errors },
+		clearErrors,
+		setError,
+	} = useForm<FormInput>();
 
 	const { playlistId } = props;
 	const playlist = libraryData.find((e) => e.id === playlistId);
@@ -32,6 +47,37 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 
 	const deleteP = () => {
 		dispatch(removePlaylist({ playlistId: playlist.id }));
+	};
+
+	const onSubmit: SubmitHandler<FormInput> = (data: FormInput) => {
+		const { spotifyURL } = data;
+		const tokens = spotifyURL
+			.substring(0, spotifyURL.indexOf('?'))
+			.split('/');
+		const spotifyPlaylistId = tokens[4];
+		if (spotifyPlaylistId === undefined) {
+			setError('spotifyURL', { type: 'focus' }, { shouldFocus: true });
+			return;
+		}
+		const tokenUrl = `https://api.spotify.com/v1/playlists/${spotifyPlaylistId}/tracks`;
+		axios({
+			url: tokenUrl,
+			method: 'get',
+			headers: {
+				Authorization: `Bearer ${spotifyAuth.spotifyAccessToken?.authToken}`,
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			data: playlist,
+		})
+			.then((res) => {
+				const songsFromSpotify = res.data.items;
+				dispatch(addSongs({ songs: songsFromSpotify, playlistId }));
+				reset({ spotifyURL: '' });
+				$('#importPlaylist').modal('hide');
+				return true;
+			})
+			.catch(() => {});
 	};
 
 	// Play songs
@@ -81,7 +127,7 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 					<span>{entry.artists[0].name}</span>
 				</p>
 			</div>
-			<div className="d-flex align-items-center border-bottom border-opacity-50 border-light">
+			<div className="d-flex align-items-center border-bottom border-opacity-50 border-light me-4 pe-2">
 				<i
 					className="bi bi-x clickable fs-5 p-1"
 					onClick={() => remove(key)}
@@ -91,8 +137,29 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 		</div>
 	));
 
+	const noSongsJsx = (
+		<>
+			<span>Add a song on the</span>
+			<Link className="link-light px-1" to="/search">
+				search
+			</Link>
+			<span>
+				page or{' '}
+				<span
+					data-bs-toggle="modal"
+					data-bs-target="#importPlaylist"
+					aria-hidden="true"
+					className="clickable underline"
+				>
+					<u>import</u>
+				</span>{' '}
+				a Spotify playlist.
+			</span>
+		</>
+	);
+
 	return (
-		<div>
+		<div className="bg-dark rounded-2 py-2 px-3">
 			<div className="w-100 d-flex">
 				<div className="flex-grow-1">
 					<h3 className="m-0">{name}</h3>
@@ -101,6 +168,12 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 					<i
 						className="bi bi-play clickable fs-3 px-1"
 						onClick={play}
+						aria-hidden="true"
+					/>
+					<i
+						className="bi bi-box-arrow-in-down clickable fs-5 p-2 mx-2"
+						data-bs-toggle="modal"
+						data-bs-target="#importPlaylist"
 						aria-hidden="true"
 					/>
 					<i
@@ -115,8 +188,63 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 					/>
 				</div>
 			</div>
-			<div className="py-3">
-				{numSongs === 0 ? 'No songs yet!' : songJsx}
+			<div className="my-3 song-display">
+				{numSongs === 0 ? noSongsJsx : songJsx}
+			</div>
+			<div
+				className="modal fade"
+				id="importPlaylist"
+				data-bs-keyboard="false"
+				data-bs-backdrop="static"
+				tabIndex={-1}
+				aria-hidden="true"
+			>
+				<div className="modal-dialog modal-dialog-centered modal-lg">
+					<div className="modal-content">
+						<div className="modal-header">
+							<h5 className="modal-title text-dark">
+								Import Spotify Playlist
+							</h5>
+							<button
+								type="button"
+								className="btn-close"
+								data-bs-dismiss="modal"
+								aria-label="Close"
+							/>
+						</div>
+						<form
+							className="me-3"
+							onSubmit={handleSubmit(onSubmit)}
+						>
+							<div className="modal-body text-dark">
+								<span className="col-form-label">
+									Spotify Playlist URL
+								</span>
+								<input
+									id="url"
+									className={`form-control  ${
+										errors.spotifyURL && 'is-invalid'
+									}`}
+									placeholder="https://open.spotify.com/playlist/1VhJ4MMCZFRqFU3zc76zWp"
+									aria-label="Song"
+									// eslint-disable-next-line react/jsx-props-no-spreading
+									{...register('spotifyURL', {
+										required: true,
+									})}
+									onBlur={() => clearErrors()}
+								/>
+							</div>
+							<div className="modal-footer">
+								<input
+									className="btn btn-primary"
+									type="submit"
+									id="submitURL"
+									value="Import"
+								/>
+							</div>
+						</form>
+					</div>
+				</div>
 			</div>
 		</div>
 	);
