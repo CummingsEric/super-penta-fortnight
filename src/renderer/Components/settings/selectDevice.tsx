@@ -7,7 +7,6 @@ import SpotifyDevice from 'renderer/Interfaces/SpotifyDevice';
 import { setSettings } from 'renderer/Store/settings';
 
 const SelectDevice = () => {
-	// Searched songs
 	const [devices, setDevices] = useState<SpotifyDevice[]>([]);
 	const dispatch = useDispatch();
 
@@ -15,7 +14,6 @@ const SelectDevice = () => {
 	const settings = useSelector((state: MainState) => state.settings.value);
 	const { spotifyAccessToken } = spotifyAuth;
 
-	console.log(settings);
 	const getDevices = () => {
 		if (spotifyAccessToken === null || spotifyAccessToken === undefined)
 			return [];
@@ -37,6 +35,7 @@ const SelectDevice = () => {
 				return null;
 			})
 			.catch((err) => {
+				// eslint-disable-next-line no-console
 				console.log(err);
 			});
 		return null;
@@ -63,26 +62,33 @@ const SelectDevice = () => {
 		);
 	});
 
+	const selectorText =
+		devices.length === 0 ? 'No online devices' : 'Select Spotify Device';
+
 	return (
-		<div className="page-container">
-			<h1>Set Device</h1>
-			<h3>
-				{settings &&
-				settings.spotifyDevice &&
-				settings.spotifyDevice.name
-					? `${settings.spotifyDevice.name}-${settings.spotifyDevice.type}`
-					: 'no device selected'}
-			</h3>
-			<div className="d-flex align-items-center border-bottom">
+		<div>
+			<h1 className="text-center"> Settings</h1>
+			<div className="py-2 border-bottom">
+				<h3>Set Spotify Device</h3>
+				<h5>
+					Selected Device:{' '}
+					<span>
+						{settings &&
+						settings.spotifyDevice &&
+						settings.spotifyDevice.name
+							? `${settings.spotifyDevice.name}-${settings.spotifyDevice.type}`
+							: 'No device selected'}
+					</span>
+				</h5>
 				<div className="dropdown">
 					<button
 						className="btn btn-secondary dropdown-toggle"
 						type="button"
 						id="selectDevice"
-						data-bs-toggle="dropdown"
+						data-bs-toggle={devices.length !== 0 ? 'dropdown' : ''}
 						aria-expanded="false"
 					>
-						Select Spotify Device
+						{selectorText}
 					</button>
 					<ul
 						className="dropdown-menu"

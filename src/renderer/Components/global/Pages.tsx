@@ -30,16 +30,16 @@ const Debugger = () => {
 	return (
 		<div>
 			<div>
-				<Link className="link-light" to="league">
+				<Link className="link-light pe-2" to="league">
 					League Data
 				</Link>
-				<Link className="link-light" to="spotify">
+				<Link className="link-light px-2" to="spotify">
 					Spotify Auth
 				</Link>
-				<Link className="link-light" to="config">
+				<Link className="link-light px-2" to="config">
 					Config File
 				</Link>
-				<Link className="link-light" to="redux">
+				<Link className="link-light ps-2" to="redux">
 					Redux Viewer
 				</Link>
 			</div>

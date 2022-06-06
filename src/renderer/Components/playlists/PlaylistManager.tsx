@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import MainState from 'renderer/Interfaces/MainState';
@@ -12,6 +13,7 @@ interface PlaylistManagerProps {
 
 const PlaylistManager = (props: PlaylistManagerProps) => {
 	const dispatch = useDispatch();
+	const [editing, setEditing] = useState<boolean>(false);
 	const libraryData: Playlist[] = useSelector(
 		(state: MainState) => state.library.value
 	);
@@ -89,8 +91,8 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 	return (
 		<div>
 			<div className="w-100 d-flex">
-				<div className="flex-grow-1 d-flex align-items-center">
-					<h3 className="m-0">Playlist &apos;{name}&apos;</h3>
+				<div className="flex-grow-1">
+					<h3 className="m-0">{name}</h3>
 				</div>
 				<div className="d-flex align-items-center">
 					<i
@@ -100,7 +102,7 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 					/>
 					<i
 						className="bi bi-pencil clickable fs-5 p-2 mx-2"
-						onClick={() => console.log('beep boop')}
+						onClick={() => setEditing(!editing)}
 						aria-hidden="true"
 					/>
 					<i
