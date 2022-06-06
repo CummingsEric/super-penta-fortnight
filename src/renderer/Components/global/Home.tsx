@@ -1,12 +1,14 @@
 import { CurrSong } from 'renderer/Store/currSong';
 import MainState from 'renderer/Interfaces/MainState';
 import { useSelector } from 'react-redux';
-import spotifyLogo from '/assets/images/Spotify_Logo_RGB_White.png';
+import spotifyLogo from '../../assets/Spotify_Logo_RGB_White.png';
 
 const Home = () => {
 	const currSong: CurrSong = useSelector(
 		(state: MainState) => state.currSong
 	);
+
+	const displayEvent = currSong.songEvent !== undefined;
 
 	return (
 		<div>
@@ -16,10 +18,14 @@ const Home = () => {
 			</div>
 			<div className="home-page-event-container">
 				<p className="home-subtext">
-					{currSong.songName} | {currSong.songEvent}
+					{displayEvent && (
+						<span>
+							{currSong.songName} | {currSong.songEvent}
+						</span>
+					)}
 				</p>
 			</div>
-			<img className="spotify-logo" alt="" src={spotifyLogo} />
+			<img className="spotify-logo" alt="SpotifyLogo" src={spotifyLogo} />
 		</div>
 	);
 };

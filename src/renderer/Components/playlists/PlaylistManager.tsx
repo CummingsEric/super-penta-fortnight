@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import MainState from 'renderer/Interfaces/MainState';
 import Playlist from 'renderer/Interfaces/Playlist';
 
 import { removeSong, removePlaylist } from 'renderer/Store/library';
+import ImportPlaylist from './ImportPlaylist';
 
 interface PlaylistManagerProps {
 	playlistId: string;
@@ -43,6 +45,9 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 		const body = {
 			uris: songURIs,
 			position_ms: 0,
+			offset: {
+				position: 0,
+			},
 		};
 		let tokenUrl = 'https://api.spotify.com/v1/me/player/play';
 		if (settings && settings.spotifyDevice) {
@@ -78,7 +83,7 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 					<span>{entry.artists[0].name}</span>
 				</p>
 			</div>
-			<div className="d-flex align-items-center border-bottom border-opacity-50 border-light">
+			<div className="d-flex align-items-center border-bottom border-opacity-50 border-light me-4 pe-2">
 				<i
 					className="bi bi-x clickable fs-5 p-1"
 					onClick={() => remove(key)}
@@ -88,8 +93,29 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 		</div>
 	));
 
+	const noSongsJsx = (
+		<>
+			<span>Add a song on the</span>
+			<Link className="link-light px-1" to="/search">
+				search
+			</Link>
+			<span>
+				page or{' '}
+				<span
+					data-bs-toggle="modal"
+					data-bs-target="#importPlaylist"
+					aria-hidden="true"
+					className="clickable underline"
+				>
+					<u>import</u>
+				</span>{' '}
+				a Spotify playlist.
+			</span>
+		</>
+	);
+
 	return (
-		<div>
+		<div className="bg-dark rounded-2 py-2 px-3">
 			<div className="w-100 d-flex">
 				<div className="flex-grow-1">
 					<h3 className="m-0">{name}</h3>
@@ -98,6 +124,12 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 					<i
 						className="bi bi-play clickable fs-3 px-1"
 						onClick={play}
+						aria-hidden="true"
+					/>
+					<i
+						className="bi bi-box-arrow-in-down clickable fs-5 p-2 mx-2"
+						data-bs-toggle="modal"
+						data-bs-target="#importPlaylist"
 						aria-hidden="true"
 					/>
 					<i
@@ -112,9 +144,10 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 					/>
 				</div>
 			</div>
-			<div className="py-3">
-				{numSongs === 0 ? 'No songs yet!' : songJsx}
+			<div className="my-3 song-display">
+				{numSongs === 0 ? noSongsJsx : songJsx}
 			</div>
+			<ImportPlaylist spotifyAuth={spotifyAuth} playlistId={playlistId} />
 		</div>
 	);
 };

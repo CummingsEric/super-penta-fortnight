@@ -193,6 +193,11 @@ li {
 	padding-left: 15px;
 }
 
+.song-display {
+	overflow: auto;
+	max-height: 73vh;
+}
+
 .events-container {
 	overflow-y: scroll;
 	height: 62vh;
@@ -459,7 +464,7 @@ body{
 	left: 78px;
 	overflow: hidden !important;
 	transition: all 0.5s ease;
-	padding: 3vw;
+	padding: 2vh;
 }
 
 .sidebar.open ~ .page-container{

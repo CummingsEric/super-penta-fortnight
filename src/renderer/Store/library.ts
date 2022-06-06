@@ -1,6 +1,7 @@
 import { createSlice, current } from '@reduxjs/toolkit';
 import { WritableDraft } from 'immer/dist/internal';
 import Playlist from 'renderer/Interfaces/Playlist';
+import SpotifyTracksData from 'renderer/Interfaces/SpotifyTracksData';
 
 export interface PData {
 	value: Playlist[];
@@ -60,6 +61,23 @@ export const library = createSlice({
 			state.value.push(playlist);
 			updateConf(state);
 		},
+		addSongs: (state, action) => {
+			if (state === undefined || state.value === undefined) return;
+			const { playlistId } = action.payload;
+			const playlists: Playlist[] = state.value;
+			const res = action.payload.songs;
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const songs = res.map((e: any) => e.track);
+
+			// Can't add a song to a playlist that doesn't exist
+			const ind = findPlaylistInd(playlistId, playlists);
+			if (ind === -1) return;
+
+			songs.forEach((song: SpotifyTracksData) => {
+				state.value[ind].songs[song.id] = song;
+			});
+			updateConf(state);
+		},
 		addSong: (state, action) => {
 			if (state === undefined || state.value === undefined) return;
 			const { playlistId } = action.payload;
@@ -102,7 +120,13 @@ export const library = createSlice({
 	},
 });
 
-export const { setLibrary, newPlaylist, addSong, removeSong, removePlaylist } =
-	library.actions;
+export const {
+	setLibrary,
+	newPlaylist,
+	addSong,
+	addSongs,
+	removeSong,
+	removePlaylist,
+} = library.actions;
 
 export default library.reducer;

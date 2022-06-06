@@ -30,7 +30,7 @@ const SongDisplay = (props: SongProps) => {
 		});
 
 		return (
-			<div className="d-flex pt-2" key={e.id}>
+			<div className="d-flex pt-2 song-display" key={e.id}>
 				<div className="flex-shrink-0">
 					<img
 						className="flex-shrink-0 me-2"
