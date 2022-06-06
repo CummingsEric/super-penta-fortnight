@@ -48,14 +48,14 @@ const ErrorBanner = () => {
 						<use xlinkHref="#exclamation-triangle-fill" />
 					</svg>
 					<span>
-						<text>
+						<span>
 							Error Spotify Device cannot be found. Please select
 							a device in&nbsp;
 							<Link className="errorLink" to="/settings">
 								Settings
 							</Link>
 							&nbsp;{currentError.text}
-						</text>
+						</span>
 					</span>
 					<button
 						type="button"

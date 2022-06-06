@@ -2,7 +2,6 @@ import { CurrSong } from 'renderer/Store/currSong';
 import MainState from 'renderer/Interfaces/MainState';
 import { useSelector } from 'react-redux';
 import spotifyLogo from '/assets/images/Spotify_Logo_RGB_White.png';
-import background from '../../../videos/background.mp4';
 
 const Home = () => {
 	const currSong: CurrSong = useSelector(
@@ -10,7 +9,7 @@ const Home = () => {
 	);
 
 	return (
-		<div className="page-container">
+		<div>
 			<div className="home-page-main-text-container">
 				<p className="home-header">Welcome to Sona</p>
 				<p className="home-subtext">Get Playing</p>
@@ -20,9 +19,7 @@ const Home = () => {
 					{currSong.songName} | {currSong.songEvent}
 				</p>
 			</div>
-			<div className="width-100">
-				<img className="spotify-logo" alt="" src={spotifyLogo} />
-			</div>
+			<img className="spotify-logo" alt="" src={spotifyLogo} />
 		</div>
 	);
 };

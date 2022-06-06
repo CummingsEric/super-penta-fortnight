@@ -28,18 +28,18 @@ import SelectDevice from '../settings/selectDevice';
 
 const Debugger = () => {
 	return (
-		<div className="page-container">
+		<div className="container-fluid">
 			<div>
-				<Link className="link-light" to="league">
+				<Link className="link-light pe-2" to="league">
 					League Data
 				</Link>
-				<Link className="link-light" to="spotify">
+				<Link className="link-light px-2" to="spotify">
 					Spotify Auth
 				</Link>
-				<Link className="link-light" to="config">
+				<Link className="link-light px-2" to="config">
 					Config File
 				</Link>
-				<Link className="link-light" to="redux">
+				<Link className="link-light ps-2" to="redux">
 					Redux Viewer
 				</Link>
 			</div>
@@ -84,19 +84,21 @@ const Pages = () => {
 			<Header />
 			<SideBar />
 			<ErrorBanner />
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/search" element={<Search />} />
-				<Route path="/library" element={<LibraryManager />} />
-				<Route path="/events" element={<EventManager />} />
-				<Route path="/debug" element={<Debugger />}>
-					<Route path="league" element={<LeagueDataDisplay />} />
-					<Route path="spotify" element={<SpotifyAuth />} />
-					<Route path="config" element={<ConfigDebugger />} />
-					<Route path="redux" element={<ReduxViewer />} />
-				</Route>
-				<Route path="/settings" element={<SelectDevice />} />
-			</Routes>
+			<div className="page-container">
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/search" element={<Search />} />
+					<Route path="/library" element={<LibraryManager />} />
+					<Route path="/events" element={<EventManager />} />
+					<Route path="/debug" element={<Debugger />}>
+						<Route path="league" element={<LeagueDataDisplay />} />
+						<Route path="spotify" element={<SpotifyAuth />} />
+						<Route path="config" element={<ConfigDebugger />} />
+						<Route path="redux" element={<ReduxViewer />} />
+					</Route>
+					<Route path="/settings" element={<SelectDevice />} />
+				</Routes>
+			</div>
 		</Router>
 	);
 };

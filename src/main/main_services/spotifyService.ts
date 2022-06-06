@@ -33,6 +33,7 @@ export default class SpotifyService {
 
 	queueSongByEvent = async (event: EventProps, currTime: number) => {
 		const { playlistId } = event;
+		console.log(event);
 
 		// No playlist to play off of...
 		if (playlistId === undefined) return;
@@ -44,6 +45,7 @@ export default class SpotifyService {
 		if (this.currPlaylist === playlistId && !needToSwitch) {
 			return;
 		}
+		console.log(this.currPlaylist);
 
 		// Trying to queue off lower priority event & don't need to switch = quit
 		if (event.priority < this.currPriority && !needToSwitch) {
@@ -53,7 +55,8 @@ export default class SpotifyService {
 		// Get 1-5 random songs. First will be played, others will be added to context
 		// so music is always playing even if app bugs out
 		const songs = this.getRandomSongs(playlistId);
-		if (songs === null) return;
+		console.log(songs);
+		if (songs === null || songs.length === 0) return;
 
 		// Was song queued successfully?
 		const res = await this.queueSong(songs);
@@ -116,7 +119,14 @@ export default class SpotifyService {
 			uris: songUris,
 			position_ms: startTime,
 		};
-		const tokenUrl = 'https://api.spotify.com/v1/me/player/play';
+		let tokenUrl = 'https://api.spotify.com/v1/me/player/play';
+		const settings = this.cs.getSettings();
+		if (
+			settings.spotifyDevice !== undefined &&
+			settings.spotifyDevice.id !== undefined
+		) {
+			tokenUrl = `${tokenUrl}?device_id=${settings.spotifyDevice.id}`;
+		}
 		try {
 			const res = await axios({
 				url: tokenUrl,
@@ -133,31 +143,5 @@ export default class SpotifyService {
 			return false;
 		}
 		return true;
-	};
-
-	getUserDevices = (): string | null => {
-		const { spotifyAuth } = this.cs.config;
-		if (
-			spotifyAuth === undefined ||
-			spotifyAuth.spotifyAccessToken === undefined
-		)
-			return null;
-
-		const tokenUrl = 'https://api.spotify.com/v1/me/player/devices';
-		axios({
-			url: tokenUrl,
-			method: 'get',
-			headers: {
-				Authorization: `Bearer ${spotifyAuth.spotifyAccessToken.authToken}`,
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-		})
-			.then((resp) => {
-				console.log(resp);
-				return null;
-			})
-			.catch(() => {});
-		return null;
 	};
 }

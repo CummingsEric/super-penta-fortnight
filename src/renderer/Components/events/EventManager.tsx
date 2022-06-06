@@ -41,8 +41,14 @@ const EventManager = () => {
 
 	const eventDisplay = sortedEvents.map(
 		([key, event]: [string, EventProps]) => {
-			const defaultPlaylist =
+			let defaultPlaylist =
 				event.playlistId === undefined ? '' : event.playlistId;
+			if (
+				defaultPlaylist !== '' &&
+				libraryData.find((e) => e.id === defaultPlaylist) === undefined
+			) {
+				defaultPlaylist = '';
+			}
 			return (
 				<div key={key} className="input-group mb-3">
 					<span className="input-group-text event-input-1">
@@ -85,7 +91,7 @@ const EventManager = () => {
 	);
 
 	return (
-		<div className="page-container">
+		<div>
 			<h1 className="text-center pb-2">Events</h1>
 			<div className="container">
 				<div className="input-group row">

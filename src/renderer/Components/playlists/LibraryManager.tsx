@@ -25,7 +25,8 @@ const LibraryManager = () => {
 		(state: MainState) => state.library.value
 	);
 
-	const [playlistId, setPlaylist] = useState<string>('');
+	const firstPlaylist = libraryData.length > 0 ? libraryData[0].id : '';
+	const [playlistId, setPlaylist] = useState<string>(firstPlaylist);
 	const playlists = libraryData.map((e) => {
 		return (
 			<div
@@ -47,13 +48,16 @@ const LibraryManager = () => {
 	};
 
 	return (
-		<div className="page-container">
+		<div>
 			<h1 className="text-center pb-2">Library</h1>
 			<div className="container-fluid">
 				<div className="row">
 					<div className="col-3">
 						<div className="pb-3">
-							<form onSubmit={handleSubmit(onSubmit)}>
+							<form
+								className="me-3"
+								onSubmit={handleSubmit(onSubmit)}
+							>
 								<input
 									className={`form-control rounded-0 border-0 bg-dark text-white ${
 										errors.playlistName && 'is-invalid'
