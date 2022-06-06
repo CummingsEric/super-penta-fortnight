@@ -43,6 +43,9 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 		const body = {
 			uris: songURIs,
 			position_ms: 0,
+			offset: {
+				position: 0,
+			},
 		};
 		let tokenUrl = 'https://api.spotify.com/v1/me/player/play';
 		if (settings && settings.spotifyDevice) {
