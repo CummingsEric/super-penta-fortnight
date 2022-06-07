@@ -246,7 +246,7 @@ li {
 }
 
 .scrollbar-gradient::-webkit-scrollbar-thumb {
-	background-color: #C862FF;
+	background-color: #0275d8	;
 	border-radius: 10px;
 	/* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
     background-image: -webkit-gradient(linear, left bottom, left top, from(#C862FF), color-stop(100%, #3a3a3a),
@@ -311,10 +311,10 @@ body{
 	left: 50%;
 	top: 6px;
 	font-size: 20px;
-	height: 50px;
+	height: 75px;
 	width: 50px;
 	text-align: center;
-	line-height: 50px;
+	line-height: 75px;
 	transform: translateX(-50%);
 }
 
@@ -330,7 +330,8 @@ body{
 
 .sidebar ul li{
 	position: relative;
-	height: 50px;
+	padding-top: 25px;
+	height: 75px;
 	width: 100%;
 	list-style: none;
 
@@ -373,6 +374,7 @@ body{
 }
 
 .sidebar ul li .tooltip-cust{
+	margin-top: 12.5px;
 	position: absolute;
 	left: 122px;
 	top:0%;
@@ -489,4 +491,15 @@ body{
 .sidebar.open ~ .page-container{
 	width: calc(100% - 240px);
 	left:240px;
+}
+
+.button-alpha {
+	background-color: #0275d8	;
+	color: #fff;
+	border: none;
+}
+
+.button-alpha:hover {
+	background-color: #8335ad;
+	border: none;
 }
