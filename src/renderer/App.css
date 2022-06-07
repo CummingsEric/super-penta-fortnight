@@ -193,6 +193,24 @@ li {
 	padding-left: 15px;
 }
 
+.line-height-40 {
+	line-height: 40px !important;
+}
+
+.input-hidden {
+	display: inline;
+	font-family: inherit;
+	font-size: inherit;
+	box-sizing: inherit;
+	color: white;
+	padding: none !important;
+	border: none !important;
+	font-weight: 500 !important;
+}
+.input-hidden:focus-visible {
+	outline: none !important;
+}
+
 .song-display {
 	overflow: auto;
 	max-height: 73vh;

@@ -117,6 +117,22 @@ export const library = createSlice({
 			state.value.splice(ind, 1);
 			updateConf(state);
 		},
+		changeName: (state, action) => {
+			if (state === undefined || state.value === undefined) return;
+			const { playlistId, playlistName } = action.payload;
+			const playlists: Playlist[] = state.value;
+
+			// Duplicate playlist name
+			if (playlists.find((e) => e.name === playlistName) !== undefined)
+				return;
+
+			// Can't change a playlist that doesn't exist
+			const ind = findPlaylistInd(playlistId, playlists);
+			if (ind === -1) return;
+
+			state.value[ind].name = playlistName;
+			updateConf(state);
+		},
 	},
 });
 
@@ -127,6 +143,7 @@ export const {
 	addSongs,
 	removeSong,
 	removePlaylist,
+	changeName,
 } = library.actions;
 
 export default library.reducer;

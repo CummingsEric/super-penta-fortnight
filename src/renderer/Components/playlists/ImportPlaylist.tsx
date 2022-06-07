@@ -55,7 +55,13 @@ const ImportPlaylist = (props: ImportPlaylistProps) => {
 				$('#importPlaylist').modal('hide');
 				return true;
 			})
-			.catch(() => {});
+			.catch(() => {
+				setError(
+					'spotifyURL',
+					{ type: 'focus' },
+					{ shouldFocus: true }
+				);
+			});
 	};
 
 	return (
