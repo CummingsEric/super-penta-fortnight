@@ -17,6 +17,7 @@ const LibraryManager = () => {
 	const {
 		register,
 		handleSubmit,
+		setError,
 		reset,
 		formState: { errors },
 		clearErrors,
@@ -41,8 +42,18 @@ const LibraryManager = () => {
 		);
 	});
 
+	const noPlaylistsJsx = (
+		<div className="pb-2 pe-auto" aria-hidden="true">
+			<span>No Playlists Yet</span>
+		</div>
+	);
+
 	const onSubmit: SubmitHandler<FormInput> = (data: FormInput) => {
 		const { playlistName } = data;
+		if (libraryData.find((e) => e.name === playlistName) !== undefined) {
+			setError('playlistName', { message: 'Duplicate playlist names' });
+			return;
+		}
 		dispatch(newPlaylist({ name: playlistName }));
 		reset();
 	};
@@ -63,7 +74,7 @@ const LibraryManager = () => {
 										errors.playlistName && 'is-invalid'
 									}`}
 									placeholder="Create a new playlist"
-									aria-label="Song"
+									aria-label="Playlist Create"
 									// eslint-disable-next-line react/jsx-props-no-spreading
 									{...register('playlistName', {
 										required: true,
@@ -74,7 +85,7 @@ const LibraryManager = () => {
 						</div>
 						<div className="bg-dark px-3 pt-2 rounded-2 me-2">
 							{libraryData.length === 0
-								? 'No Playlists'
+								? noPlaylistsJsx
 								: playlists}
 						</div>
 					</div>

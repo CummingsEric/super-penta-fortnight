@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import MainState from 'renderer/Interfaces/MainState';
 import Playlist from 'renderer/Interfaces/Playlist';
 
-import { removeSong, removePlaylist, addSongs } from 'renderer/Store/library';
+import { removeSong, removePlaylist, changeName } from 'renderer/Store/library';
 import ImportPlaylist from './ImportPlaylist';
 
 interface PlaylistManagerProps {
@@ -15,11 +15,13 @@ interface PlaylistManagerProps {
 }
 
 type FormInput = {
-	spotifyURL: string;
+	playlistName: string;
 };
 
 const PlaylistManager = (props: PlaylistManagerProps) => {
 	const dispatch = useDispatch();
+	const { register, handleSubmit, reset, setValue } = useForm<FormInput>();
+
 	const [editing, setEditing] = useState<boolean>(false);
 	const libraryData: Playlist[] = useSelector(
 		(state: MainState) => state.library.value
@@ -27,17 +29,13 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 	const spotifyAuth = useSelector((state: MainState) => state.spotifyAuth);
 	const settings = useSelector((state: MainState) => state.settings.value);
 
-	const {
-		register,
-		handleSubmit,
-		reset,
-		formState: { errors },
-		clearErrors,
-		setError,
-	} = useForm<FormInput>();
-
 	const { playlistId } = props;
 	const playlist = libraryData.find((e) => e.id === playlistId);
+
+	useEffect(() => {
+		setEditing(false);
+	}, [playlistId]);
+
 	if (playlist === null || playlist === undefined) return <></>;
 	const { name, songs } = playlist;
 	const numSongs = playlist === undefined ? 0 : Object.keys(songs).length;
@@ -48,37 +46,6 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 
 	const deleteP = () => {
 		dispatch(removePlaylist({ playlistId: playlist.id }));
-	};
-
-	const onSubmit: SubmitHandler<FormInput> = (data: FormInput) => {
-		const { spotifyURL } = data;
-		const tokens = spotifyURL
-			.substring(0, spotifyURL.indexOf('?'))
-			.split('/');
-		const spotifyPlaylistId = tokens[4];
-		if (spotifyPlaylistId === undefined) {
-			setError('spotifyURL', { type: 'focus' }, { shouldFocus: true });
-			return;
-		}
-		const tokenUrl = `https://api.spotify.com/v1/playlists/${spotifyPlaylistId}/tracks`;
-		axios({
-			url: tokenUrl,
-			method: 'get',
-			headers: {
-				Authorization: `Bearer ${spotifyAuth.spotifyAccessToken?.authToken}`,
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			data: playlist,
-		})
-			.then((res) => {
-				const songsFromSpotify = res.data.items;
-				dispatch(addSongs({ songs: songsFromSpotify, playlistId }));
-				reset({ spotifyURL: '' });
-				$('#importPlaylist').modal('hide');
-				return true;
-			})
-			.catch(() => {});
 	};
 
 	// Play songs
@@ -159,15 +126,52 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 		</>
 	);
 
+	const onSubmit: SubmitHandler<FormInput> = (data: FormInput) => {
+		const { playlistName } = data;
+		reset();
+		setEditing(false);
+		if (name === playlistName) return;
+		dispatch(changeName({ playlistName, playlistId }));
+	};
+
+	const editBtn = () => {
+		if (!editing) {
+			setValue('playlistName', name);
+			setEditing(!editing);
+		} else {
+			handleSubmit(onSubmit)();
+		}
+	};
+
+	const nameEditorJsx = (
+		<form onSubmit={handleSubmit(onSubmit)}>
+			<h3 className="m-0 border-bottom">
+				<input
+					type="text"
+					// eslint-disable-next-line jsx-a11y/no-autofocus
+					autoFocus
+					{...register('playlistName', {
+						required: true,
+					})}
+					className="bg-dark input-hidden m-0 p-0 line-height-40"
+				/>
+			</h3>
+		</form>
+	);
+
 	return (
 		<div className="bg-dark rounded-2 py-2 px-3">
 			<div className="w-100 d-flex">
 				<div className="flex-grow-1">
-					<h3 className="m-0">{name}</h3>
+					{editing ? (
+						nameEditorJsx
+					) : (
+						<h3 className="m-0 p-0 line-height-40">{name}</h3>
+					)}
 				</div>
 				<div className="d-flex align-items-center">
 					<i
-						className="bi bi-play clickable fs-3 px-1"
+						className="bi bi-play clickable fs-3 px-1 ms-2"
 						onClick={play}
 						aria-hidden="true"
 					/>
@@ -179,7 +183,7 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 					/>
 					<i
 						className="bi bi-pencil clickable fs-5 p-2 mx-2"
-						onClick={() => setEditing(!editing)}
+						onClick={editBtn}
 						aria-hidden="true"
 					/>
 					<i

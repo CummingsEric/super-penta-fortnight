@@ -80,7 +80,7 @@ ipcMain.on('save-events', async (_event, arg) => {
 
 // Send client updated league data
 ipcMain.on('get-league-data', async (event) => {
-	const data = await lcd.getData(isDebug);
+	const data = await lcd.getData();
 
 	// No data to return so return null
 	if (data === null) {
