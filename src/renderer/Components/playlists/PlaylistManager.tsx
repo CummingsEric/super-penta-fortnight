@@ -1,17 +1,22 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import MainState from 'renderer/Interfaces/MainState';
 import Playlist from 'renderer/Interfaces/Playlist';
 
-import { removeSong, removePlaylist } from 'renderer/Store/library';
+import { removeSong, removePlaylist, addSongs } from 'renderer/Store/library';
 import ImportPlaylist from './ImportPlaylist';
 
 interface PlaylistManagerProps {
 	playlistId: string;
 }
+
+type FormInput = {
+	spotifyURL: string;
+};
 
 const PlaylistManager = (props: PlaylistManagerProps) => {
 	const dispatch = useDispatch();
@@ -21,6 +26,15 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 	);
 	const spotifyAuth = useSelector((state: MainState) => state.spotifyAuth);
 	const settings = useSelector((state: MainState) => state.settings.value);
+
+	const {
+		register,
+		handleSubmit,
+		reset,
+		formState: { errors },
+		clearErrors,
+		setError,
+	} = useForm<FormInput>();
 
 	const { playlistId } = props;
 	const playlist = libraryData.find((e) => e.id === playlistId);
@@ -34,6 +48,37 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 
 	const deleteP = () => {
 		dispatch(removePlaylist({ playlistId: playlist.id }));
+	};
+
+	const onSubmit: SubmitHandler<FormInput> = (data: FormInput) => {
+		const { spotifyURL } = data;
+		const tokens = spotifyURL
+			.substring(0, spotifyURL.indexOf('?'))
+			.split('/');
+		const spotifyPlaylistId = tokens[4];
+		if (spotifyPlaylistId === undefined) {
+			setError('spotifyURL', { type: 'focus' }, { shouldFocus: true });
+			return;
+		}
+		const tokenUrl = `https://api.spotify.com/v1/playlists/${spotifyPlaylistId}/tracks`;
+		axios({
+			url: tokenUrl,
+			method: 'get',
+			headers: {
+				Authorization: `Bearer ${spotifyAuth.spotifyAccessToken?.authToken}`,
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			data: playlist,
+		})
+			.then((res) => {
+				const songsFromSpotify = res.data.items;
+				dispatch(addSongs({ songs: songsFromSpotify, playlistId }));
+				reset({ spotifyURL: '' });
+				$('#importPlaylist').modal('hide');
+				return true;
+			})
+			.catch(() => {});
 	};
 
 	// Play songs
@@ -144,7 +189,7 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 					/>
 				</div>
 			</div>
-			<div className="my-3 song-display">
+			<div className="scrollbar-gradient my-3 song-display">
 				{numSongs === 0 ? noSongsJsx : songJsx}
 			</div>
 			<ImportPlaylist spotifyAuth={spotifyAuth} playlistId={playlistId} />
