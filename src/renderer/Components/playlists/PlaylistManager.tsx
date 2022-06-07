@@ -189,7 +189,7 @@ const PlaylistManager = (props: PlaylistManagerProps) => {
 					/>
 				</div>
 			</div>
-			<div className="my-3 song-display">
+			<div className="scrollbar-gradient my-3 song-display">
 				{numSongs === 0 ? noSongsJsx : songJsx}
 			</div>
 			<ImportPlaylist spotifyAuth={spotifyAuth} playlistId={playlistId} />
