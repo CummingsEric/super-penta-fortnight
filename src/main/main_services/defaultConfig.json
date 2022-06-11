@@ -7,27 +7,27 @@
 		},
 		"objStolenByFriendly": {
 			"friendlyName":"Objective stolen by friendly team",
-			"priority": 16,
+			"priority": 19,
 			"playlistId": ""
 		},
 		"objStolenByEnemy": {
 			"friendlyName":"Objective stolen by enemy team",
-			"priority": 16,
+			"priority": 18,
 			"playlistId": ""
 		},
 		"elderKilledByFriendly": {
 			"friendlyName":"Elder slain by friendly team",
-			"priority": 12,
+			"priority": 15,
 			"playlistId": ""
 		},
 		"elderKilledByEnemy": {
 			"friendlyName":"Elder slain by enemy team",
-			"priority": 12,
+			"priority": 14,
 			"playlistId": ""
 		},
 		"barronKilledByFriendly": {
 			"friendlyName":"Baron slain by friendly team",
-			"priority": 11,
+			"priority": 12,
 			"playlistId": ""
 		},
 		"barronKilledByEnemy": {
@@ -37,27 +37,27 @@
 		},
 		"elderSpawningSoon": {
 			"friendlyName":"Elder is spawning soon!",
-			"priority": 10,
+			"priority": 13,
 			"playlistId": ""
 		},
 		"friendlyAce": {
 			"friendlyName":"Friendly Ace",
-			"priority": 14,
+			"priority": 17,
 			"playlistId": ""
 		},
 		"enemyAce": {
 			"friendlyName":"Enemy Ace",
-			"priority": 14,
+			"priority": 16,
 			"playlistId": ""
 		},
 		"summonerKillstreak": {
 			"friendlyName":"You're on a killstreak",
-			"priority": 5,
+			"priority": 0,
 			"playlistId": ""
 		},
 		"summonerDeathstreak": {
 			"friendlyName":"You're on a deathstreak",
-			"priority": 5,
+			"priority": 0,
 			"playlistId": ""
 		},
 		"summonerMultikill": {
@@ -67,7 +67,7 @@
 		},
 		"enemyKillstreak": {
 			"friendlyName":"Enemy is on a killstreak",
-			"priority": 5,
+			"priority": 0,
 			"playlistId": ""
 		},
 		"alone": {
@@ -77,7 +77,7 @@
 		},
 		"heraldKilledByFriendly": {
 			"friendlyName":"Herald slain by friendly team",
-			"priority": 4,
+			"priority": 5,
 			"playlistId": ""
 		},
 		"heraldKilledByEnemy": {
@@ -87,17 +87,17 @@
 		},
 		"summonerDoingGood": {
 			"friendlyName":"Your KDA is above 2",
-			"priority": 1,
+			"priority": 3,
 			"playlistId": ""
 		},
 		"summonerDoingBad":{
 			"friendlyName": "Your KDA is below .5",
-			"priority": 1,
+			"priority": 2,
 			"playlistId": ""
 		},
 		"defaultEvent":{
 			"friendlyName": "Default",
-			"priority": 0,
+			"priority": 1,
 			"playlistId": ""
 		}
 	},

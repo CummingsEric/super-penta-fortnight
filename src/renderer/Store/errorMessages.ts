@@ -7,8 +7,8 @@ export interface ErrorMessageInit {
 
 const initialState: ErrorMessageInit = {
 	value: [
-		{ errorType: 'device', priority: 1, text: 'error text 1' },
-		{ errorType: 'device', priority: 1, text: 'error text 2' },
+		// { errorType: 'device', priority: 1, text: 'error text 1' },
+		// { errorType: 'device', priority: 1, text: 'error text 2' },
 	],
 };
 

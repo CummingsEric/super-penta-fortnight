@@ -347,7 +347,7 @@ const processData = (
 		heraldKilledByFriendly: heraldKilledByFriendly(),
 		heraldKilledByEnemy: heraldKilledByEnemy(),
 		summonerDoingGood: getSummonerKDA() >= 2,
-		summonerDoingBad: getSummonerKDA() <= 0.5,
+		summonerDoingBad: getSummonerKDA() <= 0.75,
 		defaultEvent: true,
 	};
 
