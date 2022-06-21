@@ -1,11 +1,8 @@
 import { Link } from 'react-router-dom';
 
 const SideBar = () => {
-	const closeBtn = document.querySelector('#btn');
-
-	const toggle = (event: any) => {
+	const toggle = () => {
 		const sidebar = document.querySelector('.sidebar');
-		console.log('called', sidebar);
 		if (sidebar) {
 			sidebar.classList.toggle('open');
 		}
@@ -33,44 +30,44 @@ const SideBar = () => {
 					<Link to="/">
 						<i className="bi bi-house" />
 						<span className="links_name">Home</span>
+						<span className="tooltip-cust">Home</span>
 					</Link>
-					<span className="tooltip-cust">Home</span>
 				</li>
 				<li>
 					<Link to="/search">
 						<i className="bi bi-search" />
 						<span className="links_name">Search</span>
+						<span className="tooltip-cust">Search</span>
 					</Link>
-					<span className="tooltip-cust">Search</span>
 				</li>
 				<li>
 					<Link to="/library">
 						<i className="bi bi-music-note-list" />
 						<span className="links_name">Library</span>
+						<span className="tooltip-cust">Library</span>
 					</Link>
-					<span className="tooltip-cust">Library</span>
 				</li>
 				<li>
 					<Link to="/events">
 						<i className="bi bi-alarm" />
 						<span className="links_name">Events</span>
+						<span className="tooltip-cust">Events</span>
 					</Link>
-					<span className="tooltip-cust">Events</span>
 				</li>
 				<li>
 					<Link to="/debug">
 						<i className="bi bi-bug" />
 						<span className="links_name">Debugger</span>
+						<span className="tooltip-cust">Debugger</span>
 					</Link>
-					<span className="tooltip-cust">Debugger</span>
 				</li>
 			</ul>
 			<div className="settings">
 				<Link to="/settings">
 					<i className="bi bi-gear" />
 					<span className="links_name">Settings</span>
+					<span className="tooltip-cust">Settings</span>
 				</Link>
-				<span className="tooltip-cust">Settings</span>
 			</div>
 		</div>
 	);

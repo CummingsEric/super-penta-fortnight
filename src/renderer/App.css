@@ -334,7 +334,6 @@ body{
 	height: 75px;
 	width: 100%;
 	list-style: none;
-
 }
 
 .sidebar ul li a{
@@ -398,7 +397,7 @@ body{
 	display: none;
 }
 
-.sidebar ul li:hover .tooltip-cust{
+.sidebar ul li a:hover .tooltip-cust{
 	transition: all 0.5s ease;
 	opacity: 1;
 	top:50%;
