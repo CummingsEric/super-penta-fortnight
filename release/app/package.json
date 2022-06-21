@@ -1,10 +1,10 @@
 {
-  "name": "league-music",
+  "name": "sona",
   "version": "1.0.0",
   "description": "A Spotify music player for League of Legends",
   "main": "./dist/main/main.js",
   "author": {
-	"name": "League Music",
+	"name": "EC & AP",
     "email": "fithubtester@gmail.com",
     "url": "https://electron-react-boilerplate.js.org"
   },
