@@ -223,6 +223,11 @@ li {
 	padding-right: 2vh;
 }
 
+.playlist-container {
+	overflow-y: auto;
+	max-height: 75vh;
+}
+
 .scrollbar {
     margin-left: 30px;
     float: left;

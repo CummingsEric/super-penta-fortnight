@@ -83,7 +83,7 @@ const LibraryManager = () => {
 								/>
 							</form>
 						</div>
-						<div className="bg-dark px-3 pt-2 rounded-2 me-2">
+						<div className="bg-dark px-3 pt-2 rounded-2 me-2 playlist-container scrollbar-gradient">
 							{libraryData.length === 0
 								? noPlaylistsJsx
 								: playlists}
