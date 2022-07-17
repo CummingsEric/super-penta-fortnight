@@ -22,6 +22,11 @@ const processData = (
 	);
 	const summonerTeam = summonerData === undefined ? '' : summonerData.team;
 
+	// get the number of friendly champs in the game
+	const getNumFriendlyChamp = (): number => {
+		if (!Array.isArray(allPlayers)) return 0;
+		return allPlayers.filter((p) => p.team === summonerTeam).length;
+	};
 	// Get stats
 
 	const getFriendlyStats = (): LeaguePlayerStats[] => {
@@ -153,6 +158,12 @@ const processData = (
 	// Is alone
 
 	const isAloneInBot = (): boolean => {
+		if (
+			isPlayerDead(summonerName) === true ||
+			getNumFriendlyChamp() === 1
+		) {
+			return false;
+		}
 		const summonerPosition = getPlayerPosition(summonerName);
 		if (summonerPosition === 'BOTTOM') {
 			return isFriendlyPositionDead('SUPPORT');
@@ -165,7 +176,10 @@ const processData = (
 
 	const isAloneInGame = (): boolean => {
 		// Can't be alone if youre dead
-		if (isPlayerDead(summonerName) === true) {
+		if (
+			isPlayerDead(summonerName) === true ||
+			getNumFriendlyChamp() === 1
+		) {
 			return false;
 		}
 		const teamStats = getFriendlyStats();
